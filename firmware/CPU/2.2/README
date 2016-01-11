@@ -1,0 +1,45 @@
+Over the past weeks, I used some of my time to disassemble the
+S8000 CPU firmware version 2.2. I tidied it up, and brought it
+in a shape where a PLZ/ASM compiler is able to compile it 100%
+bit compatible with the original 2.2 Firmware.
+I don't know of any PLZ/ASM compiler for x86 systems around,
+so you must either have a running S8000 or P8000 with ZEUS or
+WEGA to compile it. If I'm not mistaken I also have a PLZ/ASM
+cross-compiler for a Z80-RIO system somewhere, but I've not
+tested it.
+
+Close to all of the comments in the Sources are unfortunally
+in german. This is because of a funny fact....
+
+In the 80s, Eastern Germany (German Democratic Republic) did a
+clone of the CPU card and they've build a somewhat similar
+system around it while the peripheral stuff is different, all
+the general code was just "borrowed" 1:1 from a Zilog S8000
+firmware which they disassembled back in the 80s, commented it
+and then made changes to it so it matches their system. They
+named it P8000, and the also "borrowed" ZEUS was "renamed" to
+WEGA.
+If you want to read up more on this system:
+   http://www.pofo.de/P8000/
+
+Because I have the original commented Firmware sources of this
+eastern P8000, I used them to restore the S8000 firmware.
+
+Funny - isn't it? The "clone" is now helping me to restore the
+"original"... ;)
+
+Nevertheless - here it is:
+
+The order how it is "put together" is:
+
+- p.init.s
+- p.comm.s
+- p.serial.s
+- p.ldsd.s
+- p.boot.s
+- p.testram.s
+- p.testothr.s
+- p.disk.s
+- p.tape.s
+- p.dummy.s (just to fill it up with 0x00 to match the EPROMs)
+- p.ram.s (just to give the used RAM addresses names)
