@@ -2027,24 +2027,8 @@ MSG_MAXSEG02:
 	ld	r2, #T_ECC	!Textausgabe 'ECC' !
 	sc	#SC_WR_MSG
 	sc	#SC_WR_OUTBFF_CR
-
 MSG_MAXSEG04:
-	call	SSB_TEST
-	call	ICP_TEST
-	call	MTC_TEST
-	call	FPP_TEST
-	
 	sc	#SC_WR_CRLF
-	ld	r2, #T_COMPLETE	!Textausgabe 'COMPLETE' !
-	sc	#SC_WR_MSG
-	sc	#SC_WR_OUTBFF_CR
-	
-	ld	r2, #T_NONSEGM	!Textausgabe 'NON-SEGMENTED' !
-	test	REM_MMU1
-	jr	z, MSG_NON_SEG
-	ld	r2, #T_SEGM	!Textausgabe 'SEGMENTED' !
-MSG_NON_SEG:
-	sc	#SC_WR_MSG
 	
 	ld	r2, #T_JUMPERS	!Textausgabe 'JUMPERS' !
 	sc	#SC_WR_MSG
