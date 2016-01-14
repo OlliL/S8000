@@ -5,8 +5,8 @@
   Z8000-Softwaremonitor (CPU)        Modul: p_boot
 
   Bearbeiter:	O. Lehmann
-  Datum:	11.01.2016
-  Version:	2.2
+  Datum:	14.01.2016
+  Version:	1.2
 
 *******************************************************************************
 ******************************************************************************!
@@ -102,7 +102,7 @@ OS_BOOT_MDISK:
 OS_BOOT_FLOPPY:
 	ld	r2, #T_FLOPPY_BOOT
 	calr	BOOT_WR_MSG
-	jp	TAPE_BOOT
+	jp	FLOPPY_BOOT
     end OS_BOOT
 
 

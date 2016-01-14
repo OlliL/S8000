@@ -5,8 +5,8 @@
   Z8000-Softwaremonitor (CPU)        Modul: p_testram
 
   Bearbeiter:	O. Lehmann
-  Datum:	11.01.2016
-  Version:	2.2
+  Datum:	14.01.2016
+  Version:	1.2
 
 *******************************************************************************
 ******************************************************************************!
@@ -838,10 +838,6 @@ L1748:
 	outb	SBREAK, rh0	!System-Break-Register mit %00 laden!
 	outb	NBREAK, rh0	!Normal-Break-Register mit %00 laden!
 	xor	r2, r2		!rh2=logische Segmentnummer (0-63)!
-	test	REM_MMU1
-	jr	z, LB_1A16
-	ld	r2, #%40	!rl2=logische Segmentnummer (64-127)!
-LB_1A16:
 	ld	r6, #STACK_MMU	!r6=Fehlerpar. (MMU PORT#)!
 !Schleife fuer die Segmente 64-127 (r2)!
 TST_STACK_MMU:
@@ -1767,6 +1763,293 @@ PROCEDURE POWUP_TEST_UNKNOWN_02
     end POWUP_TEST_UNKNOWN_02
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+PROCEDURE SEGMENT_TRAP
+Trap-Routine bei Segment-Trap
+Output:	REM_MMU_BCSR - Inhalt Bus-Cycle-Status-Register (BCSR) der MMU bzw. 
+						0 bei Fehler
+	REM_MMU_VTR  - Inhalt Violation-Type-Register (VTR) der MMU bzw.
+						0 bei Fehler
+	REM_MMU_ID   - MMU_ID (1:CODE-MMU; 2:DATA-MMU; 3:STACK-MMU) bzw.
+						High-Teil=%FF bei Fehler
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+! ADDR: 2324 !
+  INTERNAL
+    SEGMENT_TRAP procedure
+      entry
+	pushl	@r15, rr2
+	ld	r2, 4(r15)
+	exb	rl2, rh2
+	and	r2, #%0007	!rl2=MMU_ID!
+	
+	cpb	rl2, #%01
+	jr	z, TRAP_CODE	!Trap durch CODE-MMU ausgeloest!
+	cpb	rl2, #%02
+	jr	z, TRAP_DATA	!Trap durch DATA-MMU ausgeloest!
+	cpb	rl2, #%04
+	jr	z, TRAP_STACK	!Trap durch STACK-MMU ausgeloest!
+!Fehler: falscher MMU_ID!
+	ldb	rh2, #%FF	!High-Teil von REM_MMU_ID auf %FF setzen!
+	xor	r3, r3		!REM_MMU_BCSR/REM_MMU_VTR auf %00 setzen!
+	jr	TRAP_OUT
+
+TRAP_CODE:
+	sinb	rl3, CODE_MMU + %0200	!Read VTR!
+	sinb	rh3, CODE_MMU + %0500	!Read BCSR!
+	jr	TRAP_OUT
+
+TRAP_DATA:
+	sinb	rl3, DATA_MMU + %0200	!Read VTR!
+	sinb	rh3, DATA_MMU + %0500	!Read BCSR!
+	jr	TRAP_OUT
+
+TRAP_STACK:
+	sinb	rl3, STACK_MMU + %0200	!Read VTR!
+	sinb	rh3, STACK_MMU + %0500	!Read BCSR!
+
+TRAP_OUT:
+	ld	REM_MMU_ID, r2	!Trap-Werte abspeichern!
+	ld	REM_MMU_BCSR, r3
+
+	soutb	ALL_MMU + %1100, rl2 	!Reset VTR!
+
+	popl	rr2, @r15
+	ldctl	r9, FCW
+	set	r9, #%0F	!Segment-Bit im FCW setzen!
+	ldctl	FCW, r9
+	iret	
+    end SEGMENT_TRAP
+
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+PROCEDURE CODE_TRAP
+Trap-Routine fuer Segment-Trap fuer Test der CODE-MMU
+Input:	rh0 - %00
+	r11 - Ruecksprungadresse (FKT_TST)
+Output:	REM_MMU_BCSR - Inhalt Bus-Cycle-Status-Register (BCSR) der CODE-MMU
+	REM_MMU_VTR  - Inhalt Violation-Type-Register (VTR) der CODE-MMU
+	REM_MMU_ID   - %FFFF
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+! ADDR: 237a !
+  INTERNAL
+    CODE_TRAP procedure
+      entry
+	soutb	CODE_MMU, rh0	!Mode-Register der CODE-MMU mit %00 laden
+				 (CODE-MMU deaktivieren)!
+	outb	S_BNK, rh0	!MMU's ausschalten!
+	add	r15, #%0009
+	push	@r15, r2
+	sinb	rl2, CODE_MMU + %0200	!Read VTR!
+	sinb	rh2, CODE_MMU + %0500	!Read BSCR!
+	ld	REM_MMU_BCSR, r2
+	ld	REM_MMU_ID, #%FFFF
+	soutb	CODE_MMU + %1100, rl2	!Reset VTR!
+	ld	r2, #%5000
+	ldctl	FCW, r2		!FCW setzen (nonseg./Systemmode/VI=EI/NVI=DI)!
+	pop	r2, @r15
+	jp	@r11		!Sprung zu FKT_TST!
+    end CODE_TRAP
+
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+PROCEDURE CLR_CTL_REG
+Beschreiben der 2 Control-Register SAR (Segment-Adress-Register) und
+DSCR (Descriptor-Selector-Counter-Register)
+Input:	rl7 - Wert fuer SAR
+	rh7 - Wert fuer DSCR
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+! ADDR: 23a8 !
+  INTERNAL
+    CLR_CTL_REG procedure
+      entry
+	soutb	ALL_MMU + %0100, rl7	!Write SAR!
+	soutb	ALL_MMU + %2000, rh7	!Write DSCR!
+	ret	
+    end CLR_CTL_REG
+
+
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+PROCEDURE LD_SDR
+Fuellen der 64 SDR einer MMU
+Input:	r6  - MMU-Adresse
+	r11 - Zeiger auf Anfang des Speicherbereiches (%100 Byte lang) mit
+	      dessen Inhalt die 64 SDR gefuellt werden sollen
+	      (64 SDR * 4 Byte je SDR = %100 Byte)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+! ADDR: 23b2 !
+  INTERNAL
+    LD_SDR procedure
+      entry
+	ldm	RG_FELD, r0, #%0F
+	xor	r7, r7
+	call	CLR_CTL_REG	!Loeschen der Control-Register SAR und DSCR!
+	add	r6, #%0F00	!Write Descriptor and increment SAR!
+	ld	r0, #%0100
+	sotirb	@r6, @r11, r0	!alle 64 SDR (zu je 4 Byte) laden!
+	xor	r7, r7
+	call	CLR_CTL_REG	!Loeschen der Control-Register SAR und DSCR!
+	ldm	r0, RG_FELD, #%0F
+	ret	
+    end LD_SDR
+
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+PROCEDURE RD_SDR
+Ruecklesen der 64 SDR einer MMU und Vergleich mit urspruenglich geladener SDR
+ggf. Fehler 80 bzw. 82
+Input:	r6  - MMU-Adresse
+	r11 - Zeiger auf Anfang des Speicherbereiches, mit dessen Inhalt die
+	      64 SDR gefuellt wurden
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+! ADDR: 23d8 !
+  INTERNAL
+    RD_SDR procedure
+      entry
+	pushl	@r15, rr2
+	push	@r15, r11
+	ld	ERRPAR_ID, #%0095 !Fehlerparameter fuer Fehler 80,81,82:
+							r6, rl7, rl5, rl4!
+	xorb	rh1, rh1	!Flagbyte rh1 loeschen!
+	add	r6, #%0F00	!Read Descriptor and increment SAR!
+	ld	r10, #%A400	!Anfangsadresse Puffer fuer rueckgelesene SDR!
+	ld	r0, #%0100
+	sinirb	@r10, @r6, r0	!64 SDR der MMU zuruecklesen!
+ 
+	ld	r10, #%A400
+	ld	r0, #%0100
+	cpsirb	@r11, @r10, r0, nz !Vergleich!
+				   !Befehl cpsirb wird beendet, bei Ungleich-
+				    heit von @r11/@10 bzw. wenn Bytezahl r0
+				    abgearbeitet ist!
+	dec	r10, #%01
+	dec	r11, #%01
+	ldb	rl4, @r10	!rl4=Fehlerpar. (zurueckgelesener Datenwert)!
+	ldb	rl5, @r11	!rl5=Fehlerpar. (Testdatenwert)!
+	sub	r10, #%A400
+	ld	r7, r10		!rl7=Fehlerpar. (SDR FELD#)!
+	sub	r6, #%0F00	!r6=Fehlerpar. (MMU PORT#)!
+	call	BY_WO_CMP	!Vergleich rl5/rl4; ggf. Fehler 80 bzw. 82!
+	pop	r11, @r15
+	popl	rr2, @r15
+	ret	
+    end RD_SDR
+
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+PROCEDURE LD_3SDR
+Fuellen der 64 SDR (zu je 4 Byte) der CODE-, DATA- und STACK-MMU
+Input:	r3 - Zeiger auf Anfangsadresse des Speicherbereiches (4 Byte), mit
+	     dessen Inhalt die 64 SDR der CODE-MMU gefuellt werden sollen
+	r4 - Zeiger auf Anfangsadresse des Speicherbereiches (4 Byte), mit
+	     dessen Inhalt die 64 SDR der DATA-MMU gefuellt werden sollen
+	r5 - Zeiger auf Anfangsadresse des Speicherbereiches (4 Byte), mit
+	     dessen Inhalt die 64 SDR der STACK-MMU gefuellt werden sollen
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+! ADDR: 241c !
+  INTERNAL
+    LD_3SDR procedure
+      entry
+	ldm	RG_FELD, r0, #%0F
+	xor	r7, r7
+	call	CLR_CTL_REG	!Loeschen der Control-Register SAR und DSCR!
+	ldb	rl0, #%40		!Anzahl der SDR (64)!
+	ld	r9, #CODE_MMU + %0F00	!Write Descriptor and increment SAR!
+	ld	r10, #DATA_MMU + %0F00 	!Write Descriptor and increment SAR!
+	ld	r11, #STACK_MMU + %0F00	!Write Descriptor and increment SAR!
+LD_3LOOP:
+	ld	r2, #4			!Descriptorlaenge (4 Byte je SDR)!
+	sotirb	@r9, @r3, r2		!SDR CODE_MMU programmieren!
+	dec	r3, #%04		!Zeiger auf Anfangsadr. zurueckstellen!
+	ld	r2, #4			!Descriptorlaenge (4 Byte je SDR)!
+	sotirb	@r10, @r4, r2		!SDR DATA_MMU programmieren!
+	dec	r4, #%04		!Zeiger auf Anfangsadr. zurueckstellen!
+	ld	r2, #4			!Descriptorlaenge (4 Byte je SDR)!
+	sotirb	@r11, @r5, r2		!SDR STACK_MMU programmieren!
+	dec	r5, #%04		!Zeiger auf Anfangsadr. zurueckstellen!
+	dbjnz	rl0, LD_3LOOP		!naechstes SDR!
+	call	CLR_CTL_REG	!Loeschen der Control-Register SAR und DSCR!
+	ldm	r0, RG_FELD, #%0F
+	ret	
+    end LD_3SDR
+
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+PROCEDURE SEGMENT_TRAP_TEST
+Test, ob beim Beschreiben der Offsetadresse (r3) in jedem Segment ein Trap
+ausgeloest wird
+Input:	r3  - Offsetadresse fuer Trap-Test (Adresse, die in jedem Segment
+	      beschrieben werden soll)
+	rh0 - MMU_ID fuer MMU, die Trap ausloesen muss (2:DATA-MMU;4:STACK-MMU)
+	      bzw. rh0=0, wenn kein Segment-Trap erwartet wird
+	rl4 - ???
+Fehler 85, wenn
+- Segment-Trap nicht von der erwarteten MMU ausgeloest wurde (bei rh0=2,4)
+- Segment-Trap ausgeloest wurde, obwohl nicht erwartet (bei rh0=0)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+! ADDR: 2462 !
+  INTERNAL
+    SEGMENT_TRAP_TEST procedure
+      entry
+	pushl	@r15, rr2
+	xorb	rh1, rh1	!Flagbyte rh1 loeschen!
+	xor	r2, r2		!rh2=logische Segmentnummer (0-63)!
+L1ABE:
+	ld	ERRPAR_ID, #%0050 !Fehlerparameter fuer Fehler 85: rl6, rl7!
+	ldb	rl0, #%02
+	outb	S_BNK, rl0	!MMU's einschalten!
+
+	ldb	rl0, #%D0
+	soutb	CODE_MMU, rl0	!Mode-Register mit %D0 laden (ID=0), d.h.
+				 CODE-MMU aktivieren!
+	incb	rl0, #%01
+	soutb	DATA_MMU, rl0	!Mode-Register mit %D1 laden (ID=1), d.h.
+				 DATA-MMU aktivieren!
+	incb	rl0, #%01
+	soutb	STACK_MMU, rl0	!Mode-Register mit %D2 laden (ID=2), d.h.
+				 STACK-MMU aktivieren!
+
+LB_250E:
+	sc	#SC_SEGV
+	ld	@r2, r5		!Speicherzelle (Segment r2 / Offset r3)
+				 beschreiben!
+	sc	#SC_NSEGV
+
+	xorb	rl0, rl0
+	soutb	ALL_MMU, rl0	!MMU's deaktivieren!
+	outb	S_BNK, rl0	!MMU's ausschalten!
+
+	ld	r6, REM_MMU_ID	!rl6=Fehlerpar. (MMU ID#)!
+	testb	rh6	
+	jr	nz, L1B12	!Fehler 85 mit Fehlerpar. rl6, rl7:
+				 Segment-Trap mit falschem MMU_ID aufgetreten
+				 (nicht 1,2,4 - siehe SEGMENT_TRAP)!
+	cpb	rh0, rl6	!Vergleich MMU_ID des Segment-Traps mit dem
+				 erwarteten MMU_ID!
+	jr	nz, SEGTRT_01	!Fehler 85 mit Fehlerpar. rl6, rl7, r5:
+				 Segment-Trap erfolgte nicht mit erwarteten
+				 MMU_ID (bei rh0=2,4)
+				 bzw.
+				 Segment-Trap aufgetreten, obwohl keiner
+				 auftreten durfte (bei rh0=0)!
+L1AFE:
+
+	incb	rh2, #%01
+	cpb	rh2, #%40
+	jr	nz, L1ABE	!naechste logische Segmentnummer!
+	jr	L1B1C		!alle Segmentnummern abgearbeitet,d.h. Ende!
+
+!Fehlereinsprung!
+SEGTRT_01:
+	ld	ERRPAR_ID, #%0058
+	ld	r5, REM_MMU_BCSR
+L1B12:
+	ldb	rl7, rh2	!rl7=Fehlerpar. (SDR#)!
+	call	MSG_ERROR	!Fehlerausgabe!
+	bitb	rh1, #%07	!MSG_ERROR seit dem letzen Loeschen von rh1
+				 (am Anfang dieser Prozedur) bereits zweimal
+				 durchlaufen? !
+	jr	z, L1AFE	!nein, d.h. naechste logische Segmentnummer!
+
+L1B1C:
+	popl	rr2, @r15
+	ret	
+    end SEGMENT_TRAP_TEST
+
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE BY_WO_CMP
 Vergleich zweier Byte-Register (rl4, rl5) bzw. zweier Word-Register (r4, r5); 
 bei Ungleichheit Fehlermeldung (MSG_ERROR)
@@ -2044,362 +2327,5 @@ MSG_MAXSEG04:
 	ld	r2, ERR_CNT	!r2 := Stand Fehlerzaehler!
 	ret	
     end MSG_MAXSEG
-
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE PRIVINSTR_TRAP
-Trap-Routine bei Priv.-Instr.-Trap
-Umschaltung auf Systemmode
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 231c !
-  INTERNAL
-    PRIVINSTR_TRAP procedure
-      entry
-	set	%02(r15), #%0E
-	sc	#SC_SEGV
-	iret
-    end PRIVINSTR_TRAP
-
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE SEGMENT_TRAP
-Trap-Routine bei Segment-Trap
-Output:	REM_MMU_BCSR - Inhalt Bus-Cycle-Status-Register (BCSR) der MMU bzw. 
-						0 bei Fehler
-	REM_MMU_VTR  - Inhalt Violation-Type-Register (VTR) der MMU bzw.
-						0 bei Fehler
-	REM_MMU_ID   - MMU_ID (1:CODE-MMU; 2:DATA-MMU; 3:STACK-MMU) bzw.
-						High-Teil=%FF bei Fehler
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2324 !
-  INTERNAL
-    SEGMENT_TRAP procedure
-      entry
-	pushl	@r15, rr2
-	ld	r2, 4(r15)
-	exb	rl2, rh2
-	and	r2, #%0007	!rl2=MMU_ID!
-	
-	cpb	rl2, #%01
-	jr	z, TRAP_CODE	!Trap durch CODE-MMU ausgeloest!
-	cpb	rl2, #%02
-	jr	z, TRAP_DATA	!Trap durch DATA-MMU ausgeloest!
-	cpb	rl2, #%04
-	jr	z, TRAP_STACK	!Trap durch STACK-MMU ausgeloest!
-!Fehler: falscher MMU_ID!
-	ldb	rh2, #%FF	!High-Teil von REM_MMU_ID auf %FF setzen!
-	xor	r3, r3		!REM_MMU_BCSR/REM_MMU_VTR auf %00 setzen!
-	jr	TRAP_OUT
-
-TRAP_CODE:
-	sinb	rl3, CODE_MMU + %0200	!Read VTR!
-	sinb	rh3, CODE_MMU + %0500	!Read BCSR!
-	jr	TRAP_OUT
-
-TRAP_DATA:
-	sinb	rl3, DATA_MMU + %0200	!Read VTR!
-	sinb	rh3, DATA_MMU + %0500	!Read BCSR!
-	jr	TRAP_OUT
-
-TRAP_STACK:
-	sinb	rl3, STACK_MMU + %0200	!Read VTR!
-	sinb	rh3, STACK_MMU + %0500	!Read BCSR!
-
-TRAP_OUT:
-	ld	REM_MMU_ID, r2	!Trap-Werte abspeichern!
-	ld	REM_MMU_BCSR, r3
-
-	soutb	ALL_MMU + %1100, rl2 	!Reset VTR!
-
-	popl	rr2, @r15
-	ldctl	r9, FCW
-	set	r9, #%0F	!Segment-Bit im FCW setzen!
-	ldctl	FCW, r9
-	iret	
-    end SEGMENT_TRAP
-
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE CODE_TRAP
-Trap-Routine fuer Segment-Trap fuer Test der CODE-MMU
-Input:	rh0 - %00
-	r11 - Ruecksprungadresse (FKT_TST)
-Output:	REM_MMU_BCSR - Inhalt Bus-Cycle-Status-Register (BCSR) der CODE-MMU
-	REM_MMU_VTR  - Inhalt Violation-Type-Register (VTR) der CODE-MMU
-	REM_MMU_ID   - %FFFF
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 237a !
-  INTERNAL
-    CODE_TRAP procedure
-      entry
-	soutb	CODE_MMU, rh0	!Mode-Register der CODE-MMU mit %00 laden
-				 (CODE-MMU deaktivieren)!
-	outb	S_BNK, rh0	!MMU's ausschalten!
-	add	r15, #%0009
-	push	@r15, r2
-	sinb	rl2, CODE_MMU + %0200	!Read VTR!
-	sinb	rh2, CODE_MMU + %0500	!Read BSCR!
-	ld	REM_MMU_BCSR, r2
-	ld	REM_MMU_ID, #%FFFF
-	soutb	CODE_MMU + %1100, rl2	!Reset VTR!
-	ld	r2, #%5000
-	ldctl	FCW, r2		!FCW setzen (nonseg./Systemmode/VI=EI/NVI=DI)!
-	pop	r2, @r15
-	jp	@r11		!Sprung zu FKT_TST!
-    end CODE_TRAP
-
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE CLR_CTL_REG
-Beschreiben der 2 Control-Register SAR (Segment-Adress-Register) und
-DSCR (Descriptor-Selector-Counter-Register)
-Input:	rl7 - Wert fuer SAR
-	rh7 - Wert fuer DSCR
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 23a8 !
-  INTERNAL
-    CLR_CTL_REG procedure
-      entry
-	soutb	ALL_MMU + %0100, rl7	!Write SAR!
-	soutb	ALL_MMU + %2000, rh7	!Write DSCR!
-	ret	
-    end CLR_CTL_REG
-
-
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE LD_SDR
-Fuellen der 64 SDR einer MMU
-Input:	r6  - MMU-Adresse
-	r11 - Zeiger auf Anfang des Speicherbereiches (%100 Byte lang) mit
-	      dessen Inhalt die 64 SDR gefuellt werden sollen
-	      (64 SDR * 4 Byte je SDR = %100 Byte)
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 23b2 !
-  INTERNAL
-    LD_SDR procedure
-      entry
-	ldm	RG_FELD, r0, #%0F
-	xor	r7, r7
-	call	CLR_CTL_REG	!Loeschen der Control-Register SAR und DSCR!
-	add	r6, #%0F00	!Write Descriptor and increment SAR!
-	ld	r0, #%0100
-	sotirb	@r6, @r11, r0	!alle 64 SDR (zu je 4 Byte) laden!
-	xor	r7, r7
-	call	CLR_CTL_REG	!Loeschen der Control-Register SAR und DSCR!
-	ldm	r0, RG_FELD, #%0F
-	ret	
-    end LD_SDR
-
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE RD_SDR
-Ruecklesen der 64 SDR einer MMU und Vergleich mit urspruenglich geladener SDR
-ggf. Fehler 80 bzw. 82
-Input:	r6  - MMU-Adresse
-	r11 - Zeiger auf Anfang des Speicherbereiches, mit dessen Inhalt die
-	      64 SDR gefuellt wurden
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 23d8 !
-  INTERNAL
-    RD_SDR procedure
-      entry
-	pushl	@r15, rr2
-	push	@r15, r11
-	ld	ERRPAR_ID, #%0095 !Fehlerparameter fuer Fehler 80,81,82:
-							r6, rl7, rl5, rl4!
-	xorb	rh1, rh1	!Flagbyte rh1 loeschen!
-	add	r6, #%0F00	!Read Descriptor and increment SAR!
-	ld	r10, #%A400	!Anfangsadresse Puffer fuer rueckgelesene SDR!
-	ld	r0, #%0100
-	sinirb	@r10, @r6, r0	!64 SDR der MMU zuruecklesen!
- 
-	ld	r10, #%A400
-	ld	r0, #%0100
-	cpsirb	@r11, @r10, r0, nz !Vergleich!
-				   !Befehl cpsirb wird beendet, bei Ungleich-
-				    heit von @r11/@10 bzw. wenn Bytezahl r0
-				    abgearbeitet ist!
-	dec	r10, #%01
-	dec	r11, #%01
-	ldb	rl4, @r10	!rl4=Fehlerpar. (zurueckgelesener Datenwert)!
-	ldb	rl5, @r11	!rl5=Fehlerpar. (Testdatenwert)!
-	sub	r10, #%A400
-	ld	r7, r10		!rl7=Fehlerpar. (SDR FELD#)!
-	sub	r6, #%0F00	!r6=Fehlerpar. (MMU PORT#)!
-	call	BY_WO_CMP	!Vergleich rl5/rl4; ggf. Fehler 80 bzw. 82!
-	pop	r11, @r15
-	popl	rr2, @r15
-	ret	
-    end RD_SDR
-
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE LD_3SDR
-Fuellen der 64 SDR (zu je 4 Byte) der CODE-, DATA- und STACK-MMU
-Input:	r3 - Zeiger auf Anfangsadresse des Speicherbereiches (4 Byte), mit
-	     dessen Inhalt die 64 SDR der CODE-MMU gefuellt werden sollen
-	r4 - Zeiger auf Anfangsadresse des Speicherbereiches (4 Byte), mit
-	     dessen Inhalt die 64 SDR der DATA-MMU gefuellt werden sollen
-	r5 - Zeiger auf Anfangsadresse des Speicherbereiches (4 Byte), mit
-	     dessen Inhalt die 64 SDR der STACK-MMU gefuellt werden sollen
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 241c !
-  INTERNAL
-    LD_3SDR procedure
-      entry
-	ldm	RG_FELD, r0, #%0F
-	xor	r7, r7
-	call	CLR_CTL_REG	!Loeschen der Control-Register SAR und DSCR!
-	ldb	rl0, #%40		!Anzahl der SDR (64)!
-	ld	r9, #CODE_MMU + %0F00	!Write Descriptor and increment SAR!
-	ld	r10, #DATA_MMU + %0F00 	!Write Descriptor and increment SAR!
-	ld	r11, #STACK_MMU + %0F00	!Write Descriptor and increment SAR!
-LD_3LOOP:
-	ld	r2, #4			!Descriptorlaenge (4 Byte je SDR)!
-	sotirb	@r9, @r3, r2		!SDR CODE_MMU programmieren!
-	dec	r3, #%04		!Zeiger auf Anfangsadr. zurueckstellen!
-	ld	r2, #4			!Descriptorlaenge (4 Byte je SDR)!
-	sotirb	@r10, @r4, r2		!SDR DATA_MMU programmieren!
-	dec	r4, #%04		!Zeiger auf Anfangsadr. zurueckstellen!
-	ld	r2, #4			!Descriptorlaenge (4 Byte je SDR)!
-	sotirb	@r11, @r5, r2		!SDR STACK_MMU programmieren!
-	dec	r5, #%04		!Zeiger auf Anfangsadr. zurueckstellen!
-	dbjnz	rl0, LD_3LOOP		!naechstes SDR!
-	call	CLR_CTL_REG	!Loeschen der Control-Register SAR und DSCR!
-	ldm	r0, RG_FELD, #%0F
-	ret	
-    end LD_3SDR
-
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE SEGMENT_TRAP_TEST
-Test, ob beim Beschreiben der Offsetadresse (r3) in jedem Segment ein Trap
-ausgeloest wird
-Input:	r3  - Offsetadresse fuer Trap-Test (Adresse, die in jedem Segment
-	      beschrieben werden soll)
-	rh0 - MMU_ID fuer MMU, die Trap ausloesen muss (2:DATA-MMU;4:STACK-MMU)
-	      bzw. rh0=0, wenn kein Segment-Trap erwartet wird
-	rl4 - ???
-Fehler 85, wenn
-- Segment-Trap nicht von der erwarteten MMU ausgeloest wurde (bei rh0=2,4)
-- Segment-Trap ausgeloest wurde, obwohl nicht erwartet (bei rh0=0)
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2462 !
-  INTERNAL
-    SEGMENT_TRAP_TEST procedure
-      entry
-	pushl	@r15, rr2
-	push	@r15, r9
-	xorb	rh1, rh1	!Flagbyte rh1 loeschen!
-	xor	r2, r2		!rh2=logische Segmentnummer (0-63)!
-	test	REM_MMU1
-	jr	z, L1ABE
-	ldb	rh2, #%02
-	bitb	rl4, #%01
-	jr	z, L1ABE
-	ldb	rh2, #%42
-L1ABE:
-
-	ld	ERRPAR_ID, #%0050 !Fehlerparameter fuer Fehler 85: rl6, rl7!
-	ld	REM_MMU_ID, #%0000 !Merker: MMU-ID loeschen -
-				    wird bei Segment-Trap gesetzt!
-	ldb	rl0, #%02
-	test	REM_MMU1
-	jr	z, LB_24F8
-	ldb	rl0, #%06
-	outb	S_BNK, rl0
-	xorb	rh4, rh4
-	bitb	rl4, #%01
-	jr	z, LB_24D0
-	soutb	STACK_MMU, rl4
-	ldb	rh4, #%80
-	soutb	CODE_MMU, rh4
-	ldb	rh4, #%81
-	soutb	DATA_MMU, rh4
-	jr	LB_250E
-LB_24D0:
-	bitb	rl4, #%00
-	jr	z, LB_24E6
-	soutb	DATA_MMU, rl4
-	ldb	rh4, #%80
-	soutb	CODE_MMU, rh4
-	ldb	rh4, #%82
-	soutb	STACK_MMU, rh4
-	jr	LB_250E
-LB_24E6:
-	soutb	CODE_MMU, rl4
-	ldb	rh4, #%81
-	soutb	DATA_MMU, rh4
-	ldb	rh4, #%82
-	soutb	STACK_MMU, rh4
-	jr	LB_250E
-LB_24F8:
-	outb	S_BNK, rl0	!MMU's einschalten!
-
-	ldb	rl0, #%D0
-	soutb	CODE_MMU, rl0	!Mode-Register mit %D0 laden (ID=0), d.h.
-				 CODE-MMU aktivieren!
-	incb	rl0, #%01
-	soutb	DATA_MMU, rl0	!Mode-Register mit %D1 laden (ID=1), d.h.
-				 DATA-MMU aktivieren!
-	incb	rl0, #%01
-	soutb	STACK_MMU, rl0	!Mode-Register mit %D2 laden (ID=2), d.h.
-				 STACK-MMU aktivieren!
-
-LB_250E:
-	ldctl	r9, FCW
-	set	r9, #%0F
-	test	REM_MMU2
-	jr	z, LB_251A
-	res	r9, #%0E
-LB_251A:
-	ldctl	FCW, r9
-	ld	@r2, r5		!Speicherzelle (Segment r2 / Offset r3)
-				 beschreiben!
-	mbit
-	sc	#SC_NSEGV
-
-	xorb	rl0, rl0
-	soutb	ALL_MMU, rl0	!MMU's deaktivieren!
-	outb	S_BNK, rl0	!MMU's ausschalten!
-
-	ld	r6, REM_MMU_ID	!rl6=Fehlerpar. (MMU ID#)!
-	testb	rh6	
-	jr	nz, L1B12	!Fehler 85 mit Fehlerpar. rl6, rl7:
-				 Segment-Trap mit falschem MMU_ID aufgetreten
-				 (nicht 1,2,4 - siehe SEGMENT_TRAP)!
-	cpb	rh0, rl6	!Vergleich MMU_ID des Segment-Traps mit dem
-				 erwarteten MMU_ID!
-	jr	nz, SEGTRT_01	!Fehler 85 mit Fehlerpar. rl6, rl7, r5:
-				 Segment-Trap erfolgte nicht mit erwarteten
-				 MMU_ID (bei rh0=2,4)
-				 bzw.
-				 Segment-Trap aufgetreten, obwohl keiner
-				 auftreten durfte (bei rh0=0)!
-L1AFE:
-
-	incb	rh2, #%01
-	test	REM_MMU1
-	jr	z, LB_254C
-	bitb	rl4, #%01
-	jr	z, LB_254C
-	cpb	rh2, #%80
-	jr	nz, L1ABE
-	jr	L1B1C
-LB_254C:
-	cpb	rh2, #%40
-	jr	nz, L1ABE	!naechste logische Segmentnummer!
-	jr	L1B1C		!alle Segmentnummern abgearbeitet,d.h. Ende!
-
-!Fehlereinsprung!
-SEGTRT_01:
-	ld	ERRPAR_ID, #%0058
-	ld	r5, REM_MMU_BCSR
-L1B12:
-	ldb	rl7, rh2	!rl7=Fehlerpar. (SDR#)!
-	call	MSG_ERROR	!Fehlerausgabe!
-	bitb	rh1, #%07	!MSG_ERROR seit dem letzen Loeschen von rh1
-				 (am Anfang dieser Prozedur) bereits zweimal
-				 durchlaufen? !
-	jr	z, L1AFE	!nein, d.h. naechste logische Segmentnummer!
-
-L1B1C:
-	pop	r9, @r15
-	popl	rr2, @r15
-	ret	
-    end SEGMENT_TRAP_TEST
 
 end p_testram

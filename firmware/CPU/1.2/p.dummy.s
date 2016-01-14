@@ -3,6 +3,6 @@ dummy module
 $SECTION PROM
 
   internal
-        array [212 byte]        !auffuellung um 212 byte!
+        array [48 byte]        !auffuellung um 48 byte!
         
 end dummy

@@ -2,7 +2,7 @@
 *******************************************************************************
 
   S8000-Firmware
-  Z8000-Softwaremonitor (CPU)        Modul: p_tape
+  Z8000-Softwaremonitor (CPU)        Modul: p_floppy
 
   Bearbeiter:	O. Lehmann
   Datum:	14.01.2016
@@ -11,7 +11,7 @@
 *******************************************************************************
 ******************************************************************************!
 
-p_tape module
+p_floppy module
 
 $SECTION PROM
 
@@ -35,89 +35,134 @@ S_BNK	:= %FFC1	!SWITCH-BANK:
   CONSTANT 
 MOVE_ADR := %F800
 
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE READ_TAPE
-I/O Space %0040 - %007f
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2fa4 !
   INTERNAL
-    READ_TAPE procedure
+T_FLP_F
+! ADDR: 2c60 !
+	WORD	:= %0002
+	ARRAY [2 BYTE] := 'F%0D'
+T_FLP_0
+! ADDR: 2c64 !
+	WORD	:= %0002
+	ARRAY [12 BYTE] := '0%0D'
+
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+PROCEDURE FLOPPY_BOOT_LD
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+! ADDR: 2c68 !
+  INTERNAL
+    FLOPPY_BOOT_LD procedure
       entry
-	ld	r15, #MOVE_ADR
+	ld	r2, #%ffff
+	calr	FLOPPY_UNKNOWN_02
+	ld	r1, #%f1f1
+	out	%80f0, r1
+	calr	FLOPPY_BOOT_WAIT
+	clr	r1
+	out	%80f0, r1
+	calr	FLOPPY_BOOT_WAIT
+	ld	r1, #%fe02
+	out	%80f0, r1
+	ld	r0, #%00e1
+	clr	r1
+FLOPBTLD_02:
+	test	%fe02
+	jr	z, FLOPBTLD_01
+	djnz	r1, FLOPBTLD_02
+	djnz	r0, FLOPBTLD_02
+	jr	PROCEDURE FLOPPY_BOOT_LD
+FLOPBTLD_01:
 	ldb	rl0, #%01
 	outb	S_BNK, rl0	!MONITOR PROM & RAM AUSSCHALTEN!
-READTAPE_01:
-	calr	WAIT_UNTIL_TAPE_RDY
-	ld	r0, #%0003
-	calr	SEND_TAPE_CMD
-	ld	r0, #%000a
-	calr	SEND_TAPE_CMD
-	ld	r0, #%000b
-	calr	SEND_TAPE_CMD
-	ld	r0, #%000f
-	calr	SEND_TAPE_CMD
-	ld	r0, #%000e
-	calr	SEND_TAPE_CMD
-	ldk	r0, #0
-	out	%004e, r0
-	ld	r0, #%0009
-	calr	SEND_TAPE_CMD
-	in	r0, %004a
-	bit	r0, #0
-	jr	nz, READTAPE_01
-	ldk	r0, #0
-	out	%0044, r0
-	out	%0046, r0
-	ld	r0, #%4000
-	out	%0048, r0
-	ld	r0, #%0001
-	calr	SEND_TAPE_CMD
-	jp      %0000
-     end READ_TAPE
-
+	ld	r2, #T_FLP_F
+	call	%7f0c
+	ld	%fe34, #%0012
+	calr	FLOPPY_UNKNOWN_04
+	ld	r0, %fe3e
+	andb	rh0, #%1e
+	jr	nz, FLOPBTLD_03
+	ld	%fe34, #%0010
+	clr	%fe36
+	ld	%fe38, #%0001
+	clr	%fe3a
+	clr	%fe3c
+	clr	%fe3e
+	calr	FLOPPY_UNKNOWN_04
+	jr	nz, FLOPBTLD_03
+	ld	r2, #T_FLP_0
+	call	%7f0c
+	jp	%0000
+FLOPBTLD_03:
+	clrb	rl0
+	outb	S_BNK, rl0	!MONITOR PROM & RAM EINSCHALTEN!
+	jr	PROCEDURE FLOPPY_BOOT_LD
+     end FLOPPY_BOOT_LD
+     
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE SEND_TAPE_CMD
-I/O Space %0040 - %007f
+PROCEDURE FLOPPY_UNKNOWN_02
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2ffe !
+! ADDR: 2cee !
   INTERNAL
-    SEND_TAPE_CMD procedure
+    FLOPPY_UNKNOWN_02 procedure
       entry
-	out	%0042, r0
-     end SEND_TAPE_CMD	!Weiterlauf!
-
-!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE WAIT_UNTIL_TAPE_RDY
-I/O Space %0040 - %007f
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 3002 !
-  INTERNAL
-    WAIT_UNTIL_TAPE_RDY procedure
-      entry
-	ld	r0, #300
-WAIT_TAP_01:
-	djnz	r0, WAIT_TAP_01
-WAIT_TAP_02:
-	in	r0, %0040
-	bit	r0, #9
-	jr	nz, WAIT_TAP_02
+	ld	r1, #%fe02
+	ld	r0, #%fe4c
+FLOPUNK02_01:
+	ld	@r1, r2
+	inc	r1, #2
+	cp	r0, r1
+	jr	nz, FLOPUNK02_01
 	ret
-     end WAIT_UNTIL_TAPE_RDY
-
+     end FLOPPY_UNKNOWN_02
+     
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE TAP_BOOT
+PROCEDURE FLOPPY_BOOT_WAIT
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 3012 !
-  GLOBAL
-    TAP_BOOT procedure
+! ADDR: 2d00 !
+  INTERNAL
+    FLOPPY_BOOT_WAIT procedure
+      entry
+	clr	r1
+	ld	r0, #%0005
+FLOPPYWAIT:
+	dec	r1, #1
+	jr	nz, FLOPPYWAIT
+	dec	r0, #1
+	jr	nz, FLOPPYWAIT
+	ret
+     end FLOPPY_BOOT_WAIT
+     
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+PROCEDURE FLOPPY_UNKNOWN_04
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+! ADDR: 2d10 !
+  INTERNAL
+    FLOPPY_UNKNOWN_04 procedure
+      entry
+	ld	%fe02, #%0010
+	ld	r1, #%0000
+	out	%80f0, r1
+FLOPUKN04_01:
+	test	%fe02
+	jr	nz, FLOPUKN04_01
+	ld	r0, %fe3e
+	xorb	rh0, #%80
+	ret
+     end FLOPPY_UNKNOWN_04
+     
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+PROCEDURE FLOPPY_BOOT
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+! ADDR: 2d2e !
+  INTERNAL
+    FLOPPY_BOOT procedure
       entry
 	ld	r0, #%4000
 	ldctl	fcw, r0
 	ld	r2, #MOVE_ADR
-	lda	r1, READ_TAPE
-	ld	r0, #%006e
+	lda	r1, FLOPPY_BOOT_LD
+	ld	r0, #%00c6
 	ldirb	@r2, @r1, r0
 	jp	MOVE_ADR
-     end TAP_BOOT
+     end FLOPPY_BOOT
 
-end p_tape
+end p_floppy
