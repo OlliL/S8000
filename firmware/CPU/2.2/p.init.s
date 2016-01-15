@@ -78,6 +78,97 @@ S_BNK	:= %FFC1	!SWITCH-BANK:
 ALL_MMU	  := %F0
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+SIO-Kommandos
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
+ 
+!Command Identifiers and Values
+Includes all control bytes for asynchronous and synchronous I/O !
+ 
+  CONSTANT
+!WR0 Commands!
+!SIO_R0	:=	%00!	!SIO register pointers!
+SIO_R1	:=	%01
+SIO_R2	:=	%02
+SIO_R3	:=	%03
+SIO_R4	:=	%04
+SIO_R5	:=	%05
+!SIO_R6	:=	%06!
+!SIO_R7	:=	%07!
+ 
+!COMM0	:=	%00!	!Null Code!
+!COMM1	:=	%08!	!Send Abort (SDLC)!
+COMM2	:=	%10	!Reset Ext/Stat Int!
+COMM3	:=	%18	!Channel Reset!
+!COMM4	:=	%20!	!Enable Int On Next Rx Char!
+!COMM5	:=	%28!	!Reset Tx Int Pending!
+!COMM6	:=	%30!	!Error Reset!
+ 
+!RFI	:=	%38!	!Return from Int!
+!RRCC	:=	%40!	!Reset Rx CRC Checker!
+!RTCG	:=	%80!	!Reset Tx CRC Generator!
+!RTUEL	:=	%C0!	!Reset Tx Under/EOM Latch!
+ 
+!WR1 Commands!
+!WAIT	:=	%00!	!Wait function!
+!DRCVRI	:=	%00!	!Disable Receive Interrupts!
+!EXTIE	:=	%01!	!External interrupt enable!
+!XMTRIE	:=	%02!	!Transmit Int Enable!
+SAVECT	:=	%04	!Status affects vector!
+!FIRSTC	:=	%08!	!Rx interrupt on first character!
+!PAVECT	:=	%10!	!Rx interrupt on all characters!
+			!(parity affects vector)!
+PDAVCT	:=	%18	!Rx interrupt on all characters!
+			!(parity doesn't affect vector)!
+!WRONRT	:=	%20!	!Wait/ready on receive!
+!RDY	:=	%40!	!Ready function!
+!WRDYEN	:=	%80!	!Wait/Ready enable!
+ 
+!WR2 Commands!
+!IV	:=	%00!
+ 
+!WR3 Commands!
+!B5	:=	%00!	!Receive 5 bits/character!
+RENABLE	:=	%01	!Receiver enable!
+!SCLINH	:=	%02!	!Sync character load inhibit!
+!ADSRCH	:=	%04!	!Address search mode!
+!RCRCEN	:=	%08!	!Receive CRC enable!
+!HUNT	:=	%10!	!Enter hunt mode!
+!AUTOEN	:=	%20!	!Auto enable!
+!B7	:=	%40!	!Receive 7 bits/character!
+!B6	:=	%80!	!Receive 6 bits/character!
+B8	:=	%C0	!Receive 8 bits/character!
+ 
+!WR4 Commands!
+!SYNC	:=	%00!	!Sync modes enable!
+!NOPRTY	:=	%00!	!Disable partity!
+!ODD	:=	%00!	!Odd parity!
+!MONO	:=	%00!	!8 bit sync character!
+!C1	:=	%00!	!x1 clock mode!
+!PARITY	:=	%01!	!Enable Parity!
+!EVEN	:=	%02!	!Even parity!
+!S1	:=	%04!	!1 stop bit/character!
+!S1HALF	:=	%08!	!1+1/2 stop bit/character!
+S2	:=	%0C	!2 stop bits/character!
+!BISYNC	:=	%10!	!16 bit sync character!
+!SDLC	:=	%20!	!SDLC mode!
+!ESYNC	:=	%30!	!External sync mode!
+!C16	:=	%40!	!x16 clock mode!
+!C32	:=	%80!	!x32 clock mode!
+C64	:=	%C0	!x64 clock mode!
+ 
+!WR5 Commands!
+!T5	:=	%00!	!Transmit 5 bits/character!
+!XCRCEN	:=	%01!	!Transmit CRC enable!
+RTS	:=	%02	!Request to send!
+!SELCRC	:=	%04!	!Select CRC-16 polynomial!
+XENABLE	:=	%08	!Transmitter enable!
+!XBREAK	:=	%10!	!Send break!
+!T7	:=	%20!	!Transmit 7 bits/character!
+!T6	:=	%40!	!Transmit 6 bits/character!
+T8	:=	%60	!Transmit 8 bits/character!
+DTR	:=	%80	!Data terminal ready!
+
+!++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
 
   INTERNAL
@@ -290,30 +381,27 @@ Variablenliste zur RAM-Initialisierung fuer CHRDEL-PROMT
 !VARIABLENLISTE: CHRDEL,LINDEL/^Q,^S/N_CNT/B_CODE/STACK_CT/N_/PROMT!
 VAR_LISTE_PROM
 	ARRAY [7 WORD] := [%087f %1113 %0000 %7f00 %0004 %0001 %2000]
- 
-! FIXME: Werte aufschluesseln !
-ITAB_SIO0_B ARRAY [* BYTE] := [%18
-                               %02
-                               %10
-                               %14
-                               %cc
-                               %03
-                               %c1
-                               %05
-                               %ea
-                               %11
-                               %1c
-                               %00]
-ITAB_SIO0_A ARRAY [* BYTE] := [%18
-                               %14
-                               %cc
-                               %03
-                               %c1
-                               %05
-                               %ea
-                               %11
-                               %18
-                               %00]
+
+ITAB_SIO0_B ARRAY [* BYTE] := [COMM3
+                               SIO_R2
+                               %10			!VI_SIO0_B in PSAREA!
+                               SIO_R4 + COMM2
+                               C64 + S2
+                               SIO_R3
+                               RENABLE + B8
+                               SIO_R5
+                               XENABLE + T8 + DTR + RTS
+                               SIO_R1 + COMM2
+                               PDAVCT + SAVECT]
+ITAB_SIO0_A ARRAY [* BYTE] := [COMM3
+                               SIO_R4 + COMM2
+                               C64 + S2
+                               SIO_R3
+                               RENABLE + B8
+                               SIO_R5
+                               XENABLE + T8 + DTR + RTS
+                               SIO_R1 + COMM2
+                               PDAVCT]
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE VI_ERR
