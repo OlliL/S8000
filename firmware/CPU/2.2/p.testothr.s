@@ -354,7 +354,7 @@ SMCT_04:
 	in	r0, %7f00
 	andb	rl0, #%80	!ND bit still set?!
 	jr	nz, SMCT_06	!error!
-	cpb	%474a, #%01	!Bootdevice?!
+	cpb	ABOOT_DEV, #%01	!Bootdevice?!
 	ret	nz		!return wenn nicht!
 
 

@@ -1466,7 +1466,7 @@ ECC202_16:
 	ldl	rr12, ECC_MEM_1
 	addl	rr12, #%00000100
 	ldl	rr10, MMU_MEM_3
-	ldl	rr8, %476c
+	ldl	rr8, MMU_MEM_4
 	ld	r3, MMU_MEM_6
 ECC202_15:
 	cpl	rr10, #%00000000
@@ -1680,9 +1680,10 @@ PUTU01_06:
 	sub	r9, #T_POUPDIAG
 	sc	#SC_SEGV
 	ldir	@r12, @r10, r9
-	ld	r13, #%202a
+	ld	r13, #PUTU01_09
 	ld	r11, #MMU_JP_EXT_1
 	jp	@r12
+PUTU01_09:
 	ldctl	r9, FCW		!r9:=Stand FCW!
 	res	r9, #%0F
 	ldctl	FCW, r9		!nichtsegmentierten Mode einstellen!
