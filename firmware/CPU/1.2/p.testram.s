@@ -226,7 +226,7 @@ kein RAM vorhanden ist, ist die vorherige Segmentadresse die hoechste.!
 	ld	ERR_CNT, r8
 	
 	xor	r6, r6		!r6 (rh6) := Segmentnummer (=0)!
-	ld	ERRPAR_ID, #%0000 !Fehlerparameter fuer Fehler 0:
+	ld	ERRPAR_ID, r6	!Fehlerparameter fuer Fehler 0:
 				 			keine Parameter!
 	ld	MAX_SEGNR, r6	!hoechste Segmentnummer initialisieren (:=0)!
         ldb	rl5, #%A5	
@@ -335,7 +335,7 @@ RAM-Test Segment 0
 	ld	r12, MAX_SEGNR	!Ziel-Segment=hoechstes Segment!
 	ld	r11, #T_POUPDIAG
 	ld	r13, r11	
-	ld	r9, #MMU_MEM_2
+	ld	r9, #MMU_MEM_3+2
 	sub	r9, #T_POUPDIAG
 	sc	#SC_SEGV
 	ldir	@r12, @r10, r9 	!Transfer des Monitors in hoechstes Segment!
@@ -582,7 +582,7 @@ Test der MMU-Control-Register-Daten
 	xorb	rh1, rh1	!Flagbyte rh1 loeschen!
 	inc	r8, #1		!Fehlernummer 303!
 
-	ld	ERRPAR_ID, #%00a5 !Fehlerparameter fuer Fehler 303:
+	ld	ERRPAR_ID, #%0025 !Fehlerparameter fuer Fehler 303:
 							   r7, rl5, rl4!
 	ld	r9, #REM_MMU_SINOUT !Speicherplatz fuer Testdaten!
 	ld	@r9, #%AAAA	!Test mit Daten 'AA'!
@@ -674,7 +674,7 @@ Test, ob STACK-MMU beim Limit-Test Trap erzeugt
 	outb	NBREAK, rh2	!Normal-Break-Register mit %90 laden!
 	ld	r3, #MMU_LISTE4	!r3 - Zeiger auf SDR-Feld fuer CODE-MMU!
 	ld	r4, r3		!r4 - Zeiger auf SDR-Feld fuer DATA-MMU!
-	ld	r5, #MMU_LISTE5
+	ld	r5, #MMU_LISTE6
 LB_18CE:
 	call	LD_3SDR		!SDR der 3 MMU's programmieren!
 
@@ -701,9 +701,6 @@ Test auf unerwarteten Trap
 	ld	r3, #MMU_LISTE4	!r3 - Zeiger auf SDR-Feld fuer CODE-MMU!
 	ld	r4, #MMU_LISTE6	!r4 - Zeiger auf SDR-Feld fuer DATA-MMU!
 	ld	r5, r3		!r5 - Zeiger auf SDR-Feld fuer STACK-MMU!
-	test	REM_MMU1
-	jr	z, LB_18FE
-LB_18FE:
 	call	LD_3SDR		!SDR der 3 MMU's programmieren!
 
 	call	PR_POWER_UP	!POWER UP DIAG!
@@ -1318,7 +1315,7 @@ ECC202_16:
 	ldl	rr12, ECC_MEM_1
 	addl	rr12, #%00000100
 	ldl	rr10, MMU_MEM_3
-	ldl	rr8, %476c
+	ldl	rr8, MMU_MEM_4
 	ld	r3, MMU_MEM_6
 ECC202_15:
 	cpl	rr10, #%00000000
@@ -1528,13 +1525,14 @@ PUTU01_06:
 	ld	r12, MAX_SEGNR
 	ld	r11, #T_POUPDIAG
 	ld	r13, r11
-	ld	r9, #MMU_MEM_2
+	ld	r9, #MMU_MEM_3+2
 	sub	r9, #T_POUPDIAG
 	sc	#SC_SEGV
 	ldir	@r12, @r10, r9
-	ld	r13, #%202a
+	ld	r13, #PUTU01_09
 	ld	r11, #MMU_JP_EXT_1
 	jp	@r12
+PUTU01_09:
 	ldctl	r9, FCW		!r9:=Stand FCW!
 	res	r9, #%0F
 	ldctl	FCW, r9		!nichtsegmentierten Mode einstellen!
@@ -1989,6 +1987,7 @@ Fehler 85, wenn
 	xor	r2, r2		!rh2=logische Segmentnummer (0-63)!
 L1ABE:
 	ld	ERRPAR_ID, #%0050 !Fehlerparameter fuer Fehler 85: rl6, rl7!
+	ld	REM_MMU_ID, #%0000
 	ldb	rl0, #%02
 	outb	S_BNK, rl0	!MMU's einschalten!
 
@@ -2313,7 +2312,7 @@ MSG_MAXSEG02:
 MSG_MAXSEG04:
 	sc	#SC_WR_CRLF
 	
-	ld	r2, #T_JUMPERS	!Textausgabe 'JUMPERS' !
+	ld	r2, #T_COMPLETE	!Textausgabe 'COMPLETE' !
 	sc	#SC_WR_MSG
 	sc	#SC_WR_OUTBFF_CR
 

@@ -235,50 +235,45 @@ REM_MMU_ID	WORD	!Merker: MMU-Identifikation!
 ECC_MEM_3	WORD	!Merker: Stand Fehlerzaehler!
 !%473a!
 REM_ERR_CNT	WORD	!Merker: Stand Fehlerzaehler!
-!%473e!
+!%473c!
 REM_MMU_SINOUT	WORD	!Merker: MMU-Ein-/Ausgabewerte!
-!%4740!
+!%473e!
 ERR_CNT		WORD	!Fehlerzaehler!
-!%4742!
+!%4740!
 MAX_SEGNR	WORD	!Merker: hoechste vorhandene Segmentnummer!
-
-!%4744!
+!%4742!
 POW_UP_TXT	WORD
-!%4746!
+!%4741!
 PRT_POW_UP_TXT	WORD
-!%4748!
+!%4746!
 ERRPAR_ID	WORD
-!%474a!
+!%4748!
 ABOOT_DEV	WORD
-!%474c!
-REM_MMU1	WORD	!TODO: not relevant in 1.2!
-!%474e!
-REM_MMU2	WORD	!TODO: not relevant in 1.2!
-!%4750!
+!%474a!
 ECC_MEM_1	LONG
-!%4754!
+!%474e!
 REM_MMU_TEST	WORD
-!%4756!
+!%4750!
 ECC_MEM_2	WORD
-!%4758!
+!%4752!			!Korrekt!
 UKNOW_MEM_1	WORD
-!%475a!
+!%4754!
 UKNOW_MEM_2	WORD
-!%475c!
+!%4756!
 UKNOW_MEM_3	WORD
-!%475e!
-UKNOW_MEM_4	WORD
-!%4760!
+!%4758!
+UKNOW_MEM_5	WORD
+!%475a!
 MMU_MEM_1	LONG
-!%4764!
+!%475e!
 MMU_MEM_2	LONG
-!%4768!
+!%4762!
 MMU_MEM_3	LONG
-!%476c!
+!%4766!
 MMU_MEM_4	LONG
-!%4770!
+!%476a!
 MMU_MEM_5	WORD
-!%4772!
+!%476b!
 MMU_MEM_6	WORD
 
 end p_ram

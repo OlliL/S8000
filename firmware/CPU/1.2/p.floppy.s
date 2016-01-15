@@ -39,11 +39,11 @@ MOVE_ADR := %F800
 T_FLP_F
 ! ADDR: 2c60 !
 	WORD	:= %0002
-	ARRAY [2 BYTE] := 'F%0D'
+	ARRAY [* BYTE] := 'F%0D'
 T_FLP_0
 ! ADDR: 2c64 !
 	WORD	:= %0002
-	ARRAY [12 BYTE] := '0%0D'
+	ARRAY [* BYTE] := '0%0D'
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE FLOPPY_BOOT_LD
@@ -69,7 +69,7 @@ FLOPBTLD_02:
 	jr	z, FLOPBTLD_01
 	djnz	r1, FLOPBTLD_02
 	djnz	r0, FLOPBTLD_02
-	jr	PROCEDURE FLOPPY_BOOT_LD
+	jr	FLOPPY_BOOT_LD
 FLOPBTLD_01:
 	ldb	rl0, #%01
 	outb	S_BNK, rl0	!MONITOR PROM & RAM AUSSCHALTEN!
@@ -94,7 +94,7 @@ FLOPBTLD_01:
 FLOPBTLD_03:
 	clrb	rl0
 	outb	S_BNK, rl0	!MONITOR PROM & RAM EINSCHALTEN!
-	jr	PROCEDURE FLOPPY_BOOT_LD
+	jr	FLOPPY_BOOT_LD
      end FLOPPY_BOOT_LD
      
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -153,7 +153,7 @@ FLOPUKN04_01:
 PROCEDURE FLOPPY_BOOT
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
 ! ADDR: 2d2e !
-  INTERNAL
+  GLOBAL
     FLOPPY_BOOT procedure
       entry
 	ld	r0, #%4000

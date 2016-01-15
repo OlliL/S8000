@@ -307,7 +307,7 @@ SMCT_01:
 	clr	%fec2
 	ld	r8, #%4000	!Fehlernummer 4000!
 	xorb	rh1, rh1
-	ld	ERRPAR_ID, #%0000
+	clr	ERRPAR_ID
 	in	r0, %7f00
 	cp	r0, #%ffff	!nicht ffff ist OK!
 	jr	nz, SMCT_02
@@ -318,10 +318,6 @@ SMCT_02:
 	ld	r2, #T_SMC	!Textausgabe 'SMC' !
 	sc	#SC_WR_MSG
 	sc	#SC_WR_OUTBFF_CR
-	ld	r0, #DISPLAY_RW
-SMCT_03:
-	call	TEST_DELAY
-	djnz	r0, SMCT_03
 SMCT_05:
 	ld	r8, #RAM_ANF+3
 	ld	ERRPAR_ID, #%0080
@@ -354,7 +350,7 @@ SMCT_04:
 	in	r0, %7f00
 	andb	rl0, #%80	!ND bit still set?!
 	jr	nz, SMCT_06	!error!
-	cpb	%474a, #%01	!Bootdevice?!
+	cpb	ABOOT_DEV, #%01	!Bootdevice?!
 	ret	nz		!return wenn nicht!
 
 
