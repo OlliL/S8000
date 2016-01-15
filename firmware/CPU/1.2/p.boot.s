@@ -16,11 +16,11 @@ p_boot module
 $SECTION PROM
 
   INTERNAL
-  
+
 T_DSK_BOOT:
 	WORD := %0012
 	ARRAY [18 BYTE] := 'BOOTING FROM DISK%0D'
-	
+
 T_TAP_BOOT:
 	WORD := %0012
 	ARRAY [18 BYTE] := 'BOOTING FROM TAPE%0D'
@@ -56,7 +56,7 @@ Kommandoeingabe: O D/T/S/M
 	call	GET_SIGN	!rl0:=naechstes Zeichen ungleich Space nach
 				 einem Space im Eingabepuffer INBFF!
 	jp	z, ERROR	!CR eingegeben!
-	
+
 	cpb	rl0, #'D'	!FROM DISK ? !
 	jr	z, OS_BOOT_DSK
 	cpb	rl0, #'T'	!FROM TAPE ? !
@@ -144,7 +144,7 @@ NO_BOOTDEV:
 					  von #AUTOBOOT wird #AUTOBOOT durch
 					  #NMI_INT ersetzt, d.h. bei NMI erfolgt
 					  jetzt Abarbeitung von #NMI_INT !
-	
+
 	ld	PROMT, #'[ '
 	ei	vi
 	jp	CMDLOP

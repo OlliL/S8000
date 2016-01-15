@@ -116,7 +116,7 @@ steht
 
 G2:
 	di	vi
-	
+
 	ld	VI_CTC0_3+2, r2	!Adresse der VI-Routine eintragen!
 	call	GETREG		!REGISTER ZURUECKLADEN!
 	ldl	rr14, SVSTK
@@ -143,7 +143,7 @@ Befehls im zu testenden Programm!
 	ldctl	r1, FCW
 	set	r1, #%0F	!SEG BIT IM FCW SETZEN!
 	ldctl	FCW, r1
-	
+
 	pop	r1, @r14
 	iret			!Programmstart!
     end GO_NXT
@@ -168,7 +168,7 @@ Kommandoeingabe: N [count]
 	call	GET_SIGN	!rl0:=1. Zeichen ungleich Space nach dem
 				 naechsten Space im Eingabepuffer INBFF!
 	jr	z, N1		!keine Anzahl eingegeben!
-	
+
 	call	GET_HEXZ	!r3:=Anzahl der Befehle!	
 	test	r3
 	jr	nz, N2		!ungleich 0!
@@ -227,7 +227,7 @@ Q1:
 	decb	COUNT_PTY, #%01
 	calr	TYWR_MCZ	!Ausgabe Zeichen an MCZ!
 	jr	nz, Q1		!kein CR ausgegeben!
-	
+
 Q2:
 	ld	r0, OUTPTR_MCZ
 	cp	r0, INPTR_MCZ	!Zeichen vom MCZ eingegangen?!
@@ -294,7 +294,7 @@ BR1:
 	cp	r1, B_CODE	!wurde Unterbrechungscode auf BREAK-Adresse
 				 eingetragen, d.h. liegt BREAK-Adr. im RAM?!
 	ret	z		!ja!
-	
+
 	ld	NXTCTR, #1
 	clr	B_ADR_S		!BREAK-Adresse loeschen!
 	clr	B_ADR_O
@@ -626,7 +626,7 @@ G_VIE:
 	pop	r2, @r15
 	sc	#SC_SEGV
 	iret	
-	
+
     end GO_INT
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -652,7 +652,7 @@ NMI1:
 	ld	r15, #STACK
 NMI2:
 	ei	vi
-	
+
 	call	WR_CRLF		!Ausgabe CR LF an Terminal!
 	ld	r2, #T_NMI	!Ausgabe: 'NMI'!
 	call	WR_MSG
@@ -675,16 +675,16 @@ zerstoerte Register : r3
       entry
 	cpb	1(r15), #1	!SC_01 = segmentierte Arbeitsweise!
 	jr	nz, SC_02
- 
+
 	set	2(r15), #15	!Segment-Bit im FCW setzen!
 	iret
-	
+
 SC_02:
 	cpb	1(r15), #2	!SC_02 = nichtsegmentierte Arbeitsweise!
 	jr	nz, SC_X3
 	res	2(r15), #15	!Segment-Bit im FCW ruecksetzen!
 	iret
-	
+
 SC_X3:
 	push	@r14, r0
 	ldctl	r0, FCW
@@ -704,7 +704,7 @@ SC_X3:
 	ld	NXTCTR, #1
 	calr	RETI_CTC0_3
 	ei	vi
-	
+
 	ld	r2, #T_BRK	!Text: BREAK AT ....!
 	call	WR_MSG
 	ld	r5, PC_OFF
@@ -720,15 +720,15 @@ NO_BRK:
 	sub	r3, #4		!SC_04 = 1. Adresse in SC_ADR-Liste!
 	ld	r3, SC_ADR(r3)	!Adresse des UP zur Ausfuehrung des SC laden!
 	ei	vi
-	
+
 	call	@r3		!Aufruf des UP!
 	ld	r3, r0
 SC_END:
 	ldctl	r0, FCW
-	
+
 	set	r0, #%0F	!segmentierter Mode einstellen!
 	ldctl	FCW, r0
-	
+
 	pop	r0, @r14
 	iret	
     end SC_ENTRY
@@ -768,22 +768,22 @@ Registerrettung
 	ld	PC_OFF, r0
 	sc	#SC_SEGV
 	ldctl	r0, NSPSEG 
-	
+
 	sc	#SC_NSEGV
 	ld	RF_CTR + 2, r0
 	ldctl	r0, NSPOFF
-	
+
 	ld	RF_CTR + 4, r0
 	sc	#SC_SEGV
 	ldctl	r0, PSAPSEG 
-	
+
 	sc	#SC_NSEGV
 	ld	PS_, r0
 	ldctl	r15, PSAP
-	
+
 	ld	PO_, r15
 	ldctl	r15, REFRESH
-	
+
 	ld	RF_CTR, r15
 	ld	r15, #SV_R + 2
 	ldm	@r15, r1, #%0D	!REGISTERWERTE RETTEN!
@@ -826,7 +826,7 @@ Register-Lade-Routine
 	ldl	rr14, RR14_V
 	ret	
     end GETREG
-  
+
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE INCPTR_MCZ
 Zeichenkettenzeiger inkrementieren und auf Ueberlauf testen
@@ -947,7 +947,7 @@ FIB1:
 FIB2:
 	cpb	rl0, #%20
 	jr	c, FIB1		!Zeichen < Space ignorieren!
-	
+
 	inc	r4, #%01
 	dbjnz	rl3, FIB1	!naechstes Zeichen von MCZ einlesen!
 
@@ -1112,7 +1112,7 @@ Output:	rl0 - Zeichen
 	ldb	rl0, MCZBFF(r2)	!rl0:=Zeichen!
 	ret	
     end WOCF_MCZ
-   
+
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE WR_OUTBFF_CR_MCZ
 Anhaengen eines CR an Zeichenkette im Ausgabepuffer OUTBFF;

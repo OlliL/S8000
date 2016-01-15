@@ -29,7 +29,7 @@ RAM_ANF
 
 		ARRAY [%10 WORD]
 NSP_OFF		WORD
-	
+
 		ARRAY [%3F WORD]	!Stackbereich!
 STACK		WORD
 

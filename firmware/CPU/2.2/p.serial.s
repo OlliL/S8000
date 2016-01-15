@@ -37,7 +37,7 @@ Hardwareadressen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
 
   CONSTANT
-  
+
 SIO0	:= %FF81
 SIO0D_A	:= SIO0 + 0
 SIO0D_B	:= SIO0 + 2
@@ -145,7 +145,7 @@ RDL_LOOP:
 	cpb	rl0, #'{'
 	jr	nc, RDL_TST
 	resb	rl0, #%05	!KLEINBUCHST. IN GROSSBUCHST. WANDELN !
- 
+
 RDL_TST:
 	ldb	r2(r1), rl0	!Zeichen in Zwischenpuffer abspeichern!
 	cpb	rl0, CHRDEL
@@ -242,7 +242,7 @@ Output:	Z=1, wenn Zeichen = CR
       entry
 	bitb	FLAG0, #%02	!Terminal gesperrt?!
 	jr	nz, TYWR	!ja!
- 
+
 	inb	rh0, SIO0C_B
 	bitb	rh0, #%02	!Sendepuffer leer?!
 	jr	z, TYWR		!nein!
@@ -388,7 +388,7 @@ PTY_WR:
 PTYEND:
 	ldb	rl1, #%38	!RETI an SIO ausgeben!
 	outb	SIO0C_A, rl1
-	
+
 	pop	r2, @r15
 	pop	r1, @r15
 	pop	r0, @r15

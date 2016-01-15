@@ -38,7 +38,7 @@ Hardwareadressen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
 
   CONSTANT
-  
+
 SIO0	:= %FF81
 SIO0D_A	:= SIO0 + 0
 SIO0D_B	:= SIO0 + 2
@@ -218,7 +218,7 @@ TEST-Routine (Monitorkommando)
 
 	incb	rl0, #1
 	outb	0, rl0
-	
+
 	inb	rl0, S_BNK	!gejumpertes Bootdevice ermitteln...!
 	srlb	rl0, #6
 	andb	rl0, #3
@@ -240,7 +240,7 @@ kein RAM vorhanden ist, ist die vorherige Segmentadresse die hoechste.!
 	xor	r8, r8
 	xorb	rh1, rh1
 	ld	ERR_CNT, r8
-	
+
 	xor	r6, r6		!r6 (rh6) := Segmentnummer (=0)!
 	ld	ERRPAR_ID, #%0000 !Fehlerparameter fuer Fehler 0:
 				 			keine Parameter!
@@ -419,7 +419,7 @@ MMU_JP_2:
 	soutb	DATA_MMU, rl2	!DATA-MMU: ID=1!
 	incb	rl2, #%01
 	soutb	STACK_MMU, rl2	!STACK-MMU: ID=2!
- 
+
 	soutb	ALL_MMU, rl2
 	SOUTB	ALL_MMU + %1100, RL2	!Reset Violation-Type-Register!
 !Adresse fuer Segment-Trap und Priv.-Instr.-Trap aus PSAREA retten!
@@ -443,7 +443,7 @@ MMU_JP_2:
 	ld	r0, #%00FF
 	ldb	@r10, rl5
 	ldirb	@r11, @r10, r0
- 
+
 	ld	r10, #%A000	!%A000-%A0FF mit %00 BIS %FF laden!
 LD_INC:
 	ldb	@r10, rl5
@@ -451,14 +451,14 @@ LD_INC:
 	inc	r5, #%01
 	bitb	rh5, #%00
 	jr	z, LD_INC
- 
+
 	ld	r10, #%A200	!%A200-%A2FF mit %AA laden!
 	ld	r11, #%A201
 	ld	r5, #%AAAA
 	ld	r0, #%00FF
 	ldb	@r10, rl5
 	ldirb	@r11, @r10, r0
- 
+
 	ld	r10, #%A300	!%A300-%A3FF mit %55 laden!
 	ld	r11, #%A301
 	ld	r5, #%5555
@@ -733,7 +733,7 @@ Testschritt (0305 'I')
 Test, ob STACK-MMU beim Limit-Test Trap erzeugt
 ----------------------------------------------!
 	inc	r8, #1		!Fehlernummer 305!
-	
+
 	ld	r2, #%9000
 	outb	SBREAK, rh2	!System-Break-Register mit %90 laden!
 	outb	NBREAK, rh2	!Normal-Break-Register mit %90 laden!
@@ -752,7 +752,7 @@ LB_18CE:
 	call	SEGMENT_TRAP_TEST !Trap-Test; ggf. Fehler 0305!
 
 	call	PR_POWER_UP	!POWER UP DIA!
-	
+
 !-------------------------
 Testschritt (0305 'A')
 Test auf unerwarteten Trap
@@ -824,7 +824,7 @@ Test, ob DATA-MMU beim Read-Only-Test Trap erzeugt
 	call	SEGMENT_TRAP_TEST !Trap-Test; ggf. Fehler 90!
 
 	call	PR_POWER_UP	!POWER UP DIAGNOST!
-	
+
 !------------------------------------------------
 Testschritt (0306/0307 'T')
 Test, ob Uebersetzung der DATA-MMU fehlerfrei ist
@@ -975,7 +975,7 @@ LB_1A72:
 	jr	nz, TST_STACK_MMU !naechste logische Segmentnummer!
 	jr	L17BA		!alle Segmentnummern abgearbeitet, d.h.
 				 naechster Testschritt!
-			
+
 
 L17AA:
 	inc	r8, #1		!Fehlernummer 309!
@@ -2010,7 +2010,7 @@ MSERR1:
 
 	ldb	rl1, #' '
 	sc	#SC_PUT_CHR	!Space in OUTBFF eintragen!
-	
+
 	ld	r7, ERRPAR_ID	!rl7 := Parameter-Identifier fuer Fehlerzeile!	
 	ld	r6, #%0004	!r6 := Anzahl der Parameter (=4)!
 MSER2:
@@ -2074,13 +2074,13 @@ Output: r2 - Stand Fehlerzaehler (ERR_CNT)
 	ld	r2, #T_ACTPERIP	!Textausgabe 'ACTIVE PERIPHERALS' !
 	sc	#SC_WR_MSG
 	sc	#SC_WR_OUTBFF_CR
-	
+
 	ld	REM_MMU_ID,#1
 	xor	r1, r1
 	ldb	rl1, ABOOT_DEV
 	cpb	rl1, #0
 	jr	nz, MSG_BOOTDEV
-	
+
 	ldb	rl1, #1
 	ld	r2, #T_INVSWITC	!Textausgabe '** INVALID SWITCH CODE **' !
 	sc	#SC_WR_MSG
@@ -2120,19 +2120,19 @@ MSG_MAXSEG04:
 	call	ICP_TEST
 	call	MTC_TEST
 	call	FPP_TEST
-	
+
 	sc	#SC_WR_CRLF
 	ld	r2, #T_COMPLETE	!Textausgabe 'COMPLETE' !
 	sc	#SC_WR_MSG
 	sc	#SC_WR_OUTBFF_CR
-	
+
 	ld	r2, #T_NONSEGM	!Textausgabe 'NON-SEGMENTED' !
 	test	REM_MMU1
 	jr	z, MSG_NON_SEG
 	ld	r2, #T_SEGM	!Textausgabe 'SEGMENTED' !
 MSG_NON_SEG:
 	sc	#SC_WR_MSG
-	
+
 	ld	r2, #T_JUMPERS	!Textausgabe 'JUMPERS' !
 	sc	#SC_WR_MSG
 	sc	#SC_WR_OUTBFF_CR
@@ -2178,7 +2178,7 @@ Output:	REM_MMU_BCSR - Inhalt Bus-Cycle-Status-Register (BCSR) der MMU bzw.
 	ld	r2, 4(r15)
 	exb	rl2, rh2
 	and	r2, #%0007	!rl2=MMU_ID!
-	
+
 	cpb	rl2, #%01
 	jr	z, TRAP_CODE	!Trap durch CODE-MMU ausgeloest!
 	cpb	rl2, #%02
@@ -2304,7 +2304,7 @@ Input:	r6  - MMU-Adresse
 	ld	r10, #%A400	!Anfangsadresse Puffer fuer rueckgelesene SDR!
 	ld	r0, #%0100
 	sinirb	@r10, @r6, r0	!64 SDR der MMU zuruecklesen!
- 
+
 	ld	r10, #%A400
 	ld	r0, #%0100
 	cpsirb	@r11, @r10, r0, nz !Vergleich!

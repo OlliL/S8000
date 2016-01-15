@@ -20,7 +20,7 @@ Hardwareadressen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
 
   CONSTANT
-  
+
 SIO0	:= %FF81
 SIO0D_A	:= SIO0 + 0
 SIO0D_B	:= SIO0 + 2
@@ -80,10 +80,10 @@ ALL_MMU	  := %F0
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SIO-Kommandos
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
- 
+
 !Command Identifiers and Values
 Includes all control bytes for asynchronous and synchronous I/O !
- 
+
   CONSTANT
 !WR0 Commands!
 !SIO_R0	:=	%00!	!SIO register pointers!
@@ -94,7 +94,7 @@ SIO_R4	:=	%04
 SIO_R5	:=	%05
 !SIO_R6	:=	%06!
 !SIO_R7	:=	%07!
- 
+
 !COMM0	:=	%00!	!Null Code!
 !COMM1	:=	%08!	!Send Abort (SDLC)!
 COMM2	:=	%10	!Reset Ext/Stat Int!
@@ -102,12 +102,12 @@ COMM3	:=	%18	!Channel Reset!
 !COMM4	:=	%20!	!Enable Int On Next Rx Char!
 !COMM5	:=	%28!	!Reset Tx Int Pending!
 !COMM6	:=	%30!	!Error Reset!
- 
+
 !RFI	:=	%38!	!Return from Int!
 !RRCC	:=	%40!	!Reset Rx CRC Checker!
 !RTCG	:=	%80!	!Reset Tx CRC Generator!
 !RTUEL	:=	%C0!	!Reset Tx Under/EOM Latch!
- 
+
 !WR1 Commands!
 !WAIT	:=	%00!	!Wait function!
 !DRCVRI	:=	%00!	!Disable Receive Interrupts!
@@ -122,10 +122,10 @@ PDAVCT	:=	%18	!Rx interrupt on all characters!
 !WRONRT	:=	%20!	!Wait/ready on receive!
 !RDY	:=	%40!	!Ready function!
 !WRDYEN	:=	%80!	!Wait/Ready enable!
- 
+
 !WR2 Commands!
 !IV	:=	%00!
- 
+
 !WR3 Commands!
 !B5	:=	%00!	!Receive 5 bits/character!
 RENABLE	:=	%01	!Receiver enable!
@@ -137,7 +137,7 @@ RENABLE	:=	%01	!Receiver enable!
 !B7	:=	%40!	!Receive 7 bits/character!
 !B6	:=	%80!	!Receive 6 bits/character!
 B8	:=	%C0	!Receive 8 bits/character!
- 
+
 !WR4 Commands!
 !SYNC	:=	%00!	!Sync modes enable!
 !NOPRTY	:=	%00!	!Disable partity!
@@ -155,7 +155,7 @@ S2	:=	%0C	!2 stop bits/character!
 !C16	:=	%40!	!x16 clock mode!
 !C32	:=	%80!	!x32 clock mode!
 C64	:=	%C0	!x64 clock mode!
- 
+
 !WR5 Commands!
 !T5	:=	%00!	!Transmit 5 bits/character!
 !XCRCEN	:=	%01!	!Transmit CRC enable!
@@ -176,19 +176,19 @@ DTR	:=	%80	!Data terminal ready!
 	WORD := %C000	! FCW !
 	WORD := %8000	! PC Segment-Nr. !
 	WORD := ENTRY_	! PC Offset !
- 
+
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Copyright
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
- 
+
   INTERNAL
 COPYRIGHT
 	ARRAY	[* BYTE]	:= 'COPYRIGHT, ZILOG, INC. 1980 '
- 
+
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Systemmeldung
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
- 
+
   INTERNAL
 SYSMSG	WORD := 47
 	ARRAY [* BYTE] := 'S8000 Monitor 1.2 - '
@@ -197,7 +197,7 @@ SYSMSG	WORD := 47
 !------------------------------------------------------------------------------
 Tabelle der Monitorroutinen, die ueber System Calls aufrufbar sind
 ------------------------------------------------------------------------------!
- 
+
   GLOBAL
 SC_ADR	ARRAY [* WORD] := [TYRD TYWR RD_LINE_BFF WR_CRLF WR_MSG BTOH16
                            WR_OUTBFF_CR BTOH8 PUT_SEGNR PUT_CHR
@@ -376,7 +376,7 @@ Ausgabe von '?' und Sprung in Kommandoeingabeschleife
 Variablenliste zur RAM-Initialisierung fuer CHRDEL-PROMT
 (siehe Modul p_ram)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
- 
+
   INTERNAL
 !VARIABLENLISTE: CHRDEL,LINDEL/^Q,^S/N_CNT/B_CODE/STACK_CT/N_/PROMT!
 VAR_LISTE_PROM
@@ -417,7 +417,7 @@ Interrupt-Routine fuer uninitialisierten vektorisierten Interrupt (VI)
 	call	WR_OUTBFF_CR
 	jp	CMDLOP
     end VI_ERR 
-  
+
 NVI_TXT:
 	WORD := NVI_END - NVI_TXT - 2
 	ARRAY [* BYTE] := 'UNINITIALIZED VECTOR ENTRY  ID= '
@@ -427,7 +427,7 @@ NVI_END:
 Initialisierungsfeld zur RAM-Initialisierung 
 fuer Program Status Area
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
- 
+
   INTERNAL
 PSAREA_PROM:
 !			   ID    FCW   PCSEG PCOFF!
@@ -442,7 +442,7 @@ PSAREA_PROM:
 	ARRAY [4 WORD] := [%0000 %4000 %8000 AUTOBOOT] !NONMASKABLE INTERRUPT!
 	ARRAY [4 WORD] := [%0000 %4000 %8000 VI_ERR]  !NONVECTORED INTERRUPT!
 	ARRAY [2 WORD] := [%0000 %4000]             !VECTORED INTERRUPT!
- 
+
 !VECTORED INTERRUPT JUMP TABLE!
 !                          SEG   OFFSET!
 	ARRAY [2 WORD] := [%8000 VI_ERR]
@@ -455,7 +455,7 @@ PSAREA_PROM:
 	ARRAY [2 WORD] := [%8000 VI_ERR]
 	ARRAY [2 WORD] := [%8000 VI_ERR]
 	ARRAY [2 WORD] := [%8000 VI_ERR]
-	
+
 	ARRAY [2 WORD] := [%8000 PTY_INT]
 	ARRAY [2 WORD] := [%8000 PTY_ERR]
 	ARRAY [2 WORD] := [%8000 VI_ERR]

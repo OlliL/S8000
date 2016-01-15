@@ -5,7 +5,7 @@ all:	CPU-2.2
 
 clean:
 	rm -f CPU-2.2 ${OBJS}
-	
+
 CPU-2.2:  ${OBJS}
 	ld ${OBJS} -o CPU-2.2
 	strip -h CPU-2.2

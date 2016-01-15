@@ -560,12 +560,12 @@ PROCEDURE TEST_DELAY
     TEST_DELAY procedure
       entry
 	push	@r15, r0
-	
+
 	ld	r0, #%0c0f
 TEST_DELAY_01:
 	nop
 	djnz	r0, TEST_DELAY_01
-	
+
 	pop	r0, @r15
 	ret	
     end TEST_DELAY

@@ -43,16 +43,16 @@ DISK_BUFFER := %FA00	!array [%200 byte]!
 BLOCK_POINTER := %FC00	!array [%228 byte]!
 PATH_NAME := %FE28	!n * 14 byte fuer pathname!
 DEVICE_CODE := %FFF0
- 
+
 LOAD_ADR := %0000
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 SIO-Kommandos
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
- 
+
 !Command Identifiers and Values
 Includes all control bytes for asynchronous and synchronous I/O !
- 
+
   CONSTANT
 !WR0 Commands!
 !SIO_R0	:=	%00!	!SIO register pointers!
@@ -63,7 +63,7 @@ SIO_R4	:=	%04
 SIO_R5	:=	%05
 !SIO_R6	:=	%06!
 !SIO_R7	:=	%07!
- 
+
 !COMM0	:=	%00!	!Null Code!
 !COMM1	:=	%08!	!Send Abort (SDLC)!
 COMM2	:=	%10	!Reset Ext/Stat Int!
@@ -71,12 +71,12 @@ COMM3	:=	%18	!Channel Reset!
 !COMM4	:=	%20!	!Enable Int On Next Rx Char!
 !COMM5	:=	%28!	!Reset Tx Int Pending!
 !COMM6	:=	%30!	!Error Reset!
- 
+
 !RFI	:=	%38!	!Return from Int!
 !RRCC	:=	%40!	!Reset Rx CRC Checker!
 !RTCG	:=	%80!	!Reset Tx CRC Generator!
 !RTUEL	:=	%C0!	!Reset Tx Under/EOM Latch!
- 
+
 !WR1 Commands!
 !WAIT	:=	%00!	!Wait function!
 !DRCVRI	:=	%00!	!Disable Receive Interrupts!
@@ -91,10 +91,10 @@ COMM3	:=	%18	!Channel Reset!
 !WRONRT	:=	%20!	!Wait/ready on receive!
 !RDY	:=	%40!	!Ready function!
 !WRDYEN	:=	%80!	!Wait/Ready enable!
- 
+
 !WR2 Commands!
 !IV	:=	%00!
- 
+
 !WR3 Commands!
 !B5	:=	%00!	!Receive 5 bits/character!
 RENABLE	:=	%01	!Receiver enable!
@@ -106,7 +106,7 @@ RENABLE	:=	%01	!Receiver enable!
 !B7	:=	%40!	!Receive 7 bits/character!
 !B6	:=	%80!	!Receive 6 bits/character!
 B8	:=	%C0	!Receive 8 bits/character!
- 
+
 !WR4 Commands!
 !SYNC	:=	%00!	!Sync modes enable!
 !NOPRTY	:=	%00!	!Disable partity!
@@ -124,7 +124,7 @@ S2	:=	%0C	!2 stop bits/character!
 !C16	:=	%40!	!x16 clock mode!
 !C32	:=	%80!	!x32 clock mode!
 C64	:=	%C0	!x64 clock mode!
- 
+
 !WR5 Commands!
 !T5	:=	%00!	!Transmit 5 bits/character!
 !XCRCEN	:=	%01!	!Transmit CRC enable!
@@ -189,24 +189,24 @@ DSKBOOT4:
 	jr	z, DSKBOOT6
 	cpb	rl0, #'/'	!Name fuer directory file!
 	jr	z, DSKBOOT5
- 
+
 	ldb	@r12, rl0	!Zeichen in Puffer!
 	inc	r12, #%01	!Pointer inc!
 	jr	DSKBOOT4	!naechstes Zeichen!
- 
+
 DSKBOOT5:
 	cp	r12, r11	!1. eingegebenes Zeichen ?!
 	jr	z, DSKBOOT4	!name eingeben!
 	calr	CLEAR		!Namensfeld bis Ende mit 00 beschreiben!
 	jr	DSKBOOT3	!naechsten Namen eingeben!
- 
+
 DSKBOOT6:			!Ende der Eingabe!
 	calr	CLEAR		!Rest vom Namensfeld mit 00 fuellen!
 	clrb	@r11		!erstes Zeichen vom naechsten Namensfeld = 0!
 
 
 !directories nach file durchsuchen!
- 
+
 	ldk	r11, #%02	!inumber der root directory!
 DSKBOOT7:
 	calr	READ_INODE	!inode lesen!
@@ -227,16 +227,16 @@ DSKBOOT9:
 	cpsirb	@r10, @r1, r0, nz
 	jr	nz, DSKBOOT7	!Name gefunden!
 				!in r11 ist inumber fuer gesuchte file!
- 
+
 	ld	r10, r2
 DSKBOOT10:
 	inc	r9, #14
 	cp	r9, #DISK_BUFFER+%200 !Ende Disk Puffer!
 	jr	ge, DSKBOOT8	!Name nicht gefunden, naechsten Block lesen!
 	jr	DSKBOOT9		!nicht gefunden, weiter im gleichen Block suchen!
- 
+
 !Procedure file einlesen!
- 
+
 DSKBOOT11:
 	calr	READ_DSK_BLOCK	!1. Block der file lesen!
 	cp	@r9, #%E707	!Magic Nr!
@@ -292,10 +292,10 @@ READ_INODE1:
 	ldirb	@r9, @r11, r0	!move in Pointer array!
 	dec	r1, #%01
 	jr	nz, READ_INODE1
- 
+
 	cp	r13, #%0A	!file < 10 Bloecke ?!
 	ret	le		!ja=fertig!
- 
+
 	xorb	rh4, rh4	!Pointer zu einfach indirekt laden!
 	ldb	rl4, @r11
 	inc	r11, #%01
@@ -417,7 +417,7 @@ PROCEDURE PRINT_CHAR
 	calr	PUTA
 	ldk	r0, #10
     end PRINT_CHAR
-    
+
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE PUTA
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!

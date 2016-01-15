@@ -421,7 +421,7 @@ PROCEDURE TST_WBL
 Test WORD-BYTE-LONG
 Input: 	rl0 - Datentyp ('W','B','L')
 Output: rh7/rl7 - Anzahl der Byte des Datentyps
-	
+
 	} %0101		wenn rl0='B'
 r7 =	} %0404		wenn rl0='L'
 	} %0202, Z=1	wenn rl0=CR oder rl0='W'
@@ -940,7 +940,7 @@ PORWS5:
 				 (=#PORT_BF bei 'WORD'/=#PORT_BF+1 bei 'BYTE')!
 	ld	r3, PORT_O	!r3:=Adresse der PORT-O-Routine!
 	call	@r3		!PORT SCHREIBEN!
-	
+
 	bitb	rl0, #4		!Z-Flag testen!
 	ret	nz		!Z-Flag war nach GET_HEXZ gesetzt, d.h. CR
 				 wurde gelesen, d.h. keine weiteren Daten-
