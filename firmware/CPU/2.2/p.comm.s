@@ -40,7 +40,6 @@ Kommandoeingabe: F [<segnr>]offset1 offset2 word
                    (Anfangsadresse, Endadresse, Datenwort)
 Fehler, wenn offset1 ungerade oder (offset2 < offset1)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 02f4 !
   GLOBAL
     FILL procedure
       entry
@@ -74,7 +73,6 @@ Verschieben eines Speicherbereiches
 Kommandoeingabe: M [<segnr1>]offset1 [<segnr2>]offset2 count
                    (Adresse Quelle, Adresse Ziel, Bytezahl)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0316 !
   GLOBAL
     MOVE procedure
       entry
@@ -118,7 +116,6 @@ unterschiedliche Bytes werden ausgegeben:
 	<segnr2>offset2= inhalt  <segnr1>offset1= inhalt
 Fehler, wenn Bytezahl = 0
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 033e !
   GLOBAL
     COMPARE procedure
       entry
@@ -156,7 +153,6 @@ PROCEDURE PUT_ADR_INHALT
 Eintragung von '<segnr>offset= inhalt' in Ausgabepuffer (OUTBFF)
 Input: rr4 - Adresse
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 036c !
   INTERNAL
     PUT_ADR_INHALT procedure
       entry
@@ -180,7 +176,6 @@ Input: rr4 - Adresse
 PROCEDURE PUT_3C
 Eintragung des Zeichens '<' in Ausgabepuffer (OUTBFF)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 038c !
   GLOBAL
     PUT_3C procedure
       entry
@@ -192,7 +187,6 @@ PROCEDURE PUT_1CHR
 Eintragung eines Zeichens in Ausgabepuffer (OUTBFF)
 Input: r1 - Zeichenkette aus 'Zeichen, Space'
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0390 !
   INTERNAL
     PUT_1CHR procedure
       entry
@@ -207,7 +201,6 @@ Konvertierung der Segmentnummer in HEXA-ASCII-Zahl (xx);
 Eintragung von '<xx>' in Ausgabepuffer OUTBFF
 Input: rl5 - Segmentnummer (binaer)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0398 !
   GLOBAL
     PUT_SEGNR PROCEDURE
       ENTRY
@@ -220,7 +213,6 @@ Konvertierung der Segmentnummer in HEXA-ASCII-Zahl (xx);
 Eintragung von 'xx>' in Ausgabepuffer OUTBFF
 Input: rl5 - Segmentnummer (binaer)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 039a !
   GLOBAL
     PUT_SGNR PROCEDURE
       ENTRY
@@ -235,7 +227,6 @@ PROCEDURE PUT_CHR
 Eintragung eines Zeichens in Ausgabepuffer (OUTBFF)
 Input: rl1 - einzutragendes Zeichen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 03a4 !
   GLOBAL
     PUT_CHR procedure
       entry
@@ -255,7 +246,6 @@ Kommandoeingabe: D [[<segnr>]offset [count] [W,B,L]]
 Fehler, wenn anstelle 'W,B,L' ein anderes Zeichen eingegeben wurde bzw. wenn
 Datenanzahl = 0
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 03b2 !
   GLOBAL
     DISPLAY procedure
       entry
@@ -301,7 +291,6 @@ D_LEN0:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE DISPLAY_RW
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 03e8 !
   GLOBAL
     DISPLAY_RW procedure
       entry
@@ -438,7 +427,6 @@ r7 =	} %0404		wenn rl0='L'
 	} %0202, Z=1	wenn rl0=CR oder rl0='W'
 	} %0202, Z=0	ansonsten (Fehler)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 04bc !
   INTERNAL
     TST_WBL procedure
       entry
@@ -464,7 +452,6 @@ Ausgabe des Ausgabepuffers auf Terminal; Ausgabe ':'; Eingabe des Datenwertes
 Input:	r5 - Adresse
 Output:	siehe Prozedur RD_DATA
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 04e6 !
   GLOBAL
     WR_R5_RDDATA procedure
       entry
@@ -477,7 +464,6 @@ PROCEDURE WR_OBF_RDDATA
 Ausgabe des Ausgabepuffers auf Terminal; Ausgabe ':'; Eingabe des Datenwertes
 Output:	siehe Prozedur RD_DATA
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 04ec !
   GLOBAL
     WR_OBF_RDDATA procedure
       entry
@@ -492,7 +478,6 @@ PROCEDURE PUT_2CHR
 Input:	rh1 - 1. Zeichen
 	rl1 - 2. Zeichen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 04f4 !
   GLOBAL
     PUT_2CHR procedure
       entry
@@ -514,7 +499,6 @@ Input:	r2 - Adresse der Zeichenkette
 	     (Zeichenkette beginnt mit Angabe der Laenge (WORD) gefolgt
 	     von der Zeichenkette selbst)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 050c !
   GLOBAL
     WR_MSG procedure
       entry
@@ -537,7 +521,6 @@ Output:	c=1 wenn Parameterfolge unvollst. oder fehlerhaft
 	rr4 - 2. Adresse (binaer)
 	r3  - word (binaer)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0526!
   GLOBAL
     GET_PAR procedure
       entry
@@ -565,7 +548,6 @@ Konvertierung Binaer in Hexaziffern (ASCII) und Eintragung in
 Ausgabepuffer (OUTBFF)
 Input:	r5 - 16-Bit-Wert (--> 4 Hexaziffern)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0540 !
   GLOBAL
     BTOH16 procedure
       entry
@@ -579,7 +561,6 @@ Konvertierung Binaer in Hexaziffern (ASCII) und Eintragung in
 Ausgabepuffer (OUTBFF)
 Input:	 rl5 - 8-Bit-Wert (--> 2 Hexaziffern)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0544 !
   GLOBAL
     BTOH8 procedure
       entry
@@ -596,7 +577,6 @@ Konvertierung Binaer in Hexaziffer (ASCII) und Eintragung in
 Ausgabepuffer (OUTBFF)
 Input:	rl0 (Bit0-3) - 4-Bit-Wert (--> 1 Hexaziffer)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 93f1 !
   INTERNAL
     BTOH4 procedure
       entry
@@ -623,7 +603,6 @@ BTOH41:
 PROCEDURE WR_NULL
 Ausgabe einer bestimmten Anzahl Nullen auf Terminal (entsprechend NULLCT)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 057e !
   GLOBAL
     WR_NULL procedure
       entry
@@ -643,7 +622,6 @@ PROCEDURE WR_OUTBFF_CR
 Ausgabe des Inhaltes des Ausgabepuffers (OUTBFF) mit CR auf Terminal;
 Loeschen des Ausgabepuffers
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0594 !
   GLOBAL
     WR_OUTBFF_CR procedure
       entry
@@ -657,7 +635,6 @@ PROCEDURE WR_OUTBFF
 Ausgabe des Inhaltes des Ausgabepuffers (OUTBFF) auf Terminal;
 Loeschen des Ausgabepuffers
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 05a2 !
   GLOBAL
     WR_OUTBFF procedure
       entry
@@ -693,7 +670,6 @@ Input:	rl0 - Hexaziffer (ASCII)
 Output:	rl0 - Binaerwert
 	C=1 --> keine Hexaziffer (Fehler)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 05e6 !
   GLOBAL
     HTOB procedure
       entry
@@ -730,7 +706,6 @@ Output:	rr2 - Adresse (binaer)
 	Z=1 --> CR gelesen
 Fehler, wenn ungueltige Hexaziffer angegeben
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 060e !
   GLOBAL
     GET_ADR procedure
       entry
@@ -750,7 +725,6 @@ Output:	r2 - Segmentnummer (Bit0-7=0 / Bit8-14=segnr / Bit15=1)
 	INPTR zeigt auf darauffolgendes Zeichen
 Fehler, wenn unzulaessige Segmentnummer angegeben
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0614 !
   GLOBAL
     GET_SGNR procedure
       entry
@@ -796,7 +770,6 @@ Output:	r3  - Hexazahl (binaer) - wurden mehr als 4 Ziffern angegeben, so
  	Z=1 --> CR gelesen
 Fehler, wenn unzulaessige Hexazahl angegeben
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0650 !
   GLOBAL
     GET_HEXZ procedure
       entry
@@ -828,7 +801,6 @@ Output: rl0 - Zeichen
 	INPTR zeigt auf darauffolgendes Zeichen
 	Z=1 --> CR gelesen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0674 !
   GLOBAL
     GET_SIGN procedure
       entry
@@ -847,7 +819,6 @@ Output: rl0 - Zeichen
 	INPTR zeigt auf darauffolgendes Zeichen
 	Z=1 --> CR gelesen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 067e !
   GLOBAL
     GET_SIGNW procedure
       entry
@@ -865,7 +836,6 @@ Output:	rl0 - Zeichen
 	INPTR zeigt auf darauffolgendes Zeichen
 	Z=1 --> Zeichen=CR
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 068a !
   GLOBAL
     GET_CHR procedure
       entry
@@ -881,9 +851,7 @@ Output:	rl0 - Zeichen
 
 
   INTERNAL
-! ADDR: 06a0 !
 R_BEZ	 ARRAY [* BYTE] := '0 1 2 3 4 5 6 7 8 9 101112131415SGPCFCRFN4N5PSPO'
-! ADDR: 06d0 !
 R_LH ARRAY [* BYTE] := 'RLRH'
 
 
@@ -894,7 +862,6 @@ PORT Schreib-Lese-Routine (Monitorkommando I)
 Kommandoeingabe: I portadr [W|B]
                   (Portadresse, Datentyp)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 06d4 !
   GLOBAL
     PORT_RW procedure
       entry
@@ -910,7 +877,6 @@ SPECIAL-PORT Schreib-Lese-Routine (Monitorkommando P)
 Kommandoeingabe: P portadr [W|B]
                   (Portadresse, Datentyp)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 06de !
   GLOBAL
     PORT_RW_SPECIAL procedure
       entry
@@ -990,7 +956,6 @@ Input:	r7 - einzulesender Datentyp (0-'WORD' / 1-'BYTE')
 Output:	auf urspruenglicher Adresse r5 - gelesener Portinhalt
 zerstoerte Register:	r3, r5
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0766 !
   INTERNAL
     P_IN procedure
       entry
@@ -1012,7 +977,6 @@ Input:	r7 - einzulesender Datentyp (0-'WORD' / 1-'BYTE')
 Output:	auf urspruenglicher Adresse r5 - gelesener Portinhalt
 zerstoerte Register:	r3, r5
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0776 !
   INTERNAL
     PS_IN procedure
       entry
@@ -1033,7 +997,6 @@ Input:	r7 - auszugebender Datentyp (0-'WORD' / 1-'BYTE')
 	r6 - Portadresse
 zerstoerte Register:	r3, r5
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0786 !
   INTERNAL
     P_OUT procedure
       entry
@@ -1054,7 +1017,6 @@ Input:	r7 - auszugebender Datentyp (0-'WORD' / 1-'BYTE')
 	r6 - Portadresse
 zerstoerte Register:	r3, r5
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0796 !
   INTERNAL
     PS_OUT procedure
       entry
@@ -1077,7 +1039,6 @@ Kommandoeingabe: R [ [R]0,...,[R]15; [R]L0,...,[R]L7; [R]H0,...,[R]H7;
                      [R]PC, FC, [R]RF, [R]N4, [R]N5, [R]PS, [R]PO ]
 (wenn keine Parameter angegeben, dann Anzeige aller Register)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 07a6 !
   GLOBAL
     REGISTER procedure
       entry
@@ -1262,7 +1223,6 @@ ALL_RG:
 PROCEDURE WR_REGBEZ1
 Ausgabe der Registerbezeichnungen 1. Zeile
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0904 !
   GLOBAL
     WR_REGBEZ1 procedure
       entry
@@ -1297,7 +1257,6 @@ L_B4:
 PROCEDURE WR_REGBEZ2
 Ausgabe der Registerbezeichnungen 2. Zeile
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0944 !
   GLOBAL
     WR_REGBEZ2 procedure
       entry
@@ -1312,7 +1271,6 @@ Ausgabe der Registerbezeichnungen 2. Zeile
 PROCEDURE WR_WERTE1
 Ausgabe der Registerwerte 1. Zeile
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0952 !
   GLOBAL
     WR_WERTE1 procedure
       entry
@@ -1343,7 +1301,6 @@ L_W3:
 PROCEDURE WR_WERTE2
 Ausgabe der Registerwerte 2. Zeile
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0984 !
   GLOBAL
     WR_WERTE2 procedure
       entry

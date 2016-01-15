@@ -39,7 +39,6 @@ MOVE_ADR := %F800
 PROCEDURE READ_TAPE
 I/O Space %0040 - %007f
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2fa4 !
   INTERNAL
     READ_TAPE procedure
       entry
@@ -79,7 +78,6 @@ READTAPE_01:
 PROCEDURE SEND_TAPE_CMD
 I/O Space %0040 - %007f
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2ffe !
   INTERNAL
     SEND_TAPE_CMD procedure
       entry
@@ -90,7 +88,6 @@ I/O Space %0040 - %007f
 PROCEDURE WAIT_UNTIL_TAPE_RDY
 I/O Space %0040 - %007f
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 3002 !
   INTERNAL
     WAIT_UNTIL_TAPE_RDY procedure
       entry
@@ -107,7 +104,6 @@ WAIT_TAP_02:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE TAP_BOOT
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 3012 !
   GLOBAL
     TAP_BOOT procedure
       entry

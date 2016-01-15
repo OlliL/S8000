@@ -54,7 +54,6 @@ RETI_P	:= %FFE1	!RETI-Port fuer Schaltkreise des Z80-Systems!
   INTERNAL
 
 BAD_DATA
-! ADDR: 0b36 !
 	WORD := %0009
 	ARRAY [9 BYTE] := 'BAD DATA%0D'
 
@@ -67,7 +66,6 @@ aktuellen PC-Stand starten
 Kommandoeingabe: GO [<segnr>offset]
                    (Ansprungadresse)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0b42 !
   GLOBAL
     GO procedure
       entry
@@ -83,7 +81,6 @@ Kommandoeingabe: GO [<segnr>offset]
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE GO_PC
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0b54 !
   GLOBAL
     GO_PC procedure
       entry
@@ -103,7 +100,6 @@ PROCEDURE GO_NXT
 Abarbeitung des naechsten Befehls, wenn auf diesem Befehl Unterbrechungspunkt
 steht
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0b6c !
   GLOBAL
     GO_NXT procedure
       entry
@@ -160,7 +156,6 @@ Abarbeitung einer bestimmten Anzahl von Befehlen
 Kommandoeingabe: N [count]
                    (Anzahl der Befehle (implizit %1))
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0bc6 !
   GLOBAL
     NEXT procedure
       entry
@@ -213,7 +208,6 @@ Kommandoeingabe: QUIT
 - vom MCZ eingehende Zeichen werden auf dem Terminal ausgegeben
 Verlassen der Routine ueber NMI-Taste
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0bf8 !
   GLOBAL
     QUIT procedure
       entry
@@ -256,7 +250,6 @@ Kommandoeingabe: B [<segnr>offset [count]]
 (wird kein Parameter angegeben, wird Unterbrechungspunkt geloescht)
 Fehler, wenn Unterbrechungspunkt nicht im RAM liegt
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0c3e !
   GLOBAL
     BREAK procedure
       entry
@@ -315,7 +308,6 @@ Ausgabe eines Zeichens an das MCZ
 Input:	rl0 - auszugebendes Zeichen
 Output:	Z=1, wenn Zeichen = CR
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0cae !
   GLOBAL
     TYWR_MCZ procedure
       entry
@@ -330,7 +322,6 @@ Output:	Z=1, wenn Zeichen = CR
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE IN_POI_IB
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0cc0 !
   INTERNAL
     IN_POI_IB procedure
       entry
@@ -343,7 +334,6 @@ PROCEDURE IN_POI_IB
 PROCEDURE EKBL
 Eingabekonvertierung eines LOAD-Blockes
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0ccc !
   INTERNAL
     EKBL procedure
       entry
@@ -372,7 +362,6 @@ Output: rl3 - Pruefsumme
 	rh3 - letztes Byte der angeg. Anzahl (Byte vor Pruefsumme)
 	C=1, wenn keine Hexaziffer in INBFF bzw. falsche Pruefsumme
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0ce4 !
   INTERNAL
     EKTB_PST procedure
       entry
@@ -408,7 +397,6 @@ Output:	rl0 - eingelesenes Byte (binaer, =2 ASCII-Zeichen aus INBFF)
 	r2  - neuer Stand des Zeigers auf aktuelles Zeichen in INBFF
 	C=1, wenn keine Hexaziffer
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0cfe !
   INTERNAL
     EKBY_PSB procedure
       entry
@@ -434,7 +422,6 @@ Output:	rl0 - eingelesenes Byte (binaer, =2 ASCII-Zeichen aus INBFF)
 PROCEDURE LDB_MEM
 Laden des LOAD-Datenblockes in den Speicher
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0d24 !
   INTERNAL
     LDB_MEM procedure
       entry
@@ -453,7 +440,6 @@ LDB_M_NB:
 PROCEDURE EKLA
 Eingabekonvertierung der Ladeadresse fuer den LOAD-Datenblock
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0d36 !
   INTERNAL
     EKLA procedure
       entry
@@ -466,34 +452,26 @@ Eingabekonvertierung der Ladeadresse fuer den LOAD-Datenblock
     end EKLA
 
   INTERNAL
-! ADDR: 0d42 !
 T_ILA:	WORD := %0019
 	ARRAY [* BYTE] := '/INCORRECT LOAD ADDRESS %0D%00'
 
-! ADDR: 0d5e !
 T_CKE:	WORD := %000D
 	ARRAY [* BYTE] := '/CKSUM ERROR%0D%00'
 
-! ADDR: 0d6e !
 T_FWE:	WORD := %0013
 	ARRAY [* BYTE] := '/FILE WRITE ERROR %0D%00'
 
-! ADDR: 0d84 !
 T_OFE:	WORD := %0011
 	ARRAY [* BYTE] := '/OPEN FILE ERROR%0D%00'
 
-! ADDR: 0d98 !
 T_ABO:	WORD := %0007
 	ARRAY [* BYTE] := '/ABORT%0D%00'
 
-! ADDR: 0da2 !
 T_EPNT:	ARRAY [* BYTE] := 'ENTRY POINT '
 
-! ADDR: 0dae !
 T_BRK:	WORD := %0009
 	ARRAY [* BYTE] := 'BREAK AT  '
 
-! ADDR: 0dba !
 T_NMI:	WORD := %0005
 	ARRAY [* BYTE] := 'NMI %0D%00'
 
@@ -505,7 +483,6 @@ Laden eines U8000-Maschinenprogramms vom MCZ in RAM
 Kommandoeingabe: LOAD filename [<segnr>]
 	              (Dateiname Segmentnummer)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0dc2 !
   GLOBAL
     LOAD procedure
       entry
@@ -593,7 +570,6 @@ LD5:	POP	PC_SEG, @R15
 PROCEDURE NXT_INT
 VI-Routine fuer NEXT
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0e7c !
   INTERNAL
     NXT_INT procedure
       entry
@@ -629,7 +605,6 @@ N_I:				!AUSGABE DER REGISTERBEZEICHNUNGEN UND WERTE!
 PROCEDURE GO_INT
 VI-Routine fuer GO
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0ecc !
   INTERNAL
     GO_INT procedure
       entry
@@ -658,7 +633,6 @@ G_VIE:
 PROCEDURE NMI_INT
 NMI-Routine
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0ef8 !
   GLOBAL
     NMI_INT procedure		!Routine wird nach dem ersten Tastendruck
 				 in PSAREA aktiviert!
@@ -696,7 +670,6 @@ Output: r3 enthaelt Wert von r0 nach Ausfuehrung des Unterprogramms
 	   bei Aufruf ueber System Call in r3 zurueckgegeben)
 zerstoerte Register : r3
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0f2c !
   GLOBAL
     SC_ENTRY procedure
       entry
@@ -764,7 +737,6 @@ SC_END:
 PROCEDURE RETI_CTC0_3
 Interruptquelle (CTC0_3) loeschen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0fba !
   GLOBAL
     RETI_CTC0_3 procedure
       entry
@@ -781,7 +753,6 @@ Interruptquelle (CTC0_3) loeschen
 PROCEDURE SAVREG
 Registerrettung
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0fce !
   GLOBAL
     SAVREG procedure
       entry
@@ -824,7 +795,6 @@ Registerrettung
 PROCEDURE GETREG
 Register-Lade-Routine
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 102a !
   INTERNAL
     GETREG procedure
       entry
@@ -865,7 +835,6 @@ Output:	r2 := alter Stand Zeichenkettenzeiger (Input-Wert)
 	r0 := r0+1, wenn C=1 (d.h. r0+1 < %E8)
 	r0 := 0,    wenn C=0 (d.h. r0+1 >= %E8)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1082 !
   INTERNAL
     INCPTR_MCZ procedure
       entry
@@ -917,7 +886,6 @@ MCZ1:
 PROCEDURE PTY_ERR
 VI-Routine fuer Empfangsfehler von Terminalkanal SIO0_B des 16-Bit-Teils
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 10c0 !
   GLOBAL
     PTY_ERR procedure
       entry
@@ -931,7 +899,6 @@ VI-Routine fuer Empfangsfehler von Terminalkanal SIO0_B des 16-Bit-Teils
 PROCEDURE MCZ_ERR
 VI-Routine fuer MCZ-Empfangsfehler
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 10ca !
   GLOBAL
     MCZ_ERR procedure
       entry
@@ -951,7 +918,6 @@ PROCEDURE F_IB_MCZ
 Fuellen von INBFF von MCZ nach empfangenen Zeichen '/' bis CR 
 (max. %50 Zeichen)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 10de !
   INTERNAL
     F_IB_MCZ procedure
       entry
@@ -964,7 +930,6 @@ Fuellen von INBFF von MCZ nach empfangenen Zeichen '/' bis CR
 PROCEDURE O_FIB_MCZ
 Fuellen von INBFF von MCZ bis CR (max. %50 Zeichen)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 10e6 !
   INTERNAL
     O_FIB_MCZ procedure
       entry
@@ -1000,7 +965,6 @@ FIB3:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE S_RPB
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1112 !
   INTERNAL
     S_RPB procedure
       entry
@@ -1011,7 +975,6 @@ PROCEDURE S_RPB
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE S_LAB
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1116 !
   INTERNAL
     S_LAB procedure
       entry
@@ -1022,7 +985,6 @@ PROCEDURE S_LAB
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE S_SNB
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 111a !
   INTERNAL
     S_SNB procedure
       entry
@@ -1041,7 +1003,6 @@ Senden einer Zeichenkette (Inhalt von INBFF) zum MCZ und warten auf Antwort
 Output:	Z=0, wenn Zeichen '9' oder '0' oder '7' vom MCZ empfangen wurde
 	Z=1, wenn Fehler MCZ bzw. Abbruchtaste (ESC) gedrueckt
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 112c !
   INTERNAL
     SAW_MCZ procedure
       entry
@@ -1095,7 +1056,6 @@ PROCEDURE WOEOI_MCZ
 Warten auf das Ende der Information vom MCZ (CR empfangen);
 weiter siehe WEOS_MCZ
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1182 !
   INTERNAL
     WOEOI_MCZ procedure
       entry
@@ -1109,7 +1069,6 @@ PROCEDURE WOEOS_MCZ
 Warten auf das Ende des Sendens vom MCZ
 (Warten auf ein Zeichen >='Space' oder bis Wartezeit abgelaufen)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 118a !
   INTERNAL
     WOEOS_MCZ procedure
       entry
@@ -1139,7 +1098,6 @@ Warten, bis ein Zeichen im MCZ-Puffer MCZBFF bereitsteht
 (MCZBFF wird durch empfangene Zeichen vom MCZ in MCZ_INT gefuellt)
 Output:	rl0 - Zeichen 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 11aa !
   GLOBAL
     WOCF_MCZ procedure
       entry
@@ -1162,7 +1120,6 @@ Ausgabe des Inhaltes des Ausgabepuffers OUTBFF an das MCZ
 (bis CR, maximal bis OUTPTR);
 Loeschen des Ausgabepuffers OUTBFF
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 11c2 !
   INTERNAL
     WR_OUTBFF_CR_MCZ procedure
       entry
@@ -1177,7 +1134,6 @@ Ausgabe des Inhaltes des Ausgabepuffers OUTBFF an das MCZ
 (bis CR, maximal bis OUTPTR);
 Loeschen des Ausgabepuffers OUTBFF
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 11d0 !
   INTERNAL
     WR_OUTBFF_MCZ procedure
       entry
@@ -1209,7 +1165,6 @@ WOCF_MCZ_OI als noch nicht abgeholt);
 (MCZBFF wird durch empfangene Zeichen vom MCZ in MCZ_INT gefuellt)
 Output:	rl1 - Zeichen 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1200 !
   INTERNAL
     WOCF_MCZ_OI procedure
       entry

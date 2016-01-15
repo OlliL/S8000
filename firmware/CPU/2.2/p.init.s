@@ -108,7 +108,6 @@ Tabelle der Monitorroutinen, die ueber System Calls aufrufbar sind
 ------------------------------------------------------------------------------!
  
   GLOBAL
-! ADDR: 0056 !
 SC_ADR	ARRAY [* WORD] := [TYRD TYWR RD_LINE_BFF WR_CRLF WR_MSG BTOH16
                            WR_OUTBFF_CR BTOH8 PUT_SEGNR PUT_CHR
 			   WOCF_MCZ TYWR_MCZ CMDLOP]
@@ -211,7 +210,6 @@ ENTRY_EXT_01:
 PROCEDURE CMDLOP
 Kommandoeingabeschleife
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 016c !
   GLOBAL
     CMDLOP procedure
       entry
@@ -246,13 +244,11 @@ CMDL1:
 	jp	@r2		!Absprung in die Monitorroutine!
     end CMDLOP
 
-! ADDR: 01b2 !
   INTERNAL
 CMD_LISTE:
 	ARRAY [* BYTE] := 'BCDFGIJLMNTQRZP'
 
 ! Adressen fuer die Commandos davor !
-! ADDR: 01c2 !
 CMD_ADR:
 	ARRAY [15 WORD] := [BREAK
                             COMPARE
@@ -275,7 +271,6 @@ PROCEDURE ERROR
 allgemeine Fehlerprozedur
 Ausgabe von '?' und Sprung in Kommandoeingabeschleife
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 01e0 !
   GLOBAL
     ERROR procedure
       entry
@@ -293,12 +288,10 @@ Variablenliste zur RAM-Initialisierung fuer CHRDEL-PROMT
  
   INTERNAL
 !VARIABLENLISTE: CHRDEL,LINDEL/^Q,^S/N_CNT/B_CODE/STACK_CT/N_/PROMT!
-! ADDR: 01f4 !
 VAR_LISTE_PROM
 	ARRAY [7 WORD] := [%087f %1113 %0000 %7f00 %0004 %0001 %2000]
  
 ! FIXME: Werte aufschluesseln !
-! ADDR: 0202 !
 ITAB_SIO0_B ARRAY [* BYTE] := [%18
                                %02
                                %10
@@ -311,7 +304,6 @@ ITAB_SIO0_B ARRAY [* BYTE] := [%18
                                %11
                                %1c
                                %00]
-! ADDR: 020e !
 ITAB_SIO0_A ARRAY [* BYTE] := [%18
                                %14
                                %cc
@@ -327,7 +319,6 @@ ITAB_SIO0_A ARRAY [* BYTE] := [%18
 PROCEDURE VI_ERR
 Interrupt-Routine fuer uninitialisierten vektorisierten Interrupt (VI)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0218 !
   INTERNAL
     VI_ERR procedure
       entry
@@ -395,7 +386,6 @@ PSAREA_PROM:
 	ARRAY [2 WORD] := [%8000 VI_ERR]
 
 BAUD:
-! ADDR: 02f0 !
 	ARRAY [4 BYTE] := [%40 %10 %02 %01]
 
 end p_init

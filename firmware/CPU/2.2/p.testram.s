@@ -67,81 +67,60 @@ CODE_MMU  := %FC
 
   GLOBAL
 
-! ADDR: 1306 !
 T_POUPDIAG
 	ARRAY [20 BYTE] := 'POWER UP DIAGNOSTICS'
 
-! ADDR: 131a !
 T_ACTPERIP
 	WORD := %0013
 	ARRAY [20 BYTE] := 'ACTIVE PERIPHERALS:%00'
 
-! ADDR: 1330 !
 T_COMPLETE
 	WORD := %0008
 	ARRAY [8 BYTE] := 'COMPLETE'
 
-! ADDR: 133a !
 T_INVSWITC
 	WORD := %0019
 	ARRAY [26 BYTE] := '** INVALID SWITCH CODE **%00'
 
-! ADDR: 1356 !
 T_ECC	WORD := %0003
 	ARRAY [* BYTE] := 'ECC%00'
-! ADDR: 135c !
 T_WDC	WORD := %0003
 	ARRAY [* BYTE] := 'WDC%00'
-! ADDR: 1362 !
 T_MDC	WORD := %0003
 	ARRAY [* BYTE] := 'MDC%00'
-! ADDR: 1368 !
 T_SMC	WORD := %0003
 	ARRAY [* BYTE] := 'SMC%00'
-! ADDR: 136e !
 T_MTC	WORD := %0003
 	ARRAY [* BYTE] := 'MTC%00'
-! ADDR: 1374 !
 T_TCC	WORD := %0003
 	ARRAY [* BYTE] := 'TCC%00'
-! ADDR: 137a !
 T_SSB	WORD := %0004
 	ARRAY [* BYTE] := 'SSB%00'
-! ADDR: 1380 !
 T_ICP	WORD := %0004
 	ARRAY [* BYTE] := 'ICP%00'
-! ADDR: 1386 !
 T_FPP	WORD := %0003
 	ARRAY [* BYTE] := 'FPP%00'
-! ADDR: 138c !
 T_ERR	WORD := %000b
 	ARRAY [12 BYTE] := '*** ERROR #%00'
-! ADDR: 139a !
 T_FERR	
 	WORD := %0010
 	ARRAY [16 BYTE] := '%07*** FATAL ERROR'
-! ADDR: 13ac !
 T_SEGM	WORD := %0009
 	ARRAY [10 BYTE] := 'SEGMENTED%00'
-! ADDR: 13b8 !
 T_NONSEGM
 	WORD := %000d
 	ARRAY [14 BYTE] := 'NON-SEGMENTED%00'
 
-! ADDR: 13c8 !
 T_JUMPERS
 	WORD := %0008
 	ARRAY [8 BYTE] := ' JUMPERS'
-! ADDR: 13d2 !
 T_MAXS	WORD := %0007
 	ARRAY [8 BYTE] := 'MAXSEG=%00'
 
-! ADDR: 13dc !
 SSB_ADDRS
 	WORD := %ff47
 	WORD := %ff07
 
-! ADDR: 13e0 !
 ICP_ADDRS
 	WORD := %ef01
 	WORD := %ef03
@@ -151,7 +130,6 @@ ICP_ADDRS
 	WORD := %ef0b
 	WORD := %ef0d
 	WORD := %ef0f
-! ADDR: 13f0 !
   INTERNAL
 MMU_LISTE1:			!MMU-Adressen!
 	WORD	:= CODE_MMU
@@ -159,12 +137,10 @@ MMU_LISTE1:			!MMU-Adressen!
 	WORD	:= STACK_MMU
 	WORD	:= CODE_MMU
 	WORD	:= DATA_MMU
-! ADDR: 13fa !
 MMU_LISTE2:			!Adressen der SDR-Tabellen!
 	WORD	:= %A000
 	WORD	:= %A100
 	WORD	:= %A100
-! ADDR: 1400 !
 MMU_LISTE3:			!1. Byte: Ausgabewert fuer SAR;
 				 2. Byte: Ausgabewert fuer DSCR;
  				 3. Byte: Datenwert, der rueckgelesen werden
@@ -179,43 +155,34 @@ MMU_LISTE3:			!1. Byte: Ausgabewert fuer SAR;
 	ARRAY [3 BYTE] := [%08 %00 %20]
 	ARRAY [3 BYTE] := [%10 %00 %40]
 	ARRAY [3 BYTE] := [%20 %00 %80]
-! ADDR: 141e !
 MMU_LISTE4:			!SDR-Feld!
 	WORD	:= %0000
 	WORD	:= %FF00
-! ADDR: 1422 !
 MMU_LISTE5:
 	WORD	:= %0000
 	WORD	:= %0000
-! ADDR: 1426 !
 MMU_LISTE6:			!SDR-Feld!
 	WORD	:= %0000
 	WORD	:= %FF20
-! ADDR: 142a !
 MMU_LISTE7:
 	WORD	:= %0000
 	WORD	:= %FF01
-! ADDR: 142e !
 MMU_LISTE8:
 	WORD	:= %0100
 	WORD	:= %0000
-! ADDR: 1432 !
 MMU_LISTE9:
 	WORD	:= %0101
 	WORD	:= %0000
-! ADDR: 1436 !
 MMU_LISTE10:
 	WORD	:= %0000
 	WORD	:= %0020
 
-! ADDR: 143a !
 LISTE_3:
 	WORD	:= %0000
 	WORD	:= %0000
 	WORD	:= %0109
 	WORD	:= %0000
 
-! ADDR: 1442 !
 LISTE_4:
 	WORD	:= %4345
 	WORD	:= %4607
@@ -234,7 +201,6 @@ LISTE_4:
 	WORD	:= %1c79
 	WORD	:= %3e1f
 
-! ADDR: 1462 !
 LISTE_DISK_TESTS:
 	WORD	:= SMC_TEST		! SMD Controller Tests !
 	WORD	:= MDC_TEST_ENTRY	! m-WDC Controller Tests !
@@ -244,7 +210,6 @@ LISTE_DISK_TESTS:
 PROCEDURE TEST_
 TEST-Routine (Monitorkommando)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1468 !
   GLOBAL
     TEST_ procedure
       entry
@@ -400,7 +365,6 @@ RAM-Test Segment 0
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE MMU_TEST
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1582 !
   INTERNAL
     MMU_TEST procedure
       entry
@@ -1192,7 +1156,6 @@ Input:	r6 - Segmentnummer des zu testenden Segments
 	        =1 - Test in Segment 0
 	r9 - Stand FCW
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1b5e !
   INTERNAL
     RAM_TEST_SEG procedure
       entry
@@ -1323,7 +1286,6 @@ Input:	r6 - Segmentnummer des zu testenden Segments (= %0000)
         r3 - S_BNK
 Output:	r3 - Stand Fehlerzaehler (ERR_CNT)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1c08 !
   INTERNAL
     RAM_TEST_SEG0 procedure
       entry
@@ -1359,7 +1321,6 @@ Output:	r3 - Stand Fehlerzaehler (ERR_CNT)
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE ECC_TEST_200
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1c42 !
   INTERNAL
     ECC_TEST_200 procedure
       entry
@@ -1446,7 +1407,6 @@ ECC200_7:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE ECC_TEST_201_202
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1d4a !
   INTERNAL
     ECC_TEST_201_202 procedure
       entry
@@ -1595,7 +1555,6 @@ ECC202_17:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE POWUP_TEST_UNKNOWN_01
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 1f2a !
   INTERNAL
     POWUP_TEST_UNKNOWN_01 procedure
       entry
@@ -1719,7 +1678,6 @@ PUTU01_02:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE ECC_TEST_UNKNOWN_01
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 206e !
   INTERNAL
     ECC_TEST_UNKNOWN_01 procedure
       entry
@@ -1744,7 +1702,6 @@ ECTU01_02:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE ECC_TEST_UNKNOWN_02
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2092 !
   INTERNAL
     ECC_TEST_UNKNOWN_02 procedure
       entry
@@ -1755,7 +1712,6 @@ PROCEDURE ECC_TEST_UNKNOWN_02
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE ECC_TEST_UNKNOWN_03
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2098 !
   INTERNAL
     ECC_TEST_UNKNOWN_03 procedure
       entry
@@ -1771,7 +1727,6 @@ PROCEDURE ECC_TEST_UNKNOWN_03
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE ECC_TEST_UNKNOWN_04
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 20b0 !
   INTERNAL
     ECC_TEST_UNKNOWN_04 procedure
       entry
@@ -1785,7 +1740,6 @@ PROCEDURE ECC_TEST_UNKNOWN_04
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE ECC_TEST_UNKNOWN_05
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 20be !
   INTERNAL
     ECC_TEST_UNKNOWN_05 procedure
       entry
@@ -1808,7 +1762,6 @@ PROCEDURE ECC_TEST_UNKNOWN_05
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE ECC_TEST_UNKNOWN_06
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 20ea !
   INTERNAL
     ECC_TEST_UNKNOWN_06 procedure
       entry
@@ -1829,7 +1782,6 @@ PROCEDURE ECC_TEST_UNKNOWN_06
 PROCEDURE ECC_TEST_UNKNOWN_07
 Aktiviert die Paritaetspruefung im S_BNK?
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 210c !
   INTERNAL
     ECC_TEST_UNKNOWN_07 procedure
       entry
@@ -1846,7 +1798,6 @@ Aktiviert die Paritaetspruefung im S_BNK?
 PROCEDURE ECC_TEST_UNKNOWN_08
 Deaktiviert die Paritaetspruefung im S_BNK?
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2126 !
   INTERNAL
     ECC_TEST_UNKNOWN_08 procedure
       entry
@@ -1862,7 +1813,6 @@ Deaktiviert die Paritaetspruefung im S_BNK?
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE ECC_TEST_UNKNOWN_09
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2140 !
   INTERNAL
     ECC_TEST_UNKNOWN_09 procedure
       entry
@@ -1879,7 +1829,6 @@ ECTU08_01:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE UNKNOWN_01
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2154 !
   INTERNAL
     UNKNOWN_01 procedure
       entry
@@ -1892,7 +1841,6 @@ PROCEDURE UNKNOWN_01
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE POWUP_TEST_UNKNOWN_02
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2160 !
   INTERNAL
     POWUP_TEST_UNKNOWN_02 procedure
       entry
@@ -1924,7 +1872,6 @@ Input:	rl4/rl5 bzw. r4/r5 - zu vergleichende Register
 	r3, S_BNK
 OUTPUT: siehe Prozedur MSG_ERROR (nur bei Abarbeitung von MSG_ERROR)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 217c !
   GLOBAL
     BY_WO_CMP procedure
       entry
@@ -1960,7 +1907,6 @@ Ausgabe von T_ERR, Fehlerzeile und T_FERR auf Terminal
 Input:	siehe Prozedur MSG_ERROR
 Output: r2 - Stand Fehlerzaehler (ERR_CNT)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 21a6 !
   INTERNAL
     FAT_ERR procedure
       entry
@@ -1978,7 +1924,6 @@ FAT_ERR1:
 PROCEDURE PR_POWER_UP
 Vorbereitung der Ausgabe der Meldung "POWER UP DIAGNOSTICS" Zeichen um Zeichen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 21b8 !
   INTERNAL
     PR_POWER_UP procedure
       entry
@@ -1999,7 +1944,6 @@ PRPOUP_PRT:
 PROCEDURE DO_PR_POWER_UP
 Ausgabe der Meldung "POWER UP DIAGNOSTICS" Zeichen um Zeichen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 21d2 !
   INTERNAL
     DO_PR_POWER_UP procedure
       entry
@@ -2043,7 +1987,6 @@ Output:	ERR_CNT - Fehlerzaehler wurde incr., wenn Bit2(rh1)=0 war
 	Bit6(rh1) := 1 
 	Bit7(rh1) := 1 , wenn Bit6(rh1) vorher =1 war
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 21f2 !
   GLOBAL
     MSG_ERROR procedure
       entry
@@ -2123,7 +2066,6 @@ PROCEDURE MSG_MAXSEG
 Ausgabe  T_SEG/NSEG, TJUM, T_MAXS und hoechste Segmentnummer auf Terminal
 Output: r2 - Stand Fehlerzaehler (ERR_CNT)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 226c !
   INTERNAL
     MSG_MAXSEG procedure
       entry
@@ -2211,7 +2153,6 @@ PROCEDURE PRIVINSTR_TRAP
 Trap-Routine bei Priv.-Instr.-Trap
 Umschaltung auf Systemmode
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 231c !
   INTERNAL
     PRIVINSTR_TRAP procedure
       entry
@@ -2230,7 +2171,6 @@ Output:	REM_MMU_BCSR - Inhalt Bus-Cycle-Status-Register (BCSR) der MMU bzw.
 	REM_MMU_ID   - MMU_ID (1:CODE-MMU; 2:DATA-MMU; 3:STACK-MMU) bzw.
 						High-Teil=%FF bei Fehler
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2324 !
   INTERNAL
     SEGMENT_TRAP procedure
       entry
@@ -2286,7 +2226,6 @@ Output:	REM_MMU_BCSR - Inhalt Bus-Cycle-Status-Register (BCSR) der CODE-MMU
 	REM_MMU_VTR  - Inhalt Violation-Type-Register (VTR) der CODE-MMU
 	REM_MMU_ID   - %FFFF
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 237a !
   INTERNAL
     CODE_TRAP procedure
       entry
@@ -2313,7 +2252,6 @@ DSCR (Descriptor-Selector-Counter-Register)
 Input:	rl7 - Wert fuer SAR
 	rh7 - Wert fuer DSCR
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 23a8 !
   INTERNAL
     CLR_CTL_REG procedure
       entry
@@ -2331,7 +2269,6 @@ Input:	r6  - MMU-Adresse
 	      dessen Inhalt die 64 SDR gefuellt werden sollen
 	      (64 SDR * 4 Byte je SDR = %100 Byte)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 23b2 !
   INTERNAL
     LD_SDR procedure
       entry
@@ -2355,7 +2292,6 @@ Input:	r6  - MMU-Adresse
 	r11 - Zeiger auf Anfang des Speicherbereiches, mit dessen Inhalt die
 	      64 SDR gefuellt wurden
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 23d8 !
   INTERNAL
     RD_SDR procedure
       entry
@@ -2398,7 +2334,6 @@ Input:	r3 - Zeiger auf Anfangsadresse des Speicherbereiches (4 Byte), mit
 	r5 - Zeiger auf Anfangsadresse des Speicherbereiches (4 Byte), mit
 	     dessen Inhalt die 64 SDR der STACK-MMU gefuellt werden sollen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 241c !
   INTERNAL
     LD_3SDR procedure
       entry
@@ -2438,7 +2373,6 @@ Fehler 85, wenn
 - Segment-Trap nicht von der erwarteten MMU ausgeloest wurde (bei rh0=2,4)
 - Segment-Trap ausgeloest wurde, obwohl nicht erwartet (bei rh0=0)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2462 !
   INTERNAL
     SEGMENT_TRAP_TEST procedure
       entry

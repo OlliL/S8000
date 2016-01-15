@@ -25,88 +25,53 @@ GLOBAL
 
 !+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
 
-!%4000!
 RAM_ANF
 
 		ARRAY [%10 WORD]
-!%4020!
 NSP_OFF		WORD
 	
 		ARRAY [%3F WORD]	!Stackbereich!
-!%40a0!
 STACK		WORD
 
 		ARRAY [13 BYTE]
 
-!%40af!
 KONV		BYTE			!Hilfsbyte zur Konvertierung!
-!%40b0!
 INBFF		ARRAY [%80 BYTE]	!Eingabepuffer!
-!%4130!
 OUTBFF		ARRAY [%80 BYTE]	!Ausgabepuffer!
-!%41b0!
 PTYBFF		ARRAY [%100 BYTE]	!Eingabepuffer fuer interrupt-
 					 gesteuerte Eingabe vom Terminal-
 					 kanal!
-!%42b0!
 MCZBFF		ARRAY [%0EA BYTE]	!Ein-/Ausgabepuffer fuer LOAD/SEND!
-!%439a!
 MAXLEN		WORD			!maximale Zeilenlaenge!
-!%439c!
 INPTR		WORD			!Zeiger fuer Eingabepuffer INBFF!
-!%439e!
 OUTPTR		WORD			!Zeiger fuer Ausgabepuffer OUTBFF 
 		                         (Pufferlaenge)!
-!%43a0!
 COUNT_PTY	WORD			!aktuelle Anzahl der Zeichen in PTYBFF!
-!%43a2!
 INPTR_PTY	WORD			!Eingabezeiger fuer PTYBFF
 					 (naechster freier Platz)!
-!%43a4!
 OUTPTR_PTY	WORD			!Ausgabezeiger fuer PTYBFF
 					 (naechstes auszulesende Zeichen)!
-!%43a6!
 INPTR_MCZ	WORD			!Eingabezeiger fuer MCZBFF!
-!%43a8!
 OUTPTR_MCZ	WORD			!Ausgabezeiger fuer MCZBFF!
-!%43aa!
 B_WORD		WORD			!Speicherinhalt auf der BREAK-Adresse!
-!%43ac!
 B_ADR_S		WORD			!Segmentnummer der BREAK-Adresse!
-!%43ae!
 B_ADR_O		WORD			!Offset der BREAK-Adresse!
-!%43b0!
 RR14_V		LONG			!VARIABLER STACK, FUER NEXT UND BREAK!
-!%43b4!
 W23B4		WORD
-!%43b6!
 FCW_V		WORD			!VARIABLES FCW FUER NEXT UND BREAK!
-!%43b8!
 PORT_BF		WORD			!Puffer fuer gelesenen bzw. zu
 					 schreibenden PORT-Datenwert!	
-!%43ba!
 PORT_I		WORD			!Adresse des PORT-I-Programms!
-!%43bc!
 PORT_O		WORD			!Adresse des PORT-O-Programms!
-!%43be!
 SV_R		ARRAY [14 WORD]		!Registerrettungsbereich!
-!%43da!
 SVSTK		LONG
-!%43de!
 PC_SEG		WORD			!Programmcounter (Segmentnummer)!
-!%43e0!
 PC_OFF		WORD			!Programmcounter (Offsetadresse)!
-!%43e2!
 FCW_		WORD			!FCW im Registerrettungsbereich!
-!%43e4!
 RF_CTR		WORD			!Merker: Refresh Control Register!
-!%43e6!
 N4_		WORD			!Normalstack R14!
-!%43e8!
 N5_		WORD			!Normalstack R15!
-!%43ea!
 PS_		WORD			!Program-Status-Area Segment!
-!%43ec!
 PO_	 	WORD			!Program-Status-Area Offset!
 		WORD			!unbenutzt!
 !43f0!
@@ -210,13 +175,11 @@ PSAREA	ARRAY [4 WORD]
 	ARRAY [4 WORD]
 	ARRAY [4 WORD]
 
-!%4428!
 PSA_NMI	
 	ARRAY [4 WORD]
 	ARRAY [4 WORD]
 	ARRAY [4 WORD]
 	ARRAY [4 WORD]
-!%4448!
 VI_CTC0_3
 	ARRAY [%15C WORD]
 
@@ -224,63 +187,35 @@ VI_CTC0_3
 Arbeitsspeicher fuer Kommando "T" (Hardwareeigentest)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
 
-!%4700!
 RG_FELD		ARRAY [%1A WORD]	!Feld zur Registerrettung!
-!%4734!
 REM_MMU_BCSR	BYTE	!Merker: Inhalt BUS CYCLE STATUS REGISTER!
 		BYTE	!Merker: Inhalt VIOLATION TYPE REGISTER!
-!%4736!
 REM_MMU_ID	WORD	!Merker: MMU-Identifikation!
-!%4738!
 ECC_MEM_3	WORD	!Merker: Stand Fehlerzaehler!
-!%473a!
 REM_ERR_CNT	WORD	!Merker: Stand Fehlerzaehler!
-!%473c!
 REM_PRIVINSTR_TRAP WORD	!Merker: urspruengl. Offsetadr. fuer Priv.-Instr.-Trap!
-!%473e!
 REM_MMU_SINOUT	WORD	!Merker: MMU-Ein-/Ausgabewerte!
-!%4740!
 ERR_CNT		WORD	!Fehlerzaehler!
-!%4742!
 MAX_SEGNR	WORD	!Merker: hoechste vorhandene Segmentnummer!
 
-!%4744!
 POW_UP_TXT	WORD
-!%4746!
 PRT_POW_UP_TXT	WORD
-!%4748!
 ERRPAR_ID	WORD
-!%474a!
 ABOOT_DEV	WORD
-!%474c!
 REM_MMU1	WORD
-!%474e!
 REM_MMU2	WORD
-!%4750!
 ECC_MEM_1	LONG
-!%4754!
 REM_MMU_TEST	WORD
-!%4756!
 ECC_MEM_2	WORD
-!%4758!
 UKNOW_MEM_1	WORD
-!%475a!
 UKNOW_MEM_2	WORD
-!%475c!
 UKNOW_MEM_3	WORD
-!%475e!
 UKNOW_MEM_4	WORD
-!%4760!
 MMU_MEM_1	LONG
-!%4764!
 MMU_MEM_2	LONG
-!%4768!
 MMU_MEM_3	LONG
-!%476c!
 MMU_MEM_4	LONG
-!%4770!
 MMU_MEM_5	WORD
-!%4772!
 MMU_MEM_6	WORD
 
 end p_ram

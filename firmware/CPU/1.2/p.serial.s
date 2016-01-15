@@ -58,7 +58,6 @@ Output:	rr2  enthaelt Datenwert
 	INPTR zeigt auf 2 Zeichen nach der letzten Ziffer des Datenwertes
 Fehler, wenn ungueltige Hexazahl eingegeben wurde
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0992 !
   GLOBAL
     RD_DATA procedure
       entry
@@ -82,7 +81,6 @@ Output:	rr2  enthaelt Datenwert
 	INPTR zeigt auf 2 Zeichen nach der letzten Ziffer des Datenwertes
 Fehler, wenn ungueltige Hexazahl eingegeben wurde
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0998!
   GLOBAL
     GET_DATA procedure
       entry
@@ -132,7 +130,6 @@ Output: r1 - Anzahl der uebertragenen Zeichen
 	r2 - zeigt auf Zeilenende
 	Z=1, wenn max. Zeilenlaenge erreicht wurde
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 09d8 !
   GLOBAL
     RD_LINE_BFF procedure
       entry
@@ -187,7 +184,6 @@ RDL_END:
 PROCEDURE CLRCHR
 Loeschen eines Zeichens
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0a38 !
   INTERNAL
     CLRCHR procedure
       entry
@@ -205,7 +201,6 @@ Einlesen eines Zeichens aus Interrupt-Eingabepuffer (PTYBFF) und
 Ausgabe auf Terminal
 Output:	rl0 - eingelesenes Zeichen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0a44 !
   INTERNAL
     TYRDWR procedure
       entry
@@ -242,7 +237,6 @@ Ausgabe eines Zeichens auf Terminalkanal
 Input:	rl0 - Zeichen
 Output:	Z=1, wenn Zeichen = CR
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0a68 !
   GLOBAL
     TYWR procedure
       entry
@@ -263,7 +257,6 @@ Output:	Z=1, wenn Zeichen = CR
 PROCEDURE WR_CRLF
 Ausgabe CR LF auf Terminal
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0a80 !
   GLOBAL
     WR_CRLF procedure
       entry
@@ -283,7 +276,6 @@ Output: rl0 - 1. Zeichen der Eingabezeile ungleich Space
 	Z=1, wenn dieses Zeichen = CR
 Fehler, wenn Zeile laenger als 128 Zeichen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0a8c !
   GLOBAL
     RD_LINE_INBFF procedure
       entry
@@ -309,7 +301,6 @@ Output: r2 := r0 (alter Stand des Pufferzeigers)
 	r0 := r0 + 1, wenn C=1, d.h. r0+1 < 256
 	r0 := 0, wenn C=0, d.h. r0+1 >= 256
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 0aae !
   GLOBAL
     INCPTR procedure
       entry

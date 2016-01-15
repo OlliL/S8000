@@ -50,7 +50,6 @@ LOAD_ADR := %0000
 PROCEDURE DSK_BOOT
 Laden und Starten "boot0" von DISK (Block 0)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2b36 !
   GLOBAL
     DSK_BOOT procedure
       entry
@@ -177,7 +176,6 @@ DSKBOOT16:
 PROCEDURE READ_INODE
 Liest die inode aus r11
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2c10 !
   INTERNAL
     READ_INODE procedure
       entry
@@ -225,7 +223,6 @@ PROCEDURE READ_DSK_BLOCK
 R12: ptr to disk block addresses
 R13: remaining addresses
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2c6c !
   INTERNAL
     READ_DSK_BLOCK procedure
       entry
@@ -242,7 +239,6 @@ R13: remaining addresses
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE CLEAR
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2c7e !
   INTERNAL
     CLEAR procedure
       entry
@@ -258,7 +254,6 @@ CLEAR1:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE PRINT_MSG
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2c8a !
   INTERNAL
     PRINT_MSG procedure
       entry
@@ -273,7 +268,6 @@ PROCEDURE PRINT_MSG
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE BOOT_UNKNOWN_01
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2c96 !
   INTERNAL
     BOOT_UNKNOWN_01 procedure
       entry
@@ -287,7 +281,6 @@ PROCEDURE BOOT_UNKNOWN_01
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE SET_BOOT
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2ca6 !
   INTERNAL
     SET_BOOT procedure
       entry
@@ -297,7 +290,6 @@ PROCEDURE SET_BOOT
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE GETA
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2caa !
   INTERNAL
     GETA procedure
       entry
@@ -321,7 +313,6 @@ GETA2:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE PRINT_CHAR
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2cca !
   INTERNAL
     PRINT_CHAR procedure
       entry
@@ -338,7 +329,6 @@ PROCEDURE PRINT_CHAR
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE PUTA
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2cdc !
   INTERNAL
     PUTA procedure
       entry
@@ -352,7 +342,6 @@ PROCEDURE PUTA
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE READ_DISK
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2cea !
   INTERNAL
     READ_DISK procedure
       entry
@@ -376,7 +365,6 @@ NOT_SMC:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE WDC_BOOT
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2d0c !
   INTERNAL
     WDC_BOOT procedure
       entry
@@ -410,7 +398,6 @@ WDCBOOT_STAT2:
 PROCEDURE WDC_READ_DISK
 See Page 4-22/4-22 in Book 03-3237-04
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2d50 !
   INTERNAL
     WDC_READ_DISK procedure
       entry
@@ -442,7 +429,6 @@ See Page 4-22/4-22 in Book 03-3237-04
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE SMC_BOOT
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2d9c !
   INTERNAL
     SMC_BOOT procedure
       entry
@@ -504,7 +490,6 @@ SMCBOOT_04:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE SMC_SEND_WAIT_RDY
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2e36 !
   INTERNAL
     SMC_SEND_WAIT_RDY procedure
       entry
@@ -519,7 +504,6 @@ SMC_WAIT_RDY:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE SMC_READ_DISK
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2e46 !
   INTERNAL
     SMC_READ_DISK procedure
       entry
@@ -541,7 +525,6 @@ PROCEDURE SMC_READ_DISK
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE SMC_CMD_EXECUTE
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2e7a !
   INTERNAL
     SMC_CMD_EXECUTE procedure
       entry
@@ -574,7 +557,6 @@ SMCCE_03:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE MDC_BOOT
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2ec8 !
   INTERNAL
     MDC_BOOT procedure
       entry
@@ -601,7 +583,6 @@ MDCBOOT_01:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE MDC_BOOT_UNKNOWN
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2efa !
   INTERNAL
     MDC_BOOT_UNKNOWN procedure
       entry
@@ -618,7 +599,6 @@ MDCBOOT_02:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE MDC_DELAY
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2f0c !
   INTERNAL
     MDC_DELAY procedure
       entry
@@ -635,7 +615,6 @@ MDC_DELAY_1:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE MDC_READ_DISK
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 2f1c !
   INTERNAL
     MDC_READ_DISK procedure
       entry
@@ -668,22 +647,18 @@ MDCRDDSK_03:
      end MDC_READ_DISK
 
 INTERNAL
-! ADDR: 2f62 !
 T_BOOTPROMPT
 	ARRAY [* BYTE] := '> %00'
 
 INTERNAL
-! ADDR: 2f65 !
 MSG_BOOT
 	ARRAY [* BYTE] := 'boot%0A'
 
 INTERNAL
-! ADDR: 2f6a !
 T_FILENOTFOUND
 	ARRAY [* BYTE] := '?%0A'
 
 INTERNAL
-! ADDR: 2f6d !
 T_UNKNOWN:
 	WORD	:= %0018
 	WORD	:= %14cc
@@ -692,17 +667,14 @@ T_UNKNOWN:
 	WORD	:= %1100
 
 T_INIT_ERR
-! ADDR: 2f76 !
 	WORD	:= %0009
 	ARRAY [9 BYTE] := 'INIT ERR%0D'
 
 T_DT_NOT_SEND
-! ADDR: 2f82 !
 	WORD	:= %000c
 	ARRAY [12 BYTE] := 'DT NOT SENT%0D'
 
 T_D0_NOT_FORM
-! ADDR: 2f90 !
 	WORD	:= %0011
 	ARRAY [17 BYTE] := 'D0 NOT FORMATTED%0D'
 

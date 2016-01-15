@@ -17,31 +17,25 @@ $SECTION PROM
 
   INTERNAL
   
-! ADDR: 1214 !
 T_DSK_BOOT:
 	WORD := %0012
 	ARRAY [18 BYTE] := 'BOOTING FROM DISK%0D'
 	
-! ADDR: 1228 !
 T_TAP_BOOT:
 	WORD := %0012
 	ARRAY [18 BYTE] := 'BOOTING FROM TAPE%0D'
 
-! ADDR: 123c !
 T_SMD_BOOT:
 	WORD := %0011
 	ARRAY [18 BYTE] := 'BOOTING FROM SMD%0D%00'
 
-! ADDR: 1250 !
 T_MDSK_BOOT:
 	WORD := %0017
 	ARRAY [24 BYTE] := 'BOOTING FROM MINI-DISK%0D%00'
 
-! ADDR: 126a !
 T_BOOT_0000:
 	WORD := %0000
 
-! ADDR: 126c !
 T_BOOT_0008:
 	WORD := %0008
 
@@ -52,7 +46,6 @@ manuelles BOOT von DISK, TAPE, SMD bzw. MINI-DISK
 
 Kommandoeingabe: O D/T/S/M
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 126e !
   GLOBAL
     OS_BOOT procedure
       entry
@@ -99,7 +92,6 @@ OS_BOOT_MDISK:
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE BOOT_WR_MSG
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 126e !
   INTERNAL
     BOOT_WR_MSG procedure
       entry
@@ -115,7 +107,6 @@ PROCEDURE AUTOBOOT
 automatisches Laden und Starten "boot0" von DISK (Block 0)
 NMI-Routine (vor erster Terminaleingabe)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
-! ADDR: 12d6 !
   GLOBAL
     AUTOBOOT procedure
       entry
