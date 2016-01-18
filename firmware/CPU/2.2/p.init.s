@@ -60,8 +60,8 @@ CTC1_3	:= CTC1 + 6	! Next !
 CTC2	:= %FFB1
 CTC2_0	:= CTC2 + 0	! Baud 6 - SIO3, Kanal 6!
 CTC2_1	:= CTC2 + 2	! Baud 7 - SIO3, Kanal 7!
-CTC2_2	:= CTC2 + 4 	
-CTC2_3	:= CTC2 + 6	
+CTC2_2	:= CTC2 + 4
+CTC2_3	:= CTC2 + 6
 
 S_BNK	:= %FFC1	!SWITCH-BANK:
 			 Bit0-3 Ausgabebits; Bit4-7 Eingabebits (DIL-Schalter):
@@ -219,7 +219,7 @@ Startprozedur
 !Umschaltung auf nichtsegmentierten Mode!
 	ld	r1, #%4000
 	ldctl	FCW, r1		!Flag and Control Word Register!
-!MMU's ausschalten! 
+!MMU's ausschalten!
 	clr	R3
 	sout	ALL_MMU, r3	!MMU in Tristate bringen!
 !Baudraten-Konfiguration der SIOs auslesen und setzen!
@@ -250,12 +250,12 @@ Startprozedur
 	ld	r4, #RAM_ANF
 	ld	r2, #RAM_ANF+2
 	ld	@r4, #0
-	ld	r1, #%0200 
+	ld	r1, #%0200
 	ldir	@r2, @r4, r1
 	ld	r4, #RAM_ANF
 	ld	r2, #RAM_ANF+2
 	ld	@r4, #0
-	ld	r1, #%0020 
+	ld	r1, #%0020
 	ldir	@r2, @r4, r1
 !Eingabepuffer (INBFF) und Ausgabepuffer (OUTBFF) mit Space initialisieren!
 	ld	INBFF, #%2020
@@ -282,7 +282,7 @@ ENTRY_EXT_01:
 !PSAPOFF laden!
 	ld	r1, #PSAREA
 	ldctl	PSAP, r1	!Program Status Area Pointer Offset Register!
-!Registerbereich laden!	
+!Registerbereich laden!
 	ld	PS_, r14
 	ld	PC_SEG, r14
 	ld	PO_, r1
@@ -416,7 +416,7 @@ Interrupt-Routine fuer uninitialisierten vektorisierten Interrupt (VI)
 	call	BTOH16
 	call	WR_OUTBFF_CR
 	jp	CMDLOP
-    end VI_ERR 
+    end VI_ERR
 
 NVI_TXT:
 	WORD := NVI_END - NVI_TXT - 2
@@ -424,7 +424,7 @@ NVI_TXT:
 NVI_END:
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Initialisierungsfeld zur RAM-Initialisierung 
+Initialisierungsfeld zur RAM-Initialisierung
 fuer Program Status Area
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
 
@@ -432,11 +432,11 @@ fuer Program Status Area
 PSAREA_PROM:
 !			   ID    FCW   PCSEG PCOFF!
 	ARRAY [4 WORD] := [%0000 %0000 %0000 %0000] !RESERVED!
-	ARRAY [4 WORD] := [%0000 %4000 %8000 VI_ERR] 
+	ARRAY [4 WORD] := [%0000 %4000 %8000 VI_ERR]
 						    !UNIMLEMENTED INSTRUCTIONS!
-	ARRAY [4 WORD] := [%0000 %4000 %8000 VI_ERR] 
+	ARRAY [4 WORD] := [%0000 %4000 %8000 VI_ERR]
 						    !PRIVILEGED INSTRUCTIONS!
-	ARRAY [4 WORD] := [%0000 %C000 %8000 SC_ENTRY] 
+	ARRAY [4 WORD] := [%0000 %C000 %8000 SC_ENTRY]
 						    !SYSTEM CALL INSTRUCT.!
 	ARRAY [4 WORD] := [%0000 %4000 %8000 VI_ERR] !SEGMENT TRAP!
 	ARRAY [4 WORD] := [%0000 %4000 %8000 AUTOBOOT] !NONMASKABLE INTERRUPT!

@@ -46,8 +46,8 @@ SIO0C_B	:= SIO0 + 6
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE RD_DATA
-Dateneingabe (PROMT-Zeichen ('?') ausgeben, eingegebene Zeile aus PTYBFF 
-             in INBFF speichern, auf Terminal ausgeben und 1. Datenwert der 
+Dateneingabe (PROMT-Zeichen ('?') ausgeben, eingegebene Zeile aus PTYBFF
+             in INBFF speichern, auf Terminal ausgeben und 1. Datenwert der
              Zeile auswerten)
 Output:	rr2  enthaelt Datenwert
 	Z=1, wenn keine Dateneingabe erfolgte bzw. 'Q' oder '-' eingegeben
@@ -117,7 +117,7 @@ K_1:
 	resflg	c		!Z=0, C=1, wenn Space nach Datenwert!
 K_END:
 	resflg	z
-	ret	
+	ret
     end GET_DATA
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -158,7 +158,7 @@ RDL_TST:
 	cp	r1, MAXLEN	!MAXIMALE ZEILENLAENGE ERREICHT ?!
 	JR	C,RDL_LOOP	!SPRUNG WENN NICHT!
 	setflg	z
-	ret	
+	ret
 _CL:
 	calr	CLRCHR
 	jr	pl, RDL_LOOP
@@ -177,7 +177,7 @@ RDL_END:
 	calr	TYWR
 	lda	r2, r2(r1)	!R2 AUF Zeilenende STELLEN!
 	resflg	z
-	ret	
+	ret
     end RD_LINE_BFF
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -192,7 +192,7 @@ Loeschen eines Zeichens
 	ldb	rl0, #BS
 	calr	TYWR
 	dec	r1, #%01
-	ret	
+	ret
     end CLRCHR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -220,19 +220,19 @@ Output:	rl0 - eingelesenes Zeichen
       entry
 TYRD1:	testb	COUNT_PTY	!Zeichen in PTYBFF vorhanden?!
 	jr	z, TYRD1	!nein --> warten bis Zeichen empfangen wird!
-	push	@r15, r2	
+	push	@r15, r2
 	ld	r0, OUTPTR_PTY
 	calr	INCPTR		!Ausgabezeiger fuer PTYBFF incr.!
 	ld	OUTPTR_PTY, r0
 	ldb	rl0, PTYBFF(r2)	!rl0 := Zeichen aus PTYBFF!
 	decb	COUNT_PTY, #%01 !Zeichenzaehler decr.!
 	pop	r2, @r15
-	ret	
+	ret
     end TYRD
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE TYWR
-Ausgabe eines Zeichens auf Terminalkanal 
+Ausgabe eines Zeichens auf Terminalkanal
 (im Pollingbetrieb - Interruptbetrieb moeglich)
 Input:	rl0 - Zeichen
 Output:	Z=1, wenn Zeichen = CR
@@ -250,7 +250,7 @@ Output:	Z=1, wenn Zeichen = CR
 	outb	SIO0D_B, rl0	!Datenbyte ausgeben!
 
 	cpb	rl0, #CR	!Z=1, wenn Zeichen CR war!
-	ret	
+	ret
     end TYWR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -289,14 +289,14 @@ Fehler, wenn Zeile laenger als 128 Zeichen
 	call	GET_SIGNW	!rl0:=1.Zeichen aus INBFF ungleich Space!
 	dec	INPTR, #%01	!INPTR zeigt auf dieses Zeichen!
 	cpb	rl0, #CR	!Z=1, wenn Zeichen = CR!
-	ret	
+	ret
     end RD_LINE_INBFF
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE INCPTR
-Pufferzeiger (der Puffer PTYBFF bzw. UDOSBFF) inkrementieren 
+Pufferzeiger (der Puffer PTYBFF bzw. UDOSBFF) inkrementieren
 und auf Ueberlauf testen
-Input:	r0 - Pufferzeiger 
+Input:	r0 - Pufferzeiger
 Output: r2 := r0 (alter Stand des Pufferzeigers)
 	r0 := r0 + 1, wenn C=1, d.h. r0+1 < 256
 	r0 := 0, wenn C=0, d.h. r0+1 >= 256
@@ -309,7 +309,7 @@ Output: r2 := r0 (alter Stand des Pufferzeigers)
 	cp	r0, #%0100
 	ret	c
 	clr	r0
-	ret	
+	ret
     end INCPTR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -346,7 +346,7 @@ Test auf Sonderzeichen (^S, ^Q, ESC) bei Terminaleingaben
 PTY_RD:
 	inb	rl1, SIO0D_B	!Zeichen vom SIO einlesen!
 !Test, ob eingelesenes Zeichen vom Terminalkanal als ASCII-Zeichen oder
- als beliebiges Datenbyte zu interpretieren ist!	
+ als beliebiges Datenbyte zu interpretieren ist!
 	bitb	FLAG0, #%00
 	jr	nz, PTY_WR	!keine ASCII-Zeichen einzulesen
 				--> Zeichen in PTYBFF abspeichern!
@@ -393,8 +393,8 @@ PTYEND:
 	pop	r1, @r15
 	pop	r0, @r15
 	sc	#SC_SEGV
-	nop	
-	iret	
+	nop
+	iret
     end PTY_INT
 
-end p_serial  
+end p_serial

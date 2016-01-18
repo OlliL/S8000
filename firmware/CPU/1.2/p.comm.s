@@ -62,7 +62,7 @@ F2:
 	inc	r7, #%02
 	djnz	r5, F2
 	sc	#SC_NSEGV
-	ret	
+	ret
     end FILL
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -92,7 +92,7 @@ M1:
 				 Segmentnummern bzw. bei gleichen Segment-
 				 nummern und 1.Adr.>=2.Adr.)!
 	sc	#SC_NSEGV
-	ret	
+	ret
 M2:
 	add	r7, r3
 	dec	r7, #1
@@ -102,7 +102,7 @@ M2:
 	lddrb	@r4, @r6, r3	!Speicherbereich verschieben (bei gleichen
 				 Segmentnummern und 1.Adr.<2.Adr.)!
 	sc	#SC_NSEGV
-	ret	
+	ret
     end MOVE
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -169,7 +169,7 @@ Input: rr4 - Adresse
 	sc	#SC_NSEGV
 	calr	BTOH8		!Adresseninhalt in OUTBFF eintragen!
 	inc	OUTPTR, #%02	!2 Leerzeichen in OUTBFF!
-	ret	
+	ret
     end PUT_ADR_INHALT
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -192,7 +192,7 @@ Input: r1 - Zeichenkette aus 'Zeichen, Space'
       entry
 	calr	PUT_2CHR	!2 ZEICHEN IN DEN OUTPUT_PUFFER LADEN!
 	dec	OUTPTR, #1	!PUFFERLAENGE DEKREMENTIEREN!
-	ret	
+	ret
     end PUT_1CHR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -233,7 +233,7 @@ Input: rl1 - einzutragendes Zeichen
 	ld	r2, OUTPTR
 	ldb	OUTBFF(r2), rl1
 	inc	OUTPTR, #1
-	ret	
+	ret
     end PUT_CHR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -262,7 +262,7 @@ Datenanzahl = 0
 	jr	D_WRITE		!keine Parameter angegeben!
 
 D_PARA:
-	calr	GET_ADR		!rr2:=eingegebene Anfangsadresse / 
+	calr	GET_ADR		!rr2:=eingegebene Anfangsadresse /
 				 rl0:=naechstes Zeichen in INBFF!
 	JR	NZ, D2		!weitere Parameter vorhanden!
 
@@ -320,7 +320,7 @@ D5:
 	jr	c, D6
 	cpb	rl5, #%7F	!TEST OBERE GRENZE ASCII-CODE!
 	jr	c, D7
-D6:	
+D6:
 	ldb	OUTBFF(r8), #'.' !kein ASCII-Code --> Punkt in OUTBFF eintr.!
 D7:
 	inc	r8, #1
@@ -383,7 +383,7 @@ D11:
 	ldb	rl7, rh7	!Bytezaehler je Dateneinheit neu setzen!
 	calr	WR_OBF_RDDATA	!Ausgabe OUTBFF auf Terminal; Ausgabe '?';
 				 einlesen des zu schreibenden Datenwertes!
-	jr	nc, D12		!kein 'Q' oder '-' eingegeben!	
+	jr	nc, D12		!kein 'Q' oder '-' eingegeben!
 
 	cpb	rl0, #'Q'
 	ret	z		!'Q' eingegeben --> Abbruch!
@@ -442,7 +442,7 @@ r7 =	} %0404		wenn rl0='L'
 	cpb	rl0, #'L'
 	ret	z
 	ld	r7, #%0202
-	ret	
+	ret
     end TST_WBL
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -488,7 +488,7 @@ Input:	rh1 - 1. Zeichen
 	ldb	OUTBFF(r4), rl1
 	inc	OUTPTR, #%02
 	pop	r4, @r15
-	ret	
+	ret
     end PUT_2CHR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -530,7 +530,7 @@ Output:	c=1 wenn Parameterfolge unvollst. oder fehlerhaft
 	ldl	rr6, rr2	!rr6 := 1. Adresse!
 	jr	RD_P1
 	calr	GET_SIGN	!1. ASCII-ZEICHEN IN RL0!
-RD_P1:	
+RD_P1:
 	calr	GET_ADR		!rr2 := 2. Adresse!
 	jr	z, RD_P2	!CR wurde gelesen!
 	ldl	rr4, rr2	!rr4 := 2. Adresse!
@@ -539,7 +539,7 @@ RD_P1:
 
 RD_P2:
 	setflg	c		!C=1, d.h. Fehler!
-	ret	
+	ret
     end GET_PAR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -596,7 +596,7 @@ BTOH41:
 	inc	OUTPTR, #1
 	pop	r6, @r15
 	pop	r1, @r15
-	ret	
+	ret
     end BTOH4
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -614,7 +614,7 @@ WR_NULL1:
 	call	TYWR
 	dec	r1, #1
 	jr	nz, WR_NULL1
-	ret	
+	ret
     end WR_NULL
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -660,8 +660,8 @@ BF_EMPTY:
 	ld	r2, #OUTBFF	!OUTBFF LOESCHEN !
 	ld	r4, #OUTBFF + 2
 	ldir	@r4, @r2, r0
-	ret	
-    end WR_OUTBFF    
+	ret
+    end WR_OUTBFF
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE HTOB
@@ -685,10 +685,10 @@ Output:	rl0 - Binaerwert
 HTOB1:
 	andb	rl0, #%0F	!FEHLERFREI!
 	resflg	c
-	ret	
+	ret
 HTOB2:
 	setflg	c		!FEHLER := KEINE HEXADEZIMALZAHL!
-	ret	
+	ret
     end HTOB
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -752,7 +752,7 @@ EKSN_NHZ:
 	clrb	rl2
 	set	r2, #%0F	!r2 := segnr!
 	setb	FLAG1, #%0	!Flag=1 --> Segmentnummer angegeben ???!
-	ret	
+	ret
     end GET_SGNR
 
 
@@ -789,7 +789,7 @@ RD_HX:
 
 	calr	GET_SIGNW	!rl0:= naechstes Zeichen ungleich Space!
 	resflg	c
-	ret			!Z=1, wenn CR gelesen; sonst Z=0 
+	ret			!Z=1, wenn CR gelesen; sonst Z=0
 				 (aus GET_SIGNW)!
     end GET_HEXZ
 
@@ -845,7 +845,7 @@ Output:	rl0 - Zeichen
 	inc	INPTR, #1	!INPTR := INPTR + 1!
 	cpb	rl0, #CR
 	pop	r2, @r15
-	ret	
+	ret
     end GET_CHR
 
 
@@ -908,7 +908,7 @@ PORWS2:
 	add	r5, r7		!r5:=Adresse, wo gelesener Portinhalt abge-
 				 speichert werden soll (=#PORT_BF bei 'WORD'-
 				 bzw. =#PORT_BF+1 bei 'BYTE'-Lesen)!
-	ld	r3, PORT_I	!r3:=Adresse der PORT-I-Routine!	
+	ld	r3, PORT_I	!r3:=Adresse der PORT-I-Routine!
 	call	@r3		!PORT LESEN!
 	ld	r1, PORT_BF
 	ld	r5, r6		!r5:=Portadresse!
@@ -962,10 +962,10 @@ zerstoerte Register:	r3, r5
 	bit	r7, #%0
 	jr	nz, P_INB
 	ini	@r5, @r6, r3	!Normal Input ('WORD')!
-	ret	
+	ret
 P_INB:
 	inib	@r5, @r6, r3	!Normal Input ('BYTE')!
-	ret	
+	ret
     end P_IN
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -983,10 +983,10 @@ zerstoerte Register:	r3, r5
 	bit	r7, #%0
 	jr	nz, PS_INB
 	sini	@r5, @r6, r3	!Special Input ('WORD')!
-	ret	
+	ret
 PS_INB:
 	sinib	@r5, @r6, r3	!Special Input ('BYTE')!
-	ret	
+	ret
     end PS_IN
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1003,10 +1003,10 @@ zerstoerte Register:	r3, r5
 	bit	r7, #%0
 	jr	nz, P_OUTB
 	outi	@r6, @r5, r3	!Normal Output ('WORD')!
-	ret	
+	ret
 P_OUTB:
 	outib	@r6, @r5, r3	!Normal Output ('BYTE')!
-	ret	
+	ret
     end P_OUT
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1023,10 +1023,10 @@ zerstoerte Register:	r3, r5
 	bit	r7, #%0
 	jr	nz, PS_OUTB
 	souti	@r6, @r5, r3	!Special Output ('WORD')!
-	ret	
+	ret
 PS_OUTB:
 	soutib	@r6, @r5, r3	!Special Output ('BYTE')!
-	ret	
+	ret
     end PS_OUT
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1056,7 +1056,7 @@ Kommandoeingabe: R [ [R]0,...,[R]15; [R]L0,...,[R]L7; [R]H0,...,[R]H7;
 
 RG1:
 	clr	r6		!r6=0 bei 'RL'-Register!
-	cpb	rl0, #'L'	
+	cpb	rl0, #'L'
 	jr	z, R_L
 	inc	r6, #%02	!r6=2 bei 'RH'-Register!
 	cpb	rl0, #'H'

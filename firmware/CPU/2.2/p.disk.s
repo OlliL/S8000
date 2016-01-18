@@ -367,7 +367,7 @@ Disables interrupts on SIO0
 	ldar	r1, ITAB_SIO0_B
 	ldk	r0, #9
 	otirb	@r2, @r1, r0
-	ret	
+	ret
     end SIO0_DISABLE_INT
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -428,7 +428,7 @@ PROCEDURE PUTA
 	bitb	rh0, #2
 	jr	z, PUTA
 	outb	SIO0D_B, rl0
-	ret	
+	ret
     end PUTA
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -441,17 +441,17 @@ PROCEDURE READ_DISK
 	cpb	rl0, #3		!nur bei WDC!
 	jr	nz, NOT_WDC
 	calr	WDC_READ_DISK
-	ret	
+	ret
 NOT_WDC:
 	cpb	rl0, #%01	!nur bei SMC!
 	jr	nz, NOT_SMC
 	calr	SMC_READ_DISK
-	ret	
+	ret
 NOT_SMC:
 	cpb	rl0, #%02	!nur bei MDC!
 	ret	nz
 	calr	MDC_READ_DISK
-	ret	
+	ret
     end READ_DISK
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -685,7 +685,7 @@ MDCBOOT_02:
 	inc	r1, #2
 	cp	r0, r1
 	jr	nz, MDCBOOT_02
-	ret	
+	ret
     end MDC_BOOT_UNKNOWN
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

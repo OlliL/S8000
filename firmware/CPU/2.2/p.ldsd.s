@@ -169,7 +169,7 @@ Kommandoeingabe: N [count]
 				 naechsten Space im Eingabepuffer INBFF!
 	jr	z, N1		!keine Anzahl eingegeben!
 
-	call	GET_HEXZ	!r3:=Anzahl der Befehle!	
+	call	GET_HEXZ	!r3:=Anzahl der Befehle!
 	test	r3
 	jr	nz, N2		!ungleich 0!
 
@@ -183,7 +183,7 @@ N3:
 				!Interrupt erfolgt nach Abarbeitung des
 				 naechsten Befehls des zu testenden Programms!
 	ldl	rr4, B_ADR_S	!rr4:=BREAK-Adresse!
-	cpl	rr4, PC_SEG	!=Adresse des naechsten Befehls?!	
+	cpl	rr4, PC_SEG	!=Adresse des naechsten Befehls?!
 	jr	nz, G2		!nein!
 
 	ld	r1, B_WORD
@@ -264,7 +264,7 @@ Fehler, wenn Unterbrechungspunkt nicht im RAM liegt
 	clr	B_WORD
 
 	ld	NXTCTR, #1	!IMPLIZIT 1 ALS Schleifenzaehler FESTLEGEN!
-	call	GET_SIGN	!rl0:=1. Zeichen ungleich Space nach 
+	call	GET_SIGN	!rl0:=1. Zeichen ungleich Space nach
 				 naechstem Space im Eingabepuffer INBFF!
 	RET	Z		!RUECKSPRUNG WENN kein Parameter angegeben!
 
@@ -316,7 +316,7 @@ Output:	Z=1, wenn Zeichen = CR
 	jr	z, TYWR_MCZ	!NO, WAIT!
 	OUTB	SIO0D_A, RL0	!AUSGABE DES ZEICHENS!
 	cpb	rl0, #CR
-	ret	
+	ret
     end TYWR_MCZ
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -347,7 +347,7 @@ Eingabekonvertierung eines LOAD-Blockes
 	push	@r15, r3
 	calr	EKTB_PST
 	pop	r3, @r15
-	ret	
+	ret
     end EKBL
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -358,7 +358,7 @@ Input:	r2 - Zeiger auf aktuelles Zeichen in INBFF
 	      durch 2 ASCII-Zeichen kodiert (z.B. 'A','F' fuer %AF)
 	(nach der angegebenen Bytezahl muss die Pruefsumme (1 Byte = 2 ASCII-
 	Zeichen) in INBFF stehen
-Output: rl3 - Pruefsumme 
+Output: rl3 - Pruefsumme
 	rh3 - letztes Byte der angeg. Anzahl (Byte vor Pruefsumme)
 	C=1, wenn keine Hexaziffer in INBFF bzw. falsche Pruefsumme
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
@@ -382,7 +382,7 @@ EKTB1:
 	ret	z		!i.O.!
 
 	setflg	c		!C=1, da Pruefsummenfehler!
-	ret	
+	ret
     end EKTB_PST
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -415,7 +415,7 @@ Output:	rl0 - eingelesenes Byte (binaer, =2 ASCII-Zeichen aus INBFF)
 	addb	rl3, rl0	!rl3:=neuer Pruefsumme!
 	orb	rl0, rh0	!rl0 := eingelesenes Byte!
 	resflg	c
-	ret	
+	ret
     end EKBY_PSB
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -433,7 +433,7 @@ LDB_M_NB:
 	LDB	@R4, RL0
 	inc	r4, #%01
 	dbjnz	rl1, LDB_M_NB	!LADE NAECHSTES BYTE!
-	ret	
+	ret
     end LDB_MEM
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -448,7 +448,7 @@ Eingabekonvertierung der Ladeadresse fuer den LOAD-Datenblock
 	ldb	rh4, rl0
 	calr	EKBY_PSB
 	ldb	rl4, rl0
-	ret	
+	ret
     end EKLA
 
   INTERNAL
@@ -563,7 +563,7 @@ LD4A:
 	call	WR_MSG		!AUSGABE : '/ABORT'!
 	call	S_LAB
 LD5:	POP	PC_SEG, @R15
-	ret	
+	ret
     end LOAD
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -625,7 +625,7 @@ G_VIE:
 	pop	r1, @r15
 	pop	r2, @r15
 	sc	#SC_SEGV
-	iret	
+	iret
 
     end GO_INT
 
@@ -730,7 +730,7 @@ SC_END:
 	ldctl	FCW, r0
 
 	pop	r0, @r14
-	iret	
+	iret
     end SC_ENTRY
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -746,7 +746,7 @@ Interruptquelle (CTC0_3) loeschen
 	OUTB	RETI_P, RL1
 	LDB	RL1, #%03
 	OUTB	CTC0_3, RL1	!CTC-Kanal ruecksetzen!
-	ret	
+	ret
     end RETI_CTC0_3
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -767,7 +767,7 @@ Registerrettung
 	ld	r0, r15(#%6)	!OFFSET LADEN!
 	ld	PC_OFF, r0
 	sc	#SC_SEGV
-	ldctl	r0, NSPSEG 
+	ldctl	r0, NSPSEG
 
 	sc	#SC_NSEGV
 	ld	RF_CTR + 2, r0
@@ -775,7 +775,7 @@ Registerrettung
 
 	ld	RF_CTR + 4, r0
 	sc	#SC_SEGV
-	ldctl	r0, PSAPSEG 
+	ldctl	r0, PSAPSEG
 
 	sc	#SC_NSEGV
 	ld	PS_, r0
@@ -788,7 +788,7 @@ Registerrettung
 	ld	r15, #SV_R + 2
 	ldm	@r15, r1, #%0D	!REGISTERWERTE RETTEN!
 	ldl	rr14, RR14_V
-	ret	
+	ret
     end SAVREG
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -824,7 +824,7 @@ Register-Lade-Routine
 	ld	r15, #SV_R
 	ldm	r0, @r15, #%0E
 	ldl	rr14, RR14_V
-	ret	
+	ret
     end GETREG
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -843,7 +843,7 @@ Output:	r2 := alter Stand Zeichenkettenzeiger (Input-Wert)
 	cp	r0, #%00E8
 	ret	c
 	clr	r0
-	ret	
+	ret
     end INCPTR_MCZ
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -879,7 +879,7 @@ MCZ1:
 	pop	r1, @r15
 	pop	r0, @r15
 	sc	#SC_SEGV
-	iret	
+	iret
     end MCZ_INT
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -910,12 +910,12 @@ SEND_RETI:
 	OUTB	SIO0C_A, RL1	!SIO_RETI_SENDEN!
 	pop	r1, @r15
 	sc	#SC_SEGV
-	iret	
+	iret
     end MCZ_ERR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE F_IB_MCZ
-Fuellen von INBFF von MCZ nach empfangenen Zeichen '/' bis CR 
+Fuellen von INBFF von MCZ nach empfangenen Zeichen '/' bis CR
 (max. %50 Zeichen)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
   INTERNAL
@@ -942,7 +942,7 @@ FIB1:
 	jr	nz, FIB2	!Zeichen ungleich CR!
 
 	calr	WOEOS_MCZ	!Zeichen war CR --> warten auf Sendeende!
-	ret	
+	ret
 
 FIB2:
 	cpb	rl0, #%20
@@ -959,7 +959,7 @@ FIB3:
 
 	ldb	INBFF + %50, rl0	!CR als %51-stes Zeichen in INBFF
 					abspeichern!
-	ret	
+	ret
     end O_FIB_MCZ
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1010,7 +1010,7 @@ Output:	Z=0, wenn Zeichen '9' oder '0' oder '7' vom MCZ empfangen wurde
 	jr	z, SAW0		!Abbruchtaste (ESC) nicht gedrueckt!
 
 	setflg	z		!Z=1, Abbruchtaste gedrueckt!
-	ret	
+	ret
 
 SAW0:
 	ld	r4, #OUTBFF
@@ -1048,7 +1048,7 @@ SAW3:
 
 SAW4:
 	resflg	z
-	ret	
+	ret
     end SAW_MCZ
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1096,7 +1096,7 @@ WOEOS2:
 PROCEDURE WOCF_MCZ
 Warten, bis ein Zeichen im MCZ-Puffer MCZBFF bereitsteht
 (MCZBFF wird durch empfangene Zeichen vom MCZ in MCZ_INT gefuellt)
-Output:	rl0 - Zeichen 
+Output:	rl0 - Zeichen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
   GLOBAL
     WOCF_MCZ procedure
@@ -1110,7 +1110,7 @@ Output:	rl0 - Zeichen
 	ld	OUTPTR_MCZ, r0	!Ausgabezeiger aktualisieren (Zeichen wurde
 				abgeholt!
 	ldb	rl0, MCZBFF(r2)	!rl0:=Zeichen!
-	ret	
+	ret
     end WOCF_MCZ
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1154,7 +1154,7 @@ STRO2:
 	ld	r4, #OUTBFF
 	ld	r2, #OUTBFF + 2
 	ldir	@r2, @r4, r1
-	ret	
+	ret
     end WR_OUTBFF_MCZ
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1163,7 +1163,7 @@ Warten, bis ein Zeichen im MCZ-Puffer MCZBFF bereitsteht
 (ohne Aktualisierung von OUTPTR_MCZ, d.h. Zeichen gilt nach Aufruf von
 WOCF_MCZ_OI als noch nicht abgeholt);
 (MCZBFF wird durch empfangene Zeichen vom MCZ in MCZ_INT gefuellt)
-Output:	rl1 - Zeichen 
+Output:	rl1 - Zeichen
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
   INTERNAL
     WOCF_MCZ_OI procedure
@@ -1174,7 +1174,7 @@ Output:	rl1 - Zeichen
 
 	call	INCPTR_MCZ	!r2:=OUTPTR_MCZ!
 	ldb	rl1, MCZBFF(r2)	!rl1:=Zeichen!
-	ret	
+	ret
     end WOCF_MCZ_OI
 
 end p_ldsd

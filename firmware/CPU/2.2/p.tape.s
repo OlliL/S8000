@@ -32,7 +32,7 @@ S_BNK	:= %FFC1	!SWITCH-BANK:
 			 Bit 5,4: Baudrate Terminal
 			 Bit 7,6: Autoboot Device!
 
-  CONSTANT 
+  CONSTANT
 MOVE_ADR := %F800
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

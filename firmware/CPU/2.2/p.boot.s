@@ -122,7 +122,7 @@ NMI-Routine (vor erster Terminaleingabe)
 
 NO_BOOTDEV:
 !Hardwareeigentest war fehlerhaft --> kein ZEUS-Start:
- NMI-Entry in PSAREA aendern, PROMT setzen und Rueckkehr in 
+ NMI-Entry in PSAREA aendern, PROMT setzen und Rueckkehr in
  Kommandoeingabeschleife!
 	ld	PSA_NMI+6, #NMI_INT	!NMI_ENTRY in PSAREA:
 					- nach RESET steht dort #AUTOBOOT, d.h.

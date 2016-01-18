@@ -44,7 +44,7 @@ PTYBFF		ARRAY [%100 BYTE]	!Eingabepuffer fuer interrupt-
 MCZBFF		ARRAY [%0EA BYTE]	!Ein-/Ausgabepuffer fuer LOAD/SEND!
 MAXLEN		WORD			!maximale Zeilenlaenge!
 INPTR		WORD			!Zeiger fuer Eingabepuffer INBFF!
-OUTPTR		WORD			!Zeiger fuer Ausgabepuffer OUTBFF 
+OUTPTR		WORD			!Zeiger fuer Ausgabepuffer OUTBFF
 		                         (Pufferlaenge)!
 COUNT_PTY	WORD			!aktuelle Anzahl der Zeichen in PTYBFF!
 INPTR_PTY	WORD			!Eingabezeiger fuer PTYBFF
@@ -60,7 +60,7 @@ RR14_V		LONG			!VARIABLER STACK, FUER NEXT UND BREAK!
 W23B4		WORD
 FCW_V		WORD			!VARIABLES FCW FUER NEXT UND BREAK!
 PORT_BF		WORD			!Puffer fuer gelesenen bzw. zu
-					 schreibenden PORT-Datenwert!	
+					 schreibenden PORT-Datenwert!
 PORT_I		WORD			!Adresse des PORT-I-Programms!
 PORT_O		WORD			!Adresse des PORT-O-Programms!
 SV_R		ARRAY [14 WORD]		!Registerrettungsbereich!
@@ -79,11 +79,11 @@ FLAG0	BYTE
 
 !
 7 6 5 4 3 2 1 0
-              0-> 0: empf. Zeichen vom Terminalkanal ist ASCII-Zeichen 
+              0-> 0: empf. Zeichen vom Terminalkanal ist ASCII-Zeichen
 		     (Reset Bit 7 des Zeichens, Test auf ^S, ^Q, ESC)
                   1: empf. Zeichen vom Terminalkanal ist beliebiges Datenbyte
 		     (keine Sonderbehandlung)
-                  P: ENTRY(0), PTY_INT(T), KOPPEL_INT(T), QUIT(1), 
+                  P: ENTRY(0), PTY_INT(T), KOPPEL_INT(T), QUIT(1),
 		     NMI_INT(T/0), MCZ_INT(T), RM_BOOT(0)
             1---> 0:
                   1:
@@ -175,7 +175,7 @@ PSAREA	ARRAY [4 WORD]
 	ARRAY [4 WORD]
 	ARRAY [4 WORD]
 
-PSA_NMI	
+PSA_NMI
 	ARRAY [4 WORD]
 	ARRAY [4 WORD]
 	ARRAY [4 WORD]
