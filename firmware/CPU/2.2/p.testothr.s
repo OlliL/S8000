@@ -26,107 +26,131 @@ SC_WR_MSG		:= %0C
 SC_WR_OUTBFF_CR		:= %10
 SC_PUT_CHR		:= %16
 
+ERR_WDC_NOT_IN_SYS	:= %1000
+ERR_WDC_SELF_TEST	:= %1001
+ERR_WDC_DRIVE_0		:= %1002
+
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE WDC_TEST_1000
+PROCEDURE WDC_TEST_ENTRY
 See:
  - Page 4-16 in Book 03-3237-04 (Theory of Operation)
  - Appendix B in Book 03-3237-04 (Winchester Disk Controller Commands)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
   GLOBAL
-    WDC_TEST_1000 procedure
+    WDC_TEST_ENTRY procedure
       entry
-	ld	r8, #%1000	!Fehlernummer 1000!
+	ld	r8, #ERR_WDC_NOT_IN_SYS	!Error 1000!
 	ld	ERRPAR_ID, #%0000
 	xorb	rh1, rh1
-	ld	r7, #%8001	!WDC: Unit Register!
+	ld	r7, #%8001		!WDC: Unit Register!
 	ldb	rl6, #%a5
 	outb	@r7, rl6
 	inb	rh6, @r7
 	cpb	rh6, rl6
-	jr	z, WDCT1000_1
+	jr	z, WDC_CTRL_FOUND
 	cpb	ABOOT_DEV, #%03
 	ret	nz
-	jr	WDCT_ERROR
-WDCT1000_1:
+	jr	WDC_TEST_PRT_ERR
+WDC_CTRL_FOUND:
 	pushl	@r15, rr0
-	ld	r2, #T_WDC	!Textausgabe 'WDC' !
+	ld	r2, #T_WDC		!Textausgabe 'WDC' !
 	sc	#SC_WR_MSG
 	sc	#SC_WR_OUTBFF_CR
 	popl	rr0, @r15
 	cpb	ABOOT_DEV, #%03
 	ret	nz
-	ld	r8, #%1002	!Fehlernummer	1002!
-	outb	%8001, rh1	!WDC: Unit Register -> Drive 0!
-	ld	r7, #%8000	!WDC: Command Register!
-	ld	r6, #%8010	!WDC: Command-Status (C/S) Register!
+	ld	r8, #ERR_WDC_DRIVE_0	!Error 1002!
+	outb	%8001, rh1		!WDC: Unit Register -> Drive 0!
+	ld	r7, #%8000		!WDC: Command Register!
+	ld	r6, #%8010		!WDC: Command-Status (C/S) Register!
 	ldb	rl2, #%04
-	call	WDC_TEST_1002
-	jr	nz, WDCT1000_2
-	ret	
-WDCT1000_2:
+	call	WDC_TEST
+	jr	nz, WDC_TEST_FAILURE
+	ret
+WDC_TEST_FAILURE:
 	cpb	ABOOT_DEV, #%03
-	jr	z, WDCT1000_3
+	jr	z, WDC_NOT_BOOTDEV
 	setb	rh1, #2
-WDCT1000_3:
+WDC_NOT_BOOTDEV:
 	ld	ERRPAR_ID, #%0055
 	call	WDC_TEST_UNKOWN_02
-WDCT_ERROR:
+WDC_TEST_PRT_ERR:
 	call	MSG_ERROR
 	ret
-    end WDC_TEST_1000
+    end WDC_TEST_ENTRY
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE WDC_TEST_1002
+PROCEDURE WDC_TEST
+
+Input:
+-> r6  -> Command-Status Register
+-> r7  -> Command Register
+-> rl2 -> Command
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
   INTERNAL
-    WDC_TEST_1002 procedure
+    WDC_TEST procedure
       entry
-	inb	rl5, @r6
+	inb	rl5, @r6		!read C/S Register!
 	ldb	rh5, rl5
 	andb	rh5, #%03
-	cpb	rh5, #%03
-	jr	z, WDC_TEST_1001
+	cpb	rh5, #%03		!check if status is 3!
+	jr	z, WDC_SELF_TEST_ERROR	!=3 -> error 1001!
+
 	ld	r4, #%0007
-	call	WDC_TEST_UNKOWN_01
-	jr	z, WDCT1002_OUT
-	outb	@r7, rl2
+	call	WDC_CHECK_STATUS	!check status, bit 7 must be set!
+	jr	z, WDC_TEST_ERR_OUT	!status not set -> error!
+
+	outb	@r7, rl2		!send command!
+
 	ld	r4, #%0007
-	call	WDC_TEST_UNKOWN_01
-	jr	z, WDCT1002_OUT
+	call	WDC_CHECK_STATUS	!status bit 7 must still be set!
+	jr	z, WDC_TEST_ERR_OUT	!status not set -> error!
+
 	ld	r4, #%0003
-	call	WDC_TEST_UNKOWN_01
-	jr	z, WDCT1002_OUT
-	inb	rl5, @r6
-	bitb	rl5, #1
-	jr	nz, WDCT1002_OUT
-	bitb	rl5, #2
-	jr	nz, WDCT1002_OUT
-	ret	
-WDC_TEST_1001:
-	ld	r8, #%1001	!Fehlernummer 1001!
-WDCT1002_OUT:
+	call	WDC_CHECK_STATUS	!check status, bit 3 must be set!
+	jr	z, WDC_TEST_ERR_OUT	!status not set -> error!
+
+	inb	rl5, @r6		!read status register!
+
+	bitb	rl5, #1			!check if bit 1 is set!
+	jr	nz, WDC_TEST_ERR_OUT	!set -> error!
+
+	bitb	rl5, #2			!check if bit 2 is set!
+	jr	nz, WDC_TEST_ERR_OUT	!set -> error!
+	ret
+
+WDC_SELF_TEST_ERROR:
+	ld	r8, #ERR_WDC_SELF_TEST	!Error 1001 !
+WDC_TEST_ERR_OUT:
 	resflg	z
 	ret
-    end WDC_TEST_1002
+    end WDC_TEST
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-PROCEDURE WDC_TEST_UNKOWN_01
+PROCEDURE WDC_CHECK_STATUS
+
+Input:
+-> r6 -> Command-Status Register
+-> r4 -> The bit which has to be set in the Command-Status Register to indicate
+         OK
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
   INTERNAL
-    WDC_TEST_UNKOWN_01 procedure
+    WDC_CHECK_STATUS procedure
       entry
 	pushl	@r15, rr2
-	ld	r0, #%0fa0
-WDCTU01_01:
-	inb	rl2, @r6
-	bitb	rl2, r4
-	jr	nz, WDCTU01_OUT
-	call	TEST_DELAY
-	djnz	r0, WDCTU01_01
-WDCTU01_OUT:
+	ld	r0, #%0fa0		!retry up to 4000 times!
+
+WDC_STAT_LOOP:
+	inb	rl2, @r6		!read status register!
+	bitb	rl2, r4			!check if specified bit is set!
+	jr	nz, WDC_STAT_OUT	!set     -> return!
+	call	TEST_DELAY		!not set -> wait + retry!
+	djnz	r0, WDC_STAT_LOOP
+
+WDC_STAT_OUT:
 	popl	rr2, @r15
 	ret
-    end WDC_TEST_UNKOWN_01
+    end WDC_CHECK_STATUS
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE WDC_TEST_UNKOWN_02
@@ -141,17 +165,17 @@ PROCEDURE WDC_TEST_UNKOWN_02
 	outb	%800a, rl2	!WDC: Transfer Address Bit  7 -  0!
 	outb	%800b, rh2	!WDC: Transfer Address Bit 15 -  8!
 	ldb	rl2, #%03
-	call	WDC_TEST_1002
+	call	WDC_TEST
 	jr	nz, WDCTU01_02
 	ldb	rl6, %8000	!WDC: Command Register!
 	ldb	rl7, %8001	!WDC: Unit Register!
 	ldb	rl5, %8004	!WDC: Cylinder Address Register Bit 15 -  8!
 	ldb	rl4, %8005	!WDC: Sector Register!
-	ret	
+	ret
 WDCTU01_02:
 	inb	rl5, @r6
 	ld	ERRPAR_ID, #4
-	ret	
+	ret
 	ld	r0, #4
 	calr	MDC_TEST
 	ret
@@ -165,7 +189,7 @@ PROCEDURE MDC_TEST_ENTRY
       entry
 	ld	r0, #0
 	calr	MDC_TEST
-	ret     
+	ret
     end MDC_TEST_ENTRY
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -261,7 +285,7 @@ WDCT3000_03:
 	setb	rh1, #2
 WDCT3000_ERR:
 	call	MSG_ERROR
-	ret	
+	ret
     end MDC_TEST
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -442,9 +466,9 @@ SMCSP_01:
 	and	r0, #%3f00	!mask ending status!
 	cp	r0, #%0300	!DMA error?!
 	jr	nz, SMCSP_02	!no, jump!
-	ld	%fed4, #%0003	!packet ending status: DMA error!	
+	ld	%fed4, #%0003	!packet ending status: DMA error!
 SMCSP_02:
-	ret	
+	ret
     end SMC_SEND_PACKET
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -529,7 +553,7 @@ TCCT_ERR:
 	call	MSG_ERROR
 TCCT_OUT:
 	dec	ERR_CNT, #1
-	ret	
+	ret
     end TCC_TEST
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -550,7 +574,7 @@ TCCT2001_01:
 	setb	rh1, #2
 	setb	rh1, #6
 	call	MSG_ERROR
-	ret	
+	ret
     end TCC_TEST_2001
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -567,7 +591,7 @@ TEST_DELAY_01:
 	djnz	r0, TEST_DELAY_01
 
 	pop	r0, @r15
-	ret	
+	ret
     end TEST_DELAY
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

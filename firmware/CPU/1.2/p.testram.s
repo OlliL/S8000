@@ -94,7 +94,7 @@ T_TCC	WORD := %0003
 	ARRAY [* BYTE] := 'TCC%00'
 T_ERR	WORD := %000b
 	ARRAY [12 BYTE] := '*** ERROR #%00'
-T_FERR	
+T_FERR
 	WORD := %0010
 	ARRAY [16 BYTE] := '%07*** FATAL ERROR'
 T_MAXS	WORD := %0007
@@ -165,7 +165,7 @@ LISTE_4:
 LISTE_DISK_TESTS:
 	WORD	:= SMC_TEST		! SMD Controller Tests !
 	WORD	:= MDC_TEST_ENTRY	! m-WDC Controller Tests !
-	WORD	:= WDC_TEST_1000	! WDC Controller Tests !
+	WORD	:= WDC_TEST_ENTRY	! WDC Controller Tests !
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE TEST_
@@ -206,7 +206,7 @@ kein RAM vorhanden ist, ist die vorherige Segmentadresse die hoechste.!
 	ld	ERRPAR_ID, r6	!Fehlerparameter fuer Fehler 0:
 				 			keine Parameter!
 	ld	MAX_SEGNR, r6	!hoechste Segmentnummer initialisieren (:=0)!
-        ldb	rl5, #%A5	
+        ldb	rl5, #%A5
 C_SEG:
 	ldb	rl0, #%02	!Schleifenzaehler (2 Adressen testen)!
 	ldb	rh5, rh6	!rh5:=Segmentnummer des zu testenden Segments!
@@ -218,7 +218,7 @@ C_SEGL:
 	sc	#SC_NSEGV
 	cp	r5, r4		!ruecklesbar!
 	jr	z, INC_SEG	!Sprung wenn Segment vorhanden!
-	ld	r7, #%FFFE	!2. betrachtete Offsetadresse des Segments!	
+	ld	r7, #%FFFE	!2. betrachtete Offsetadresse des Segments!
 	dbjnz	rl0, C_SEGL
 	decb	rh6, #%01	!betrachtetes Segment nicht vorhanden;
 				 rh6:=hoechstes vorhandenes Segment!
@@ -311,7 +311,7 @@ RAM-Test Segment 0
 	ld	r10, r6		!Quell-Segment=0!
 	ld	r12, MAX_SEGNR	!Ziel-Segment=hoechstes Segment!
 	ld	r11, #T_POUPDIAG
-	ld	r13, r11	
+	ld	r13, r11
 	ld	r9, #MMU_MEM_3+2
 	sub	r9, #T_POUPDIAG
 	sc	#SC_SEGV
@@ -392,7 +392,7 @@ MMU_JP_2:
 	ld	%22(r9), #%4000	!FCW=nonsegmented!
 	ld	%26(r9), #SEGMENT_TRAP	!Offsetadresse!
 
-!SDR-Tabellen fuer Test laden! 
+!SDR-Tabellen fuer Test laden!
 	ld	r10, #%A100	!%A100-%A1FF mit %00 laden!
 	ld	r11, #%A101
 	xor	r5, r5
@@ -422,7 +422,7 @@ LD_INC:
 	ldb	@r10, rl5
 	ldirb	@r11, @r10, r0
 
-!Schleife L14E2 wird 3x durchlaufen mit 
+!Schleife L14E2 wird 3x durchlaufen mit
 r2=0,2,4 (r2-Zeiger auf 1. MMU-Adresse in MMU_LISTE1 fuer den entsprechenden
 Durchlaufes!
 	xor	r2, r2		!r2=0 (1. Schleifendurchlauf)
@@ -439,8 +439,8 @@ L14E2:
 !---------------------------------------------------------
 Testschritt (0300)
 Test auf individuelle Adressierbarkeit der einzelnen MMU's
----------------------------------------------------------! 
-	xor	r3, r3	
+---------------------------------------------------------!
+	xor	r3, r3
 	ld	r8, #%0300	!Fehlernummer 300!
 
 !64 SDR der 3 MMU's fuellen!
@@ -500,7 +500,7 @@ Test der SAR- bzw. DSCR-Indizierung
 					    bzw. STACK-MMU (3. Durchlauf) !
 	ld	r3, #MMU_LISTE3
 !Schleife L1538 wird 10 mal durchlaufen, wobei bei jedem Durchlauf 3 Bytes
- der MMU_LISTE3 benutzt werden (1.Byte: write SAR; 2.Byte: write DSCR; 
+ der MMU_LISTE3 benutzt werden (1.Byte: write SAR; 2.Byte: write DSCR;
  3.Byte: Datenwert, der rueckgelesen werden muesste)!
 L1538:
 	ld	r10, r6		!Adresse der 1. MMU des Durchlaufes!
@@ -790,7 +790,7 @@ L1738:
 							r6, rl7, r5 !
 	ld	r5, REM_MMU_BCSR !r5=Fehlerpar. (VDAT) - Werte der Status-
                                   Register BCSR und VTR nach Segment-Trap:
- 				  rh5= Bus Cycle Status Register (BCSR) / 
+ 				  rh5= Bus Cycle Status Register (BCSR) /
 				  rl5= Violation Type Register (VTR) !
 	call	MSG_ERROR	!Fehlerausgabe!
 
@@ -855,7 +855,7 @@ L17AA:
 
 	ld	r5, REM_MMU_BCSR !r5=Fehlerpar. (VDAT) - Werte der Status-
                                   Register BCSR und VTR nach Segment-Trap:
- 				  rh5= Bus Cycle Status Register (BCSR) / 
+ 				  rh5= Bus Cycle Status Register (BCSR) /
 				  rl5= Violation Type Register (VTR) !
 	call	MSG_ERROR	!Fehlerausgabe!
 
@@ -987,7 +987,7 @@ L1874:
 							r6, rl7, r5 !
 	ld	r5, REM_MMU_BCSR !r5=Fehlerpar. (VDAT) - Werte der Status-
                                   Register BCSR und VTR nach Segment-Trap:
- 				  rh5= Bus Cycle Status Register (BCSR) / 
+ 				  rh5= Bus Cycle Status Register (BCSR) /
 				  rl5= Violation Type Register (VTR) !
 
 L1880:
@@ -1060,7 +1060,7 @@ RATE2:
 	res	r9, #%0F
 	ldctl	FCW, r9		!nichtsegmentierten Mode einstellen!
 	call	BY_WO_CMP	!Vergleich eingetragener Wert (rl5) mit
-				 rueckgelesenen Wert (rl4); 
+				 rueckgelesenen Wert (rl4);
 				 ggf. Fehler 72: Mem Addr Fault!
 	bitb	rh1, #%07	!Fehler aufgetreten?!
 	jr	nz, RATE3	!ja --> naechster Testschritt!
@@ -1085,7 +1085,7 @@ RATE3:
 	inc	r8, #1		!Fehlernummer 101!
 
 	ld	r7, #%8000	!r7:=Offsetadresse!
-	ld	r5, #1		!r5:=in RAM einzutragender Datenwert 
+	ld	r5, #1		!r5:=in RAM einzutragender Datenwert
 				 (Anfangswert - Bit0 gesetzt)!
 	ldb	rl0, #%11	!rl0:=Anzahl der Schritte!
 RATE4:
@@ -1108,7 +1108,7 @@ Testschritt (0102, 0103)
 Test auf fehlerhafte '%AAAA'- bzw. '%5555'-Daten
 -----------------------------------------------!
 
-!Das ganze betrachtete Segment wird mit dem Datenwert %AAAA bzw. %5555 
+!Das ganze betrachtete Segment wird mit dem Datenwert %AAAA bzw. %5555
 beschrieben und wieder rueckgelesen.!
 
 RATE5:
@@ -1154,12 +1154,12 @@ Output:	r3 - Stand Fehlerzaehler (ERR_CNT)
 	res	r9, #%0F
 	ldctl	FCW, r9		!nichtsegmentierten Mode einstellen!
 !Terminalinterrupts sperren!
-	ld	r2, #SIO0C_B	
+	ld	r2, #SIO0C_B
 	ld	r4, #1		!SIO_R1!
 	outb	@r2, rl4
 	outb	@r2, rh4
 	inb	rh2, @r3
-	setb	rh2, #0		
+	setb	rh2, #0
 	outb	@r3, rh2	!Monitor PROM+RAM ausschalten!
 	setb	rh1, #0		!Test in Segment 0!
 	call	RAM_TEST_SEG	!Ramtest des Segment 0!
@@ -1167,7 +1167,7 @@ Output:	r3 - Stand Fehlerzaehler (ERR_CNT)
 	resb	rh2, #0
 	outb	@r3, rh2	!Monitor PROM+RAM einschalten!
 !Empfaengerinterrupts zulassen!
-	ld	r2, #SIO0C_B	
+	ld	r2, #SIO0C_B
 	ld	r4, #%011c	!PDAVCT+SAVECT!
 	outb	@r2, rh4
 	outb	@r2, rl4
@@ -1262,7 +1262,7 @@ ECC200_7:
 	ret	z
 	ld	r8, #%0200		!Fehlernummer 200!
 	call	MSG_ERROR
-	ret	
+	ret
     end ECC_TEST_200
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1508,12 +1508,12 @@ PUTU01_09:
 	res	r9, #%0F
 	ldctl	FCW, r9		!nichtsegmentierten Mode einstellen!
 !Terminalinterrupts sperren!
-	ld	r2, #SIO0C_B	
+	ld	r2, #SIO0C_B
 	ld	r4, #1		!SIO_R1!
 	outb	@r2, rl4
 	outb	@r2, rh4
 	inb	rh2, @r3
-	setb	rh2, #0		
+	setb	rh2, #0
 	outb	@r3, rh2	!Monitor PROM+RAM ausschalten!
 	setb	rh1, #0		!Test in Segment 0!
 	ld	UKNOW_MEM_1, #%0000
@@ -1527,7 +1527,7 @@ PUTU01_02:
 	resb	rh2, #0
 	outb	@r3, rh2	!Monitor PROM+RAM einschalten!
 !Empfaengerinterrupts zulassen!
-	ld	r2, #SIO0C_B	
+	ld	r2, #SIO0C_B
 	ld	r4, #%011c	!PDAVCT+SAVECT!
 	outb	@r2, rh4
 	outb	@r2, rl4
@@ -1723,7 +1723,7 @@ PROCEDURE POWUP_TEST_UNKNOWN_02
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE SEGMENT_TRAP
 Trap-Routine bei Segment-Trap
-Output:	REM_MMU_BCSR - Inhalt Bus-Cycle-Status-Register (BCSR) der MMU bzw. 
+Output:	REM_MMU_BCSR - Inhalt Bus-Cycle-Status-Register (BCSR) der MMU bzw.
 						0 bei Fehler
 	REM_MMU_VTR  - Inhalt Violation-Type-Register (VTR) der MMU bzw.
 						0 bei Fehler
@@ -1773,7 +1773,7 @@ TRAP_OUT:
 	ldctl	r9, FCW
 	set	r9, #%0F	!Segment-Bit im FCW setzen!
 	ldctl	FCW, r9
-	iret	
+	iret
     end SEGMENT_TRAP
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1816,7 +1816,7 @@ Input:	rl7 - Wert fuer SAR
       entry
 	soutb	ALL_MMU + %0100, rl7	!Write SAR!
 	soutb	ALL_MMU + %2000, rh7	!Write DSCR!
-	ret	
+	ret
     end CLR_CTL_REG
 
 
@@ -1840,7 +1840,7 @@ Input:	r6  - MMU-Adresse
 	xor	r7, r7
 	call	CLR_CTL_REG	!Loeschen der Control-Register SAR und DSCR!
 	ldm	r0, RG_FELD, #%0F
-	ret	
+	ret
     end LD_SDR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1880,7 +1880,7 @@ Input:	r6  - MMU-Adresse
 	call	BY_WO_CMP	!Vergleich rl5/rl4; ggf. Fehler 80 bzw. 82!
 	pop	r11, @r15
 	popl	rr2, @r15
-	ret	
+	ret
     end RD_SDR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1916,7 +1916,7 @@ LD_3LOOP:
 	dbjnz	rl0, LD_3LOOP		!naechstes SDR!
 	call	CLR_CTL_REG	!Loeschen der Control-Register SAR und DSCR!
 	ldm	r0, RG_FELD, #%0F
-	ret	
+	ret
     end LD_3SDR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1965,7 +1965,7 @@ LB_250E:
 	outb	S_BNK, rl0	!MMU's ausschalten!
 
 	ld	r6, REM_MMU_ID	!rl6=Fehlerpar. (MMU ID#)!
-	testb	rh6	
+	testb	rh6
 	jr	nz, L1B12	!Fehler 85 mit Fehlerpar. rl6, rl7:
 				 Segment-Trap mit falschem MMU_ID aufgetreten
 				 (nicht 1,2,4 - siehe SEGMENT_TRAP)!
@@ -1998,16 +1998,16 @@ L1B12:
 
 L1B1C:
 	popl	rr2, @r15
-	ret	
+	ret
     end SEGMENT_TRAP_TEST
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE BY_WO_CMP
-Vergleich zweier Byte-Register (rl4, rl5) bzw. zweier Word-Register (r4, r5); 
+Vergleich zweier Byte-Register (rl4, rl5) bzw. zweier Word-Register (r4, r5);
 bei Ungleichheit Fehlermeldung (MSG_ERROR)
 Input:	rl4/rl5 bzw. r4/r5 - zu vergleichende Register
 	rh1 Bit0=0 - Test nicht in Segment 0
-	        =1 - Test in Segment 0 
+	        =1 - Test in Segment 0
 	    Bit1=0 - Byte-Vergleich (rl4,rl5)
 	        =1 - Word-Vergleich (r4,r5)
 	r8,r7,r6,ERRPAR_ID - siehe Prozedur MSG_ERROR
@@ -2079,7 +2079,7 @@ Vorbereitung der Ausgabe der Meldung "POWER UP DIAGNOSTICS" Zeichen um Zeichen
 PRPOUP_PRT:
 	call    DO_PR_POWER_UP
 	pop     r2, @r15
-	ret     
+	ret
     end PR_POWER_UP
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2101,7 +2101,7 @@ DPPUP_1:
 	ld      PRT_POW_UP_TXT, #%0000
 	popl    rr2, @r15
 	popl    rr0, @r15
-	ret     
+	ret
     end DO_PR_POWER_UP
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2126,7 +2126,7 @@ Input:	r8 - Fehlernummer
 				     Segmentnummer ('<yy>')
 Output:	ERR_CNT - Fehlerzaehler wurde incr., wenn Bit2(rh1)=0 war
 	Bit2(rh1) := 0
-	Bit6(rh1) := 1 
+	Bit6(rh1) := 1
 	Bit7(rh1) := 1 , wenn Bit6(rh1) vorher =1 war
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++!
   GLOBAL
@@ -2153,13 +2153,13 @@ MSERR1:
 	ldb	rl1, #' '
 	sc	#SC_PUT_CHR	!Space in OUTBFF eintragen!
 
-	ld	r7, ERRPAR_ID	!rl7 := Parameter-Identifier fuer Fehlerzeile!	
+	ld	r7, ERRPAR_ID	!rl7 := Parameter-Identifier fuer Fehlerzeile!
 	ld	r6, #%0004	!r6 := Anzahl der Parameter (=4)!
 MSER2:
 	xorb	rh7, rh7	!rh7 loeschen!
 	rl	r7, #%02	!Parameter-Identifier fuer betrachteten
 				 Parameter in rh7 schieben (Bit 0,1)!
-	pop	r5, @r15	!r5 := betrachteter Parameter!	
+	pop	r5, @r15	!r5 := betrachteter Parameter!
 	cpb	rh7, #%01	!Parameter-Identifier = 1 ?!
 	jr	nz, MSER3	!nein!
 
@@ -2187,7 +2187,7 @@ MSER5:
 
 	sc	#SC_WR_OUTBFF_CR !Ausgabe Inhalt OUTBFF mit CR auf Terminal!
 	ldm	r0, RG_FELD, #%0F	!gerettete Registerinhalte r0-r14
-					 zurueckspeichern!	
+					 zurueckspeichern!
 
 	bitb	rh1, #%02
 	jr	nz, LB_2286
@@ -2200,7 +2200,7 @@ LB_2286:
 	setb	rh1, #%07	!SET Bit7(rh1), wenn Bit6(rh1)=1!
 MSER6:
 	setb	rh1, #%06	!SET Bit6(rh1)!
-	ret	
+	ret
     end MSG_ERROR
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2230,7 +2230,7 @@ Output: r2 - Stand Fehlerzaehler (ERR_CNT)
 	jr	MSG_NO_BOOTDEV
 MSG_BOOTDEV:
 	ld	r2, PSA_NMI+6
-	cp	r2, #AUTOBOOT	
+	cp	r2, #AUTOBOOT
 	jr	z, MSG_MAXSEG01
 MSG_NO_BOOTDEV:
 	clr	REM_MMU_ID
@@ -2271,7 +2271,7 @@ MSG_MAXSEG04:
 				  Terminal (mit CR)!
 
 	ld	r2, ERR_CNT	!r2 := Stand Fehlerzaehler!
-	ret	
+	ret
     end MSG_MAXSEG
 
 end p_testram
