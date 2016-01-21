@@ -44,21 +44,21 @@ See:
 	xorb	rh1, rh1
 	ld	r7, #%8001		!WDC: Unit Register!
 	ldb	rl6, #%a5
-	outb	@r7, rl6
-	inb	rh6, @r7
-	cpb	rh6, rl6
-	jr	z, WDC_CTRL_FOUND
-	cpb	ABOOT_DEV, #%03
-	ret	nz
-	jr	WDC_TEST_PRT_ERR
+	outb	@r7, rl6		!write %a5 in the unit register!
+	inb	rh6, @r7		!read the unit register back!
+	cpb	rh6, rl6		!check that %a5 could be read back!
+	jr	z, WDC_CTRL_FOUND	!controller in the system!
+	cpb	ABOOT_DEV, #%03		!is WDC the selected boot device?!
+	ret	nz			!no -> return!
+	jr	WDC_TEST_PRT_ERR	!yes -> print error!
 WDC_CTRL_FOUND:
 	pushl	@r15, rr0
 	ld	r2, #T_WDC		!Textausgabe 'WDC' !
 	sc	#SC_WR_MSG
 	sc	#SC_WR_OUTBFF_CR
 	popl	rr0, @r15
-	cpb	ABOOT_DEV, #%03
-	ret	nz
+	cpb	ABOOT_DEV, #%03		!is WDC the selected boot device?!
+	ret	nz			!no -> return!
 	ld	r8, #ERR_WDC_DRIVE_0	!Error 1002!
 	outb	%8001, rh1		!WDC: Unit Register -> Drive 0!
 	ld	r7, #%8000		!WDC: Command Register!
