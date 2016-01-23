@@ -63,7 +63,7 @@ WDC_CTRL_FOUND:
 	outb	%8001, rh1		!WDC: Unit Register -> Drive 0!
 	ld	r7, #%8000		!WDC: Command Register!
 	ld	r6, #%8010		!WDC: Command-Status (C/S) Register!
-	ldb	rl2, #%04
+	ldb	rl2, #%04		! CMD Code 04 !
 	call	WDC_TEST
 	jr	nz, WDC_TEST_FAILURE
 	ret
@@ -161,22 +161,22 @@ PROCEDURE WDC_TEST_UNKOWN_02
 	xorb	rl2, rl2
 	outb	%800c, rl2	!WDC: Transfer Address Bit 32 - 24!
 	outb	%8001, rl2	!WDC: Unit Register!
-	ld	r2, #%8000	!WDC: Command Register!
+	ld	r2, #%8000	!transfer address: WDC: Command Register!
 	outb	%800a, rl2	!WDC: Transfer Address Bit  7 -  0!
 	outb	%800b, rh2	!WDC: Transfer Address Bit 15 -  8!
-	ldb	rl2, #%03
+	ldb	rl2, #%03	! CMD Code 03 !
 	call	WDC_TEST
 	jr	nz, WDCTU01_02
-	ldb	rl6, %8000	!WDC: Command Register!
-	ldb	rl7, %8001	!WDC: Unit Register!
-	ldb	rl5, %8004	!WDC: Cylinder Address Register Bit 15 -  8!
-	ldb	rl4, %8005	!WDC: Sector Register!
+	ldb	rl6, %8000	!error par 1: WDC: Command Register!
+	ldb	rl7, %8001	!error par 2: WDC: Unit Register!
+	ldb	rl5, %8004	!error par 3: WDC: Cylinder Address Register Bit 15 -  8!
+	ldb	rl4, %8005	!error par 4: WDC: Sector Register!
 	ret
 WDCTU01_02:
-	inb	rl5, @r6
+	inb	rl5, @r6	!error par 3: WDC Command Status!
 	ld	ERRPAR_ID, #4
 	ret
-	ld	r0, #4
+	ld	r0, #4		!dead code?!
 	calr	MDC_TEST
 	ret
     end WDC_TEST_UNKOWN_02

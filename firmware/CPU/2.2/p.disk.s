@@ -513,7 +513,7 @@ See Page 4-22/4-22 in Book 03-3237-04
 	ld	r0, #DISK_BUFFER
 	exb	rl0, rh0
 	out	%800b, r0
-	ldk	r0, #1
+	ldk	r0, #1		! CMD Code 1 !
 	out	%8009, r0
 	jr	WDCBOOT_CMD
     end WDC_READ_DISK
