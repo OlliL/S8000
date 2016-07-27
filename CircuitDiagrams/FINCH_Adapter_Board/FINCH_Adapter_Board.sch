@@ -36,8 +36,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 3
 Title "S8000 FINCH Adapter Board"
-Date "2016-07-18"
-Rev "1.1"
+Date "2016-07-27"
+Rev "1.2"
 Comp "Oliver Lehmann"
 Comment1 ""
 Comment2 ""
@@ -50,7 +50,7 @@ U 1 1 577BF994
 P 1350 5950
 F 0 "J5" H 1350 6500 50  0000 C CNN
 F 1 "CONN_01X10" V 1450 5950 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x10" H 1350 5950 50  0001 C CNN
+F 2 "footprints:Conn_Molex-26-60-5100" H 1350 5950 50  0001 C CNN
 F 3 "" H 1350 5950 50  0000 C CNN
 	1    1350 5950
 	-1   0    0    1   
@@ -829,4 +829,8 @@ F 3 "" H 1550 5800 50  0000 C CNN
 	1    1550 5800
 	1    0    0    -1  
 $EndComp
+Text Label 3150 6000 0    60   ~ 0
+24V
+Text Label 3150 5800 0    60   ~ 0
+GND
 $EndSCHEMATC
