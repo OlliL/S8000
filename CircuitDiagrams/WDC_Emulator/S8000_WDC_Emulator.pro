@@ -1,4 +1,4 @@
-update=30.07.2016 23:30:52
+update=07.08.2016 02:08:29
 version=1
 last_client=kicad
 [pcbnew]
@@ -58,14 +58,14 @@ LibName26=opto
 LibName27=atmel
 LibName28=contrib
 LibName29=valves
-LibName30=FINCH_Adapter_Board
+LibName30=O:/cvs/projects/S8000/schematics/s8000
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
 PlotDirectoryName=
 SubpartIdSeparator=0
 SubpartFirstId=65
-NetFmtName=Pcbnew
+NetFmtName=
 SpiceForceRefPrefix=0
 SpiceUseNetNumbers=0
-LabSize=60
+LabSize=1969
