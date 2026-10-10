@@ -137,6 +137,21 @@ XENABLE	:=	%08	!Transmitter enable!
 T8	:=	%60	!Transmit 8 bits/character!
 DTR	:=	%80	!Data terminal ready!
 
+!WDC Registers!
+WDC_REG_CMD		:= %8000	!WDC Command Register!
+WDC_REG_DRV		:= %8001	!WDC Drive Register!
+WDC_REG_HEAD		:= %8002	!WDC Head Register!
+WDC_REG_CYL_LO		:= %8003	!WDC Cylinder Low Register!
+WDC_REG_CYL_HI		:= %8004	!WDC Cylinder High Register!
+WDC_REG_SECTOR		:= %8005	!WDC Sector Register!
+WDC_REG_TRANSWRD_CNT_LO	:= %8008	!WDC Transfer Word Count Low Register!
+WDC_REG_TRANSWRD_CNT_HI	:= %8009	!WDC Transfer Word Count High Register!
+WDC_REG_TRANSADDR_B0	:= %800a	!WDC Transfer Address Byte 0 (Bits 7-0) Register!
+WDC_REG_TRANSADDR_B1	:= %800b	!WDC Transfer Address Byte 1 (Bits 15-8) Register!
+WDC_REG_TRANSADDR_B2	:= %800c	!WDC Transfer Address Byte 2 (Bits 23-16) Register!
+WDC_REG_TRANSADDR_B3	:= %800d	!WDC Transfer Address Byte 3 (Bits 31-24) Register!
+WDC_REG_STAT		:= %8010	!WDC Status Register!
+
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE DSK_BOOT
 Laden und Starten "boot0" von DISK (Block 0)
@@ -460,30 +475,30 @@ PROCEDURE WDC_BOOT
   INTERNAL
     WDC_BOOT procedure
       entry
-	ldb	%feb6, #%03
-	ldb	%feb7, #%18
-	ld	r0, #%feb4	!Transfer Address?!
-	out	%800a, r0
-	exb	rh0, rl0
-	out	%800b, r0
-	xor	r0, r0
-	out	%800c, r0
-	out	%8010, r0
-	ld	r0, #%0016	! CMD Code 16 !
-	jr	WDCBOOT_CMD
-WDCBOOT_CMD:
-	out	%8000, r0
-WDCBOOT_STAT1:
-	in	r0, %8010
-	bit	r0, #7
-	jr	z, WDCBOOT_STAT1
-WDCBOOT_STAT2:
-	in	r0, %8010
-	bit	r0, #1
-	ret	nz
-	bit	r0, #3
-	jr	z, WDCBOOT_STAT2
-	ret
+	ldb	%feb6, #%03		! Store head count (3) into configuration address 0xFEB6 !               
+	ldb	%feb7, #%18		! Store sectors-per-track (24 / 0x18) into configuration address 0xFEB7 !
+	ld	r0, #%feb4		! Load transfer address pointer(???) from 0xFEB4 into r0 !
+	out	%800a, r0		! Output lower/first part of transfer address to port 0x800a !           
+	exb	rh0, rl0		! Swap high and low bytes of r0 !                                        
+	out	%800b, r0		! Output upper/second part of transfer address to port 0x800b !          
+	xor	r0, r0			! Clear r0 to zero !
+	out	%800c, r0		! Output 0 to unknown controller register at port 0x800c !               
+	out	%8010, r0		! Output 0 to controller status/control register at port 0x8010 !        
+	ld	r0, #%0016		! Load CPMD Code 0x16 into r0 !
+	jr	WDCBOOT_CMD		! Jump to common command dispatch routine !                              
+WDCBOOT_CMD:                                                                                                 
+	out	WDC_REG_CMD, r0		! Issue command code to controller command port 0x8000 !
+WDCBOOT_STAT1:                                                                                               
+	in	r0, WDC_REG_STAT		! Read status byte from port 0x8010 !
+	bit	r0, #7			! Test bit 7 (e.g., Busy / Ready flag) !
+	jr	z, WDCBOOT_STAT1	! Loop back if bit 7 is zero (wait until ready) !
+WDCBOOT_STAT2:                                                                                               
+	in	r0, WDC_REG_STAT	! Read status byte from port 0x8010 again !
+	bit	r0, #1			! Test bit 1 (e.g., Error or completion flag) !
+	ret	nz			! Return from subroutine if bit 1 is non-zero !
+	bit	r0, #3			! Test bit 3 !
+	jr	z, WDCBOOT_STAT2	! Loop back if bit 3 is zero !
+	ret				! Return from subroutine !
     end WDC_BOOT
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -493,29 +508,29 @@ See Page 4-22/4-22 in Book 03-3237-04
   INTERNAL
     WDC_READ_DISK procedure
       entry
-	ldl	rr2, rr4	!block number!
-	subl	rr0, rr0
-	divl	rq0, #%00000018	!divide by number of sectors (24)!
-	out	%8005, r1
-	ldb	rl0, %feb6
-	xorb	rh0, rh0
-	div	rr2, r0
-	out	%8002, r2
-	xor	r0, r0
-	out	%8010, r0
-	out	%8001, r0
-	out	%8008, r0
-	out	%800a, r0
-	out	%800c, r0
-	exb	rl0, rh3
-	out	%8003, r3
-	out	%8004, r0
-	ld	r0, #DISK_BUFFER
-	exb	rl0, rh0
-	out	%800b, r0
-	ldk	r0, #1		! CMD Code 1 !
-	out	%8009, r0
-	jr	WDCBOOT_CMD
+	ldl	rr2, rr4			! Load logical block number (LBA) from rr4 into rr2 !
+	subl	rr0, rr0			! Clear rr0 (high-order half of dividend quad register rq0) !
+	divl	rq0, #%00000018			! Divide 64-bit rq0 by 24 (sectors per track/cylinder) !
+	out	WDC_REG_SECTOR, r1		! Output sector offset (remainder in r1) to port 0x8005 !
+	ldb	rl0, %feb6			! Load head count (3) from configuration address 0xFEB6 into rl0 !
+	xorb	rh0, rh0			! Clear high byte rh0 to form a clean 16-bit divisor in r0 !
+	div	rr2, r0				! Divide track index (rr2) by head count (r0) !
+	out	WDC_REG_HEAD, r2		! Output head number (remainder in r2) to port 0x8002 !
+	xor	r0, r0				! Clear r0 to zero out subsequent control/parameter ports !
+	out	WDC_REG_STAT, r0		! Output 0 to controller status/control port !
+	out	WDC_REG_DRV, r0			! Output 0 to controller drive port !
+	out	WDC_REG_TRANSWRD_CNT_LO, r0	! Output 0 to controller transfer word count bits 7-0 port !
+	out	WDC_REG_TRANSADDR_B0, r0	! Output 0 to controller transfer address bits 7-0 port !
+	out	WDC_REG_TRANSADDR_B2, r0	! Output 0 to controller transfer address bits 23-16 port !
+	exb	rl0, rh3			! Clear high byte of r3 by swapping with zeroed rl0 !
+	out	WDC_REG_CYL_LO, r3		! Output cylinder low byte (quotient in r3) to port 0x8003 !
+	out	WDC_REG_CYL_HI, r0		! Output 0 to cylinder high byte port !
+	ld	r0, #DISK_BUFFER		! Load RAM target address for DMA transfer into r0 !
+	exb	rl0, rh0			! Clean/align byte if needed !
+	out	WDC_REG_TRANSADDR_B1, r0	! Output memory address to controller transfer address bits 15-8 port !
+	ldk	r0, #1				! load number of words (1) into register 1 !
+	out	WDC_REG_TRANSWRD_CNT_HI, r0	! controller transfer word count bits 15-8 port !
+	jr	WDCBOOT_CMD			! Jump to command execution / completion handler !
     end WDC_READ_DISK
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

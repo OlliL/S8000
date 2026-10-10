@@ -30,6 +30,21 @@ ERR_WDC_NOT_IN_SYS	:= %1000
 ERR_WDC_SELF_TEST	:= %1001
 ERR_WDC_DRIVE_0		:= %1002
 
+!WDC Registers!
+WDC_REG_CMD		:= %8000	!WDC Command Register!
+WDC_REG_DRV		:= %8001	!WDC Drive Register!
+WDC_REG_HEAD		:= %8002	!WDC Head Register!
+WDC_REG_CYL_LO		:= %8003	!WDC Cylinder Low Register!
+WDC_REG_CYL_HI		:= %8004	!WDC Cylinder High Register!
+WDC_REG_SECTOR		:= %8005	!WDC Sector Register!
+WDC_REG_TRANSWRD_CNT_LO	:= %8008	!WDC Transfer Word Count Low Register!
+WDC_REG_TRANSWRD_CNT_HI	:= %8009	!WDC Transfer Word Count High Register!
+WDC_REG_TRANSADDR_B0	:= %800a	!WDC Transfer Address Byte 0 (Bits 7-0) Register!
+WDC_REG_TRANSADDR_B1	:= %800b	!WDC Transfer Address Byte 1 (Bits 15-8) Register!
+WDC_REG_TRANSADDR_B2	:= %800c	!WDC Transfer Address Byte 2 (Bits 23-16) Register!
+WDC_REG_TRANSADDR_B3	:= %800d	!WDC Transfer Address Byte 3 (Bits 31-24) Register!
+WDC_REG_STAT		:= %8010	!WDC Status Register!
+
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROCEDURE WDC_TEST_ENTRY
 See:
@@ -42,10 +57,10 @@ See:
 	ld	r8, #ERR_WDC_NOT_IN_SYS	!Error 1000!
 	ld	ERRPAR_ID, #%0000
 	xorb	rh1, rh1
-	ld	r7, #%8001		!WDC: Unit Register!
+	ld	r7, #WDC_REG_DRV	!WDC: Drive Register!
 	ldb	rl6, #%a5
-	outb	@r7, rl6		!write %a5 in the unit register!
-	inb	rh6, @r7		!read the unit register back!
+	outb	@r7, rl6		!write %a5 in the Drive register!
+	inb	rh6, @r7		!read the Drive register back!
 	cpb	rh6, rl6		!check that %a5 could be read back!
 	jr	z, WDC_CTRL_FOUND	!controller in the system!
 	cpb	ABOOT_DEV, #%03		!is WDC the selected boot device?!
@@ -60,9 +75,9 @@ WDC_CTRL_FOUND:
 	cpb	ABOOT_DEV, #%03		!is WDC the selected boot device?!
 	ret	nz			!no -> return!
 	ld	r8, #ERR_WDC_DRIVE_0	!Error 1002!
-	outb	%8001, rh1		!WDC: Unit Register -> Drive 0!
-	ld	r7, #%8000		!WDC: Command Register!
-	ld	r6, #%8010		!WDC: Command-Status (C/S) Register!
+	outb	WDC_REG_DRV, rh1	!WDC: Unit Register -> Drive 0!
+	ld	r7, #WDC_REG_CMD	!WDC: Command Register!
+	ld	r6, #WDC_REG_STAT	!WDC: Command-Status (C/S) Register!
 	ldb	rl2, #%04		! CMD Code 04 !
 	call	WDC_TEST
 	jr	nz, WDC_TEST_FAILURE
@@ -159,18 +174,18 @@ PROCEDURE WDC_TEST_UNKOWN_02
     WDC_TEST_UNKOWN_02 procedure
       entry
 	xorb	rl2, rl2
-	outb	%800c, rl2	!WDC: Transfer Address Bit 32 - 24!
-	outb	%8001, rl2	!WDC: Unit Register!
-	ld	r2, #%8000	!transfer address: WDC: Command Register!
-	outb	%800a, rl2	!WDC: Transfer Address Bit  7 -  0!
-	outb	%800b, rh2	!WDC: Transfer Address Bit 15 -  8!
-	ldb	rl2, #%03	! CMD Code 03 !
+	outb	WDC_REG_TRANSADDR_B2, rl2	!WDC: Transfer Address Bit 32 - 24!
+	outb	WDC_REG_DRV, rl2		!WDC: Unit Register!
+	ld	r2, #WDC_REG_CMD		!transfer address: WDC: Command Register!
+	outb	WDC_REG_TRANSADDR_B0, rl2	!WDC: Transfer Address Bit  7 -  0!
+	outb	WDC_REG_TRANSADDR_B1, rh2	!WDC: Transfer Address Bit 15 -  8!
+	ldb	rl2, #%03			! CMD Code 03 !
 	call	WDC_TEST
 	jr	nz, WDCTU01_02
-	ldb	rl6, %8000	!error par 1: WDC: Command Register!
-	ldb	rl7, %8001	!error par 2: WDC: Unit Register!
-	ldb	rl5, %8004	!error par 3: WDC: Cylinder Address Register Bit 15 -  8!
-	ldb	rl4, %8005	!error par 4: WDC: Sector Register!
+	ldb	rl6, WDC_REG_CMD		!error par 1: WDC: Command Register!
+	ldb	rl7, WDC_REG_DRV		!error par 2: WDC: Unit Register!
+	ldb	rl5, WDC_REG_CYL_HI		!error par 3: WDC: Cylinder Address Register Bit 15 -  8!
+	ldb	rl4, WDC_REG_SECTOR		!error par 4: WDC: Sector Register!
 	ret
 WDCTU01_02:
 	inb	rl5, @r6	!error par 3: WDC Command Status!
