@@ -430,6 +430,38 @@ Diagnostics are useful evidence for presence detection and status-handshake
 expectations, but they are not the normal disk-read path and should not be
 mistaken for a complete controller initialization sequence.
 
+## ZEUS kernel disk-driver evidence
+
+`zd` is the ZEUS WDC-facing disk driver. Its manual page, `ZEUS/zd.4`
+(revision 1.9, 1984-08-15), documents 24 MB and 32 MB drives, buffered
+block-device access, and raw `rzd` access. Raw I/O performs one operation per
+call, requires word-aligned buffers, and uses 512-byte blocks. The manual does
+not itself name the WDC or SA1000.
+
+- `zd.nm` lists `_zdioaddr` as an unresolved external. `zd.asm` loads this
+  base address and accesses registers at offsets from it, so `0x8001` need not
+  appear literally. The available object dump does not resolve `_zdioaddr`;
+  confirming its linked value requires kernel link/relocation data or a bus
+  trace.
+- `zdopen` initializes each six-byte per-drive parameter record with values
+  `3` and `24` at offsets `+2` and `+3`; `zdstart` later uses these values as
+  divisors while converting the block number to drive coordinates. It also
+  submits command `0x16` through base `+0`.
+- `polled_command` writes the command at base `+0` and reads status at base
+  `+16`; it polls bit 7, then bit 1, and if bit 1 is clear waits for bit 3.
+  This matches the CPU firmware's WDC boot command/status polling sequence.
+- `zdstart` writes request fields at base offsets `+1` through `+5`, transfer
+  count at `+8`/`+9`, and DMA address at `+10` through `+12`, then issues
+  command `0x21` or `0x22` at base `+0`. These offsets match the WDC register
+  layout. `_zdread` passes operation value `1` and `_zdwrite` passes `0`;
+  `zdstart` selects `0x21` when request bit 0 is set, otherwise `0x22`.
+  These appear to be read/write variants, but the exact direction and role of
+  command bit 5 remain to be confirmed.
+
+The manual's drive sizes, register layout, and status polling pattern identify
+`zd` as the WDC driver with very strong confidence. Exact resolution of
+`_zdioaddr` remains unconfirmed without link/relocation data or a bus trace.
+
 ## Emulator implications and open questions
 
 - Reproduce the host-facing sequence first: register addresses, access widths,
@@ -459,5 +491,6 @@ mistaken for a complete controller initialization sequence.
   (WDC manual, section 4.5.2) and
   `AI/ocr/03_3237_04__Appendix_B.txt` (host command descriptions). Appendix B
   describes command parameters and transfer behavior, but the available text
-  does not provide numeric opcode values. No WDC firmware source, kernel
-  direct-I/O driver, or ZBI bus trace has yet been analyzed.
+  does not provide numeric opcode values. `ZEUS/zd.*` is the WDC driver;
+  its linked `_zdioaddr` value and relocation targets still need confirmation.
+  WDC controller firmware and a ZBI bus trace have not yet been analyzed.

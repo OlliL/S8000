@@ -5,3 +5,5 @@
 **/*.kicad_*.lck
 /ZEUS/md.hex
 /ZEUS/md.dump
+/ZEUS/zd.hex
+/ZEUS/zd.dump

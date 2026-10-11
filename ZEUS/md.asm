@@ -51,7 +51,7 @@ _mdopen:
       cp     r12, #4
       jr     lt, %000024
       ldl    rr6, #%01000172
-      call _mdopen
+      call <<0>>%0000
       ldl    |<<0>>%000A|(r15), rr2
       ldk    r12, #0
       ld     r2, r12
@@ -123,7 +123,7 @@ _mdopen:
       jr     lt, %00018A
       ldl    rr6, #%010001B4
       ld     r5, <<1>>%0172
-      call _mdopen
+      call <<0>>%0000
       inc    r13, #1
       test   r13
       jr     nz, %00013E
@@ -218,7 +218,7 @@ _mdopen:
       sla    r2, #4
       ldl    rr6, #0
       add    r7, r2
-      call _mdopen
+      call <<0>>%0000
       ldl    |<<0>>%0014|(r15), rr2
       ld     r3, |<<0>>%000E|(r15)
       mult   rr2, #12
@@ -259,7 +259,7 @@ _mdopen:
       mult   rr2, #20
       ldl    rr6, #0
       add    r7, r3
-      call _mdopen
+      call <<0>>%0000
       ldl    |<<0>>%0014|(r15), rr2
       ld     r2, |<<0>>%000E|(r15)
       sla    r2, #4
@@ -381,7 +381,7 @@ _mdopen:
       or     r7, #%0400
       ldl    rr4, #%01000152
       ldl    rr2, #%0000074E
-      call _mdopen
+      call <<0>>%0000
       test   r2
       jr     nz, %0005CC
       ld     r2, |<<0>>%0006|(r15)
@@ -527,7 +527,7 @@ _mdstrategy:
       jr     z, %000788
       ldb    <<0>>%0015, #14
       ldl    rr6, rr12
-      call _mdopen
+      call <<0>>%0000
       jp     <<0>>%090A
       clr    |<<0>>%000E|(r15)
       jr     %0007AE
@@ -828,7 +828,7 @@ _mdint:
       jr     nz, %000B6C
       ld     r5, rr12(#32)
       ldl    rr6, #%010001CC
-      call _mdopen
+      call <<0>>%0000
       jp     <<0>>%0CA4
       test   <<1>>%0148
       jr     nz, %000B7A
@@ -858,7 +858,7 @@ _mdint:
       ld     r5, rr12(#32)
       ldl    rr6, rr10
       sub    r4, r4
-      call _mdopen
+      call <<0>>%0000
       ld     r2, |<<0>>%000E|(r15)
       add    r2, r2
       ldl    rr4, #%0100014A
@@ -921,7 +921,7 @@ _mdint:
       inc    r3, #4
       clr    @rr2
       ldl    rr6, rr10
-      call _mdopen
+      call <<0>>%0000
       cp     <<1>>%002A, #%0204
       jr     ge, %000BF6
       ld     r7, #%80F2
@@ -939,7 +939,7 @@ _mdread:
       ldl    rr4, #%01000054
       ld     r3, |<<0>>%0000|(r15)
       ldk    r2, #1
-      call _mdopen
+      call <<0>>%0000
       inc    r15, #2
       ret
 _mdwrite:
@@ -949,7 +949,7 @@ _mdwrite:
       ldl    rr4, #%01000054
       ld     r3, |<<0>>%0000|(r15)
       sub    r2, r2
-      call _mdopen
+      call <<0>>%0000
       inc    r15, #2
       ret
 end
