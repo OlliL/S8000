@@ -345,6 +345,60 @@ write. The exact effect, if any, of the `out 0x8010` needs investigation.
 Likewise, the CPU code establishes the status-bit masks it polls, but the
 sections examined do not document the meanings of C/S bits 7, 3, 1, or 2.
 
+### C/S status production and Z80 result codes
+
+The CPU's `0x8010` reads are reads of the WDC controller's command/status
+(C/S) register, not Z80 CPU flags. The WDC manual explicitly says the
+controller places the command result/status in this register for the host CPU
+to read. The CPU's `BIT` instructions test bits in that returned byte:
+bit 7 is polled first, then bit 1 can terminate polling, otherwise bit 3 is
+polled. Those meanings are only provisional; the CPU code establishes the
+conditions, not the official bit names.
+
+The Z80 listing has no explicit `OUT` to host address `0x8010` and no obvious
+single routine that composes a C/S byte. That does not mean the firmware's
+result path is unrelated to C/S: the Z80's I/O space and the Z8001 host I/O
+space are distinct views, and board logic can connect firmware-visible
+registers/events to the host-facing C/S register. The mapping cannot be
+established from the Z80 `OUT` operands alone.
+
+Relevant firmware evidence:
+
+- The `status_error_*` branches load explicit result values into `C`:
+  `0x10` (`status_error_nc`), `0x80` (`status_error_z`), `0x40` (the
+  adjacent condition branch), `0x08` (`status_error_minus`), and `0x09`
+  (`status_error_overflow` paths). A `0x20` result is also stored on the
+  sector-transfer completion/progress path. The listing now names the event
+  field `WDC_EVENT_STATUS` and these values `WDC_STAT_*`; names such as
+  `ERROR` and `COMPLETE` summarize the observed firmware path, not documented
+  meanings of host C/S bits. The suffixes `nc`, `z`, and `minus` name Z80
+  condition-code branches; they are not names for C/S status bits.
+- `record_device_operation_status` stores the selected value at event offset
+  `IX+WDC_EVENT_STATUS` (`IX+0x17`), changes the event state to `3`,
+  resets/waits for the controller interface, and raises bit 7 in internal byte
+  `0x733d`. The `0x20` path also writes this field and is read back when
+  clearing a state-2 event. These are concrete firmware-produced
+  result/status paths. Whether and how the result byte or state transition
+  drives host C/S bits remains to be traced.
+- `clear_device_event` updates event bookkeeping and can call
+  `query_channel_state`; selected modes then transfer channel-state data
+  through Z80 I/O port `0x41`, gated by port `0x21`. This may be part of the
+  host handshake, but the listing alone does not establish a direct mapping
+  from these port writes to C/S bits.
+- Command `0x03` (`command_03_readdetailedstatus_handler`) separately builds
+  a three-word status/data record and transfers it to the host DMA address.
+  This payload is not itself the single-byte C/S register.
+
+There is a suggestive numerical overlap between firmware result values and
+host-tested bit positions (for example `0x80` and `0x08`), but no demonstrated
+one-to-one mapping. The host expects bit 7 set before examining bit 1; if bit 1
+is clear it waits for bit 3. It is therefore possible that some internal
+result/status values contribute to these host-visible bits, but the values at
+`IX+0x17` must not be relabeled as C/S byte values without finding the
+publication path. Trace the event/state transition, port `0x41` handshake,
+and board-side register logic (or inspect WDC firmware/bus traces) to identify
+how the Z80 result reaches the host C/S register.
+
 ## Power-up WDC diagnostics
 
 `TEST_` samples the boot-device switches into `ABOOT_DEV` and later walks the

@@ -7,7 +7,7 @@
 ; Board map: 0000h-1FFFh EPROM, 4000h-7FFFh SRAM, C000h-FFFFh I/O space.
 ; The separate 512-byte PROMs are not part of firmware.bin.
 
-; Offsets in the host command snapshot stored at IX+1 through IX+0F.
+; Offsets in the event record addressed through IX.
 WDC_EVENT_CMD:             equ     01h
 WDC_EVENT_DRV:             equ     02h
 WDC_EVENT_HEAD:            equ     03h
@@ -19,6 +19,15 @@ WDC_EVENT_TRANSWRD_CNT_HI: equ     0Ah
 WDC_EVENT_TRANSADDR_B0:    equ     0Bh
 WDC_EVENT_TRANSADDR_B1:    equ     0Ch
 WDC_EVENT_TRANSADDR_B2:    equ     0Dh
+WDC_EVENT_STATUS:          equ     17h
+
+; Result/status codes stored in WDC_EVENT_STATUS; exact host C/S mapping is unconfirmed.
+WDC_STAT_10_ERROR:         equ     10h
+WDC_STAT_20_COMPLETE:      equ     20h
+WDC_STAT_08_ERROR:         equ     08h
+WDC_STAT_09_ERROR:         equ     09h
+WDC_STAT_40_ERROR:         equ     40h
+WDC_STAT_80_ERROR:         equ     80h
 
 ; Named entry points for helper routines reached by absolute CALLs.
 wdc_load_drive_geometry:          equ     11E5h
@@ -399,8 +408,8 @@ handle_sector_transfer_progress:
         ld      a,(ix+00h)
         cp      02h
         jr      nz,02b3h
-        ld      a,20h
-        ld      (ix+17h),a
+        ld      a,WDC_STAT_20_COMPLETE
+        ld      (ix+WDC_EVENT_STATUS),a
         ret
         ld      a,(733dh)
         or      80h
@@ -412,7 +421,7 @@ handle_sector_transfer_progress:
         ret
 complete_device_state:
         ld      b,01h
-        ld      c,20h
+        ld      c,WDC_STAT_20_COMPLETE
         jp      clear_device_event
         ld      a,(4201h)
         call    wdc_set_selected_head
@@ -533,7 +542,7 @@ command_00_null_handler:
         cp      02h
         jr      nz,03f4h
         ld      b,04h
-        ld      c,(ix+17h)
+        ld      c,(ix+WDC_EVENT_STATUS)
         jp      clear_device_event
         ld      b,00h
         ld      c,00h
@@ -631,18 +640,18 @@ query_channel_state:
         ld      (ix+20h),a
         ret
 status_error_nc:
-        ld      c,10h
+        ld      c,WDC_STAT_10_ERROR
         jp      record_device_operation_status
 status_error_z:
-        ld      c,80h
+        ld      c,WDC_STAT_80_ERROR
         jp      record_device_operation_status
-        ld      c,40h
+        ld      c,WDC_STAT_40_ERROR
         jp      record_device_operation_status
 status_error_minus:
         ld      a,(ix+00h)
         cp      02h
         jp      z,handle_sector_transfer_progress
-        ld      c,08h
+        ld      c,WDC_STAT_08_ERROR
         jp      record_device_operation_status
 status_error_overflow:
         ld      a,(ix+WDC_EVENT_DRV)
@@ -652,7 +661,7 @@ status_error_overflow:
         jp      nc,status_error_nc
         jr      nz,04d4h
         call    wdc_get_unit_configuration
-        ld      c,09h
+        ld      c,WDC_STAT_09_ERROR
         jp      record_device_operation_status
         cp      01h
         jp      z,status_error_z
@@ -663,7 +672,7 @@ status_error_overflow:
         jp      clear_device_event
 record_device_operation_status:
         ld      b,01h
-        ld      (ix+17h),c
+        ld      (ix+WDC_EVENT_STATUS),c
         ld      a,(ix+WDC_EVENT_CMD)
         and     40h
         jp      nz,clear_device_event
