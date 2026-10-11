@@ -438,11 +438,13 @@ block-device access, and raw `rzd` access. Raw I/O performs one operation per
 call, requires word-aligned buffers, and uses 512-byte blocks. The manual does
 not itself name the WDC or SA1000.
 
-- `zd.nm` lists `_zdioaddr` as an unresolved external. `zd.asm` loads this
-  base address and accesses registers at offsets from it, so `0x8001` need not
-  appear literally. The available object dump does not resolve `_zdioaddr`;
-  confirming its linked value requires kernel link/relocation data or a bus
-  trace.
+- `zd.nm` lists `_zdioaddr` as an unresolved external. The ZEUS configuration
+  objects `conf2.icp.o` and `conf2.nicp.o` both define it as a data symbol at
+  segment 1, offset `0x00be`. In both objects, the word stored there is
+  `0x8000`; therefore `_zdioaddr` is a pointer/configuration slot containing
+  the WDC I/O base, not the address `0x00be` of the controller itself. This
+  explains why `zd.asm` uses indirect base-plus-register-offset accesses and
+  does not need a literal `0x8001`.
 - `zdopen` initializes each six-byte per-drive parameter record with values
   `3` and `24` at offsets `+2` and `+3`; `zdstart` later uses these values as
   divisors while converting the block number to drive coordinates. It also
@@ -458,9 +460,11 @@ not itself name the WDC or SA1000.
   These appear to be read/write variants, but the exact direction and role of
   command bit 5 remain to be confirmed.
 
-The manual's drive sizes, register layout, and status polling pattern identify
-`zd` as the WDC driver with very strong confidence. Exact resolution of
-`_zdioaddr` remains unconfirmed without link/relocation data or a bus trace.
+The manual's drive sizes, register layout, status polling pattern, and the
+configuration objects' `_zdioaddr` initializer identify `zd` as the WDC driver
+with very strong confidence. The configured I/O base is `0x8000` in both
+available configuration variants; a linked image or bus trace could still
+confirm how that configured word is consumed at runtime.
 
 ## Emulator implications and open questions
 
@@ -492,5 +496,6 @@ The manual's drive sizes, register layout, and status polling pattern identify
   `AI/ocr/03_3237_04__Appendix_B.txt` (host command descriptions). Appendix B
   describes command parameters and transfer behavior, but the available text
   does not provide numeric opcode values. `ZEUS/zd.*` is the WDC driver;
-  its linked `_zdioaddr` value and relocation targets still need confirmation.
+  `conf2.icp.o` and `conf2.nicp.o` both initialize `_zdioaddr` to `0x8000`;
+  linked relocation behavior and a ZBI bus trace have not yet been examined.
   WDC controller firmware and a ZBI bus trace have not yet been analyzed.
