@@ -3,3 +3,5 @@
 **/*.iml
 **/.history/
 **/*.kicad_*.lck
+/ZEUS/md.hex
+/ZEUS/md.dump
