@@ -1,0 +1,12 @@
+2732A-EPROM
+
+u27.bin
+u28.bin
+
+
+MMI 6306-1 (AM27S13 compatible) 4x512 PROM
+
+Filename                Label
+u23.bin                 empty socket!
+u22.bin                 34-0214 / 00
+u31.bin                 34-0215 / 00
