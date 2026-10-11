@@ -193,25 +193,25 @@ initialize_runtime:
         im      2
         ei
         ld      hl,003ch
-loc_00E7:
+startup_timer_countdown_loop:
         call    clear_timer_interrupts
-loc_00EA:
+startup_wait_for_timer_tick:
         ld      a,(420dh)
         or      a
-        jp      z,loc_00EA
+        jp      z,startup_wait_for_timer_tick
         xor     a
         ld      (420dh),a
         dec     hl
         ld      a,h
         or      l
-        jp      nz,loc_00E7
+        jp      nz,startup_timer_countdown_loop
         call    enable_timer_interrupts
         ld      a,04h
         push    af
         ld      ix,766ch
         pop     af
         dec     a
-        jp      m,loc_0156
+        jp      m,complete_startup_device_scan
         push    af
         ld      de,002ah
         push    ix
@@ -247,7 +247,7 @@ loc_00EA:
         ld      (ix+28h),a
         ld      (ix+29h),a
         jr      0105h
-loc_0156:
+complete_startup_device_scan:
         ld      a,01h
         ld      (75c0h),a
         xor     a
@@ -289,7 +289,7 @@ invalid_state_fallback:
 dispatch_device_state:
         ld      a,(ix+12h)
         ld      (ix+13h),a
-loc_01AA:
+device_state_dispatch_loop:
         ld      hl,0895h
         ld      a,(ix+WDC_EVENT_CMD)
         and     1fh
@@ -307,15 +307,15 @@ loc_01AA:
         ld      a,(ix+14h)
         dec     a
         ld      (ix+14h),a
-        jp      nz,loc_01AA
+        jp      nz,device_state_dispatch_loop
         ld      (ix+14h),06h
         ld      a,(ix+13h)
         call    update_channel_value
         ld      (ix+13h),a
         cp      (ix+12h)
         jp      z,complete_device_state
-        jp      loc_01AA
-        jp      loc_01AA
+        jp      device_state_dispatch_loop
+        jp      device_state_dispatch_loop
 command_05_format_handler:
         ld      a,(ix+WDC_EVENT_DRV)
         call    device_action_handler
@@ -377,7 +377,7 @@ command_01_readsector_handler:
         jp      nz,status_error_z
         ld      a,(420fh)
         or      a
-        jp      nz,loc_029E
+        jp      nz,handle_sector_transfer_progress
         ld      a,b
         ld      iy,4240h
         call    wdc_build_track_record
@@ -392,7 +392,7 @@ command_01_readsector_handler:
         ld      a,(ix+WDC_EVENT_DRV)
         ld      (733eh),a
         jp      command_00_null_handler
-loc_029E:
+handle_sector_transfer_progress:
         ld      a,(ix+WDC_EVENT_CMD)
         and     40h
         jp      nz,complete_device_state
@@ -428,11 +428,11 @@ command_02_writesector_handler:
         jp      nc,invalid_state_fallback
         ld      a,(ix+11h)
         cp      03h
-        jp      nz,loc_02FA
+        jp      nz,setup_write_sector_transfer
         ld      b,01h
         ld      c,04h
         jp      clear_device_event
-loc_02FA:
+setup_write_sector_transfer:
         call    wdc_prepare_sector_transfer
         call    transfer_controller_data
         jp      nc,status_error_nc
@@ -632,18 +632,18 @@ query_channel_state:
         ret
 status_error_nc:
         ld      c,10h
-        jp      loc_04E5
+        jp      record_device_operation_status
 status_error_z:
         ld      c,80h
-        jp      loc_04E5
+        jp      record_device_operation_status
         ld      c,40h
-        jp      loc_04E5
+        jp      record_device_operation_status
 status_error_minus:
         ld      a,(ix+00h)
         cp      02h
-        jp      z,loc_029E
+        jp      z,handle_sector_transfer_progress
         ld      c,08h
-        jp      loc_04E5
+        jp      record_device_operation_status
 status_error_overflow:
         ld      a,(ix+WDC_EVENT_DRV)
         call    wdc_select_controller_unit
@@ -653,7 +653,7 @@ status_error_overflow:
         jr      nz,04d4h
         call    wdc_get_unit_configuration
         ld      c,09h
-        jp      loc_04E5
+        jp      record_device_operation_status
         cp      01h
         jp      z,status_error_z
         cp      02h
@@ -661,7 +661,7 @@ status_error_overflow:
         ld      b,01h
         ld      c,09h
         jp      clear_device_event
-loc_04E5:
+record_device_operation_status:
         ld      b,01h
         ld      (ix+17h),c
         ld      a,(ix+WDC_EVENT_CMD)
@@ -892,17 +892,17 @@ command_14_unknown_handler:
 update_channel_value:
         ld      hl,0889h
         ld      b,a
-loc_06F7:
+channel_mapping_search_loop:
         ld      a,(hl)
         inc     hl
         cp      b
-        jp      z,loc_0705
+        jp      z,channel_mapping_match
         xor     0ffh
-        jp      nz,loc_06F7
+        jp      nz,channel_mapping_search_loop
         scf
         ccf
         ret
-loc_0705:
+channel_mapping_match:
         ld      a,(hl)
         cp      0ffh
         scf
@@ -927,7 +927,7 @@ command_12_readcontrollerstate_handler:
         cp      02h
         jp      z,status_error_minus
         ld      c,21h
-        jp      loc_04E5
+        jp      record_device_operation_status
 command_13_unitformatverify_handler:
         ld      a,(ix+WDC_EVENT_DRV)
         call    wdc_select_controller_unit
@@ -951,7 +951,7 @@ command_13_unitformatverify_handler:
         ld      e,(ix+27h)
         xor     a
         sbc     hl,de
-        jp      z,loc_07D9
+        jp      z,finish_unit_format_verify
         xor     a
         ld      (4204h),a
         ld      (4201h),a
@@ -981,7 +981,7 @@ command_13_unitformatverify_handler:
         jp      nz,status_error_z
         call    wdc_verify_sector_record
         ld      c,03h
-        jp      nc,loc_04E5
+        jp      nc,record_device_operation_status
         ld      a,(4201h)
         inc     a
         ld      (4201h),a
@@ -991,7 +991,7 @@ command_13_unitformatverify_handler:
         inc     hl
         ld      (4202h),hl
         jr      076ch
-loc_07D9:
+finish_unit_format_verify:
         ld      h,(ix+26h)
         ld      l,(ix+27h)
         ld      (75b1h),hl
@@ -1132,7 +1132,7 @@ device_action_handler:
         ld      (75b5h),a
         ld      hl,0000h
         ld      (4202h),hl
-loc_0907:
+format_track_verification_loop:
         ld      d,(ix+26h)
         ld      e,(ix+27h)
         xor     a
@@ -1163,7 +1163,7 @@ loc_0907:
         ld      hl,(4202h)
         inc     hl
         ld      (4202h),hl
-        jp      loc_0907
+        jp      format_track_verification_loop
         cp      05h
         jr      z,0957h
         scf
@@ -1309,10 +1309,10 @@ loc_0907:
         ex      de,hl
         ld      hl,08c6h
         ld      bc,0099h
-loc_0A81:
+copy_block_from_decrementing_source:
         dec     hl
         ldi
-        jp      pe,loc_0A81
+        jp      pe,copy_block_from_decrementing_source
         ret
         ld      de,(75b9h)
         ld      hl,(75b1h)
@@ -1642,7 +1642,7 @@ loc_0A81:
 initialize_io_controller:
         ld      hl,75c4h
         ld      bc,00a8h
-loc_0D10:
+clear_event_queue_loop:
         xor     a
         ld      (75b5h),a
         ld      (hl),a
@@ -1650,7 +1650,7 @@ loc_0D10:
         dec     bc
         ld      a,b
         or      c
-        jp      nz,loc_0D10
+        jp      nz,clear_event_queue_loop
         ld      a,01h
         ld      (4211h),a
         ld      (75c0h),a
@@ -2466,13 +2466,13 @@ configure_io_channel:
         ld      (4224h),hl
         ld      hl,6000h
         ld      (421ah),hl
-        jp      loc_1388
+        jp      write_io_channel_configuration
         ld      a,00h
         out     (50h),a
         ld      (421ah),hl
         ld      hl,6000h
         ld      (4224h),hl
-loc_1388:
+write_io_channel_configuration:
         dec     bc
         ld      (421ch),bc
         ld      hl,4212h
@@ -2499,7 +2499,7 @@ loc_1388:
         ex      de,hl
         dec     bc
         adc     hl,bc
-        jp      m,loc_13E3
+        jp      m,adjust_dma_transfer_range
         ld      hl,003fh
         ld      (4233h),hl
         ld      hl,4229h
@@ -2518,11 +2518,11 @@ loc_1388:
         djnz    13d9h
         scf
         ret
-loc_13E3:
+adjust_dma_transfer_range:
         sbc     hl,bc
         inc     bc
         ex      de,hl
-        jp      loc_1437
+        jp      transfer_dma_to_window_boundary
         ld      a,88h
         out     (50h),a
         ld      a,79h
@@ -2564,7 +2564,7 @@ loc_13E3:
         ld      (4230h),a
         ld      (4231h),de
         ld      (423bh),hl
-loc_1437:
+transfer_dma_to_window_boundary:
         ld      hl,8000h
         xor     a
         sbc     hl,de
@@ -2610,12 +2610,12 @@ loc_1437:
         ld      d,06h
         ld      e,00h
         xor     a
-loc_147E:
+calculate_dma_transfer_chunk:
         rr      b
         rr      c
         rr      e
         dec     d
-        jp      nz,loc_147E
+        jp      nz,calculate_dma_transfer_chunk
         srl     e
         srl     e
         ld      a,e
@@ -2637,7 +2637,7 @@ loc_147E:
         pop     bc
         ld      a,c
         or      b
-        jp      z,loc_14C1
+        jp      z,program_dma_transfer_ports
         ld      b,c
         ld      c,00h
         ld      a,87h
@@ -2648,7 +2648,7 @@ loc_147E:
         out     (c),e
         out     (c),a
         djnz    14b9h
-loc_14C1:
+program_dma_transfer_ports:
         pop     bc
         ld      a,b
         or      c
