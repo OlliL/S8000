@@ -1,0 +1,326 @@
+--- Page 352 ---
+HRM 21 			Zilog			      HRM 21
+
+                      APPENDIX B
+             WINCHESTER DISK CONTROLLER COMMANDS
+
+
+B.1. General
+
+Appendix C describes all the commands that the host CPU
+sends to the controller through the command registers. Each
+description identifies the registers that the host CPU
+uses. Bits 0 through 4 of the command byte form the com-
+mand field. Refer to Section 4 for additional information.
+The term CP (Command Port) means command register as used in
+Section 4. For example, CPO is command register xx00 and
+CP1 is command register xx01.
+
+
+B.2. Format / UNIT /
+
+The controller formats an entire disk drive with a single
+controller command. The CPU sends the FORMAT command to the
+controller by writing the unit number of the drive to be
+formatted as CP1 and by issuing the Format command to the
+.command port, CPO. Format writes the data field of each
+sector with a pattern of alternating ones and zeros (OAA
+hexadecimal) and rewrites each sector's header. After for-
+matting the target unit, the entire format is read back and ;
+the header field of each sector is validated. If an invalid
+header is found, the Unrecoverable Error bit in the opera-
+tion ending status byte is set, together with the Verify
+Failure bit in the Operation Error Status Byte.
+
+/ UNIT / Unit is written to the controller through CP1. Any
+value between zero and three is valid.
+
+
+B.3. Read Sector
+
+/ UNIT / HEAD / CYLINDER / SECTOR / WORD COUNT / ADDRESS
+
+The Read Sector command requires both a disk address [unit,
+head, cylinder, sector] and a host system buffer address
+[word count, address]. Less than one sector of information
+is transferred if the word count is less than a sector (512
+bytes) in length. The controller command for multiple sec-
+tor reads and single sector reads is equivalent with the
+word count determining the number of sectors for the
+transfer.
+
+B-1			Zilog				B-1
+
+
+--- Page 353 ---
+HRM 21 			Zilog			      HRM 21
+
+/ UNIT / Unit is written to the controller through CPi. Any
+value between zero and three is valid.
+
+/ HEAD / Head is written to the controller through CP2.
+
+/ CYLINDER / The target cylinder number is written to the
+controller through command ports CP3 and CP4. The low order
+sight bits of the ten-bit cylinder address are issued to the
+controller through CP3 and the high order two bits are
+issued through CP4 bits zero and one.
+
+/ SECTOR / The sector number of the sector to be read is
+passed to the controller through the sector register, CP5.
+
+/ WORD COUNT / The number of words to read from the disk is
+sent to the controller through the word count control regis-
+ter pair, CP8 and CP9. A word count greater than ae single
+sector length is interpreted as a request for a multiple
+sector read.
+
+/ ADDRESS / The 24-bit address of the host data buffer is
+passed to the controller through a register triplet; CP10,
+CP11, and CP12.
+
+
+B.4. Write Sector .
+
+/ UNIT / HEAD / CYLINDER / SECTOR / WORD COUNT / ADDRESS/
+
+The Write Sector command requires both a disk address [unit,
+head, cylinder, sector] and a host system buffer address
+[word count, address]. Less than one sector of data is read
+from host memory if the word count is less than a sector in
+length. The controller command for multiple sector writes
+and single sector writes is equivalent to the word count
+determining the number of sectors for the transfer.
+
+/UNIT / Unit is written to the controller through CPi. Any
+value between zero and three is valid.
+
+/ HEAD / Head is written to the controller through CP2.
+
+/ CYLINDER / The target cylinder number is written to the
+controller through command ports CP3 and CP4. The low order
+eight bits of the ten-bit cylinder address are issued to the
+controller through CP3 and the high order two bits are
+issued through CP4 bits zero and one.
+
+/ SECTOR / The sector number of the sector to be read is
+sent to the controller through the sector register, CP5.
+
+B-2			Zilog				B-2
+
+
+--- Page 354 ---
+HRM 21 			Zilog			      HRM 21
+
+/ WORD COUNT / The number of words to be written to the disk
+is sent to the controller through the word count control
+register pair, Cp8 and CP9. A word count greater than a
+single sector length is interpreted as a request for a mul-
+tiple sector write.
+
+/ ADDRESS / The 24-bit address of the host data buffer is
+sent to the controller through a register triplet; CP10,
+CP11, and CP12.
+
+
+B.5. Read Detailed Status / UNIT / ADDRESS /
+
+The Read Detailed Status command transfers three words of
+the detailed disk status for unit number UNIT to the host
+system memory beginning at location ADDRESS. The act of
+reading detailed status clears the operation error status
+byte unless the read status command itself times out. In
+this case the time-out error will be set. See Table 11 for
+the error status byte definition.
+
+/ UNIT / Unit is written to the controller through Cp1. Any
+value between 0 and 3 is valid.
+
+/ ADDRESS / The 24-bit address of the host data buffer is
+sent to the controller through a register triplet; CP10,
+CP11, and CP12.
+
+
+B.6. Restore / UNIT /
+
+The Restore command recalibrates the drive seek circuitry Dby°
+positioning the heads at track zero, and clears the fault
+status bit in the drive. The restore operation executes at
+a slower rate than a seek to track zero. Recalibrate should
+only be used in response to a drive fault. The controller
+automatically provides a restore and command retry when a
+drive fault occurs unless that option has been reselected.
+
+/ UNIT / Unit is written to the controller through CPi. Any
+value between zero and three is valid.
+
+B.7. Null
+
+The null command presents an operation ending status code
+"operation complete" and performs no disk or controller
+operation.
+
+B-3			Zilog				B-3
+
+
+--- Page 355 ---
+HRM 21 			Zilog			      HRM 21
+
+
+B.8. Seek / UNIT / CYLINDER /
+
+The controller generates an automatic seek before disk read
+and write operations. This feature can be deselected ‘under
+host software control. The host System can opt to defeat
+the automatic seek before read/write and issue its own seek
+commands. Deselection of the automatic seek facility has
+the side affect of deselecting Overlapped seeks in the con-
+troller.
+
+/ UNIT / Unit is written to the controller through cpq1. Any
+value between zero and three is valid.
+
+/ CYLINDER / The target cylinder number is written to the
+controller through command ports CP3 and CPY. The low order
+eight bits of the ten-bit cylinder address are issued to the
+controller through CP3 and the high order two bits are
+issued through cpy bits zero and one.
+
+
+B.9. Set Strobe/offset / UNIT / SO /
+
+The Set Strobe/Offset command is used to select a value for
+either or both the data strobe timing or the head position-
+ing during data read Operations. Both the data strobe and
+head offset are reset during disk write operations as
+required by the disk drive circuitry. This command reduces
+the sector read time dramatically on media that require a
+Strobe/offset value to recover the data. The set
+Strobe/offset command is useful with removable media since
+it can correct Small differences between head alignment
+and/or data strobe times between drives. It is of question-
+able merit for use with fixed media. The Strobe/Offset
+value is input to the controller through the low byte of
+CP1, the HEAD select register.
+
+/ UNIT / Unit is written to the controller through cp1. Any
+value between zero and three is valid.
+
+/ SO / The Strobe/Offset value is issued to the controller
+by command register CP2.
+
+
+B.10. Set Write Protect / UNIT / SURFACES /
+The Set Write Protect command allows each unit to be selec-
+tively write-protected at the controller, Write commands to
+& protected surface are inhibited at the controller,
+
+B-4			Zilog				B-4
+
+
+--- Page 356 ---
+HRM 21 			Zilog			      HRM 21
+
+/ UNIT / Unit is written to the controller through CP1. Any
+value between zero and three is valid.
+
+
+B.11. Format Read / UNIT / HEAD / CYLINDER / / SECTOR /
+ADDRESS /
+
+When the Format Read command is issued, the host diagnostics
+can read an entire sector, both sector header information
+and data.
+
+/ UNIT / Unit is written to the controller through CP1. Any
+value between zero and three is valid.
+
+/ HEAD / Head is written to the controller through CP2.
+
+/ CYLINDER / The target cylinder number is written to the
+controller through command ports CP3 and CP4. The low order
+eight bits of the ten bit cylinder address are issued to the
+controller through CP3 and the high order two bits are
+issued through CP4 bits zero and one.
+
+/ SECTOR / The sector number of the sector to be read is
+sent to the controller through the sector register, CP5.
+
+/ ADDRESS / The 24-bit address of the host data buffer is
+passed to the controller through a register triplet; CP10,
+CP11, and CP12.
+
+
+B.12. Set Interrupt Address. / SECTOR /
+
+The Set Interrupt Address allows the host system to specify ~
+the low order eight bits of the address for interrupt
+transfer. That.address and an eight-bit Operation Ending
+Status byte are sent to the address bus lines when the con-
+troller issues an interrupt. Typically, the Set Interrupt
+Address command is issued once shortly after the controller
+is powered up.
+
+/ SECTOR / The sector number of the sector to be read is
+sent to the controller through the sector register, CP5. ,
+
+
+B.13. Self Test
+
+This command forces the controller to execute its self diag-
+nostics. Both the command reject and the command accepted —
+bits are set in the command status byte if a self test error ~
+is detected. It is possible that the self test error will
+preclude the setting of the bits in the command status byte.
+
+B-5			Zilog				B-5
+
+
+--- Page 356 ---
+HRM 21 			Zilog			      HRM 21
+
+
+B.14. Format Verify / UNIT / HEAD / CYLINDER /
+
+This is a diagnostic command that verifies the integrity of
+the disk format on a track. The controller reads each indi-
+vidual sector of the track and ensures that its header is
+good. If a format error is detected, the Verification Error
+bit is set in the Operation Error Status Byte and the Unre-
+ecoverable Error on Operation bit in the Operation Ending
+Status byte is set.
+
+/ UNIT / Unit is written to the controller through CP1. Any
+value between zero and three is valid.
+
+/ HEAD / Head is written to the controller through CP2.
+/ CYLINDER / The target cylinder number is written to the
+controller through command ports CP3 and CPY4Y. The low order
+eight bits of the ten-bit cylinder address are issued to the
+controller through CP3 and the high order two bits are
+issued through CP4 bits zero and one.
+
+
+B.15. Unit Format Verify / UNIT /
+
+This is a diagnostic command. It is used to verify the for-
+mat of an entire unit. If a format error is detected, the
+Verification Error bit is set in the Operation Error Status
+Byte, and the Unrecoverable Error on Operation bit in the
+Operation Ending Status Byte is also set. The cylinder
+where the failure occurred is read back by the Read Detailed
+Status command.
+
+/ UNIT / Unit is written to the controller through CP1. Any
+value between zero and three is valid.
+
+
+B.16. Command Notes
+
+An explicit format write command is not provided in the
+controller's command repertoire. All disk write operations
+write the sector address field as well as the data. There-
+fore, a write sector command performs a format write opera-
+tion.
+
+B-6			Zilog				B-6

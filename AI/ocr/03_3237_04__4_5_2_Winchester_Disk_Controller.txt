@@ -1,0 +1,537 @@
+--- Page 109 ---
+HRM 			Zilog				HRM
+4.5.2. Winchester Disk Controller: The Disk Controller
+controls the fully buffered transfer of data between the CPU
+(host) and a selected disk drive. The block diagram in Fig-
+ure 4-3 shows the relationship between the controller and
+both the ZBI and the disk drives. All transactions between
+the controller and the host pass through connectors P1 and
+J13 and over the ZBI. Transactions between the controller
+and a selected disk drive pass through connectors P2 and
+J23, the drive bus. The signals on connector P1 are _ the
+standard ZBI signals; the signals on P2 are common to only
+slot three on the back plane. Table 4-13 lists the inter-
+face signals between the disk controller and the disk
+drives.
+4.5.2.1 CPU Interface: The CPU communicates with the con-
+troller through 16 §&-bit command registers and an 8-bit
+command-status (C/S) register (Figure 4-4). Each register
+has a specific command assignment and a specific address.
+The CPU writes commands into command registers xx00 through
+xxOF; the controller reads these registers and performs the
+specified commands. The controller places the results or
+status of the specified command in the C/S register which
+the CPU reads. Table 4-14 lists the command and C/S regis-
+ters.
+The command and C/S registers reside in the CPU's I/O space
+on any 256-word boundary. Within this 256-word block, tne
+command registers are at relative addresses xx00 to xxOF
+hexadecimal and the C/S register at address xx10. The two
+most significant hex values of the address, xx, can be set
+by jumpers on the controller board. Table 4-15 lists the
+jumpers and the bits (15 through 8) that the jumpers con-
+trol. This scheme allows more than one controller within
+the same I/O space.
+Figure 4-5 shows a segment of I/O space, containing three
+256-word blocks. The two most significant hexadecimal nib-
+bles (AA, BB, and CC) of the addresses can be set by using
+the jumpers listed in Table 4-15. For example, in the
+address AAOO, if AA is to equal FF hex, then no jumper is
+connected in any of the jumper groups, and all the lines are
+high. When a jumper is connected in any jumper group, the
+jumper shorts its associated line to ground, a low level.
+The controller can accommodate either 2716 or 2732 EPROMs.
+Jumpers on the controller board permit the selection of both
+the type of EPROM and any necessary wait states. Table 4-16
+lists the jumpers for memory selections.
+
+4-16			Zilog				4—16
+
+
+--- Page 110 ---
+HRM 			Zilog				HRM
+
++----------+    +----------+    +----------+    +----------+
+| Disk     |    | Disk     |    | Disk     |    | Disk     |
+| Drive 0  |<-->| Drive 1  |<-->| Drive 2  |<-->| Drive 3  |
++----------+    +----------+    +----------+    +----------+
+    |
+    |
++----------------------------------------------------------+
+|  Auxiliary Connector                                     |
++----------------------------------------------------------+
+                             |
+                             |
+                +----------------------------+
+                | Winchester Disk Controller |
+                +----------------------------+
+			     |
+			     |
+           +---------------------------------------+
+           |             ZBI BUS                   |
+           +---------------------------------------+
+
+           Figure 4-3 Winchester Disk Controller,
+                      Functional Relationships
+
+
+4-17			Zilog				4—17
+
+
+--- Page 111 ---
+HRM 			Zilog				HRM
+
++---+  +-----------------------------+   +-----+  +--------+
+|   |  |        DISK CONTROLLER      |   |     |  |  DISK  |
+| Z |  |                             |   |     |->| DRIVE  |
+| B |  |  +-----------------------+  |   |     |  |   0    |
+| I |--|->| XX00: COMMAND         |  |   |     |  +--------+
+|   |  |  |       REGISTER        |  |   |     |
+|   |  |  +-----------------------+  |   |     |  +--------+
+|   |  |  +-----------------------+  |   |     |  |  DISK  |
+|   |--|->| XX01: DRIVE REGISTER  |  |   |  D  |->| DRIVE  |
+|   |  |  +-----------------------+  |   |  R  |  |   1    |
+|   |  |  +-----------------------+  |   |  I  |  +--------+
+|   |--|->| XX02: HEAD REGISTER   |  |==>|  V  |
+|   |  |  +-----------------------+  |   |  E  |  +--------+
+|   |  |  +-----------------------+  |   |     |  |  DISK  |
+|   |--|->| XX03: CYLINDER LOW    |  |   |  B  |->| DRIVE  |
+|   |  |  |       REGISTER        |  |   |  U  |  |   2    |
+|   |  |  +-----------------------+  |   |  S  |  +--------+
+|   |  |  +-----------------------+  |   |     |
+|   |--|->| XX04: CYLINDER HIGH   |  |   | P2/ |  +--------+
+|   |  |  |       REGISTER        |  |   | J23 |  |  DISK  |
+|   |  |  +-----------------------+  |   |     |->| DRIVE  |
+|   |  |  +-----------------------+  |   |     |  |   3    |
+|   |--|->| XX05: SECTOR REGISTER |  |   +-----+  +--------+
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX06: RESERVED        |  |
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX07: RESERVED        |  |
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX08: TRANSFER WORD   |  |
+|   |  |  |       COUNT BITS 7-0  |  |
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX09: TRANSFER WORD   |  |
+|   |  |  |       COUNT BITS 15-8 |  |
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX0A: TRANSFER ADDRESS|  |
+|   |  |  |       BITS 7-0        |  |
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX0B: TRANSFER ADDRESS|  |
+|   |  |  |       BITS 15-8       |  |
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX0C: TRANSFER ADDRESS|  |
+|   |  |  |       BITS 23-16      |  |
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX0D: RESERVED        |  |
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX0E: RESERVED        |  |
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX0F: RESERVED        |  |
+|   |  |  +-----------------------+  |
+|   |  |  +-----------------------+  |
+|   |--|->| XX10: CONTROL STATUS  |  |
+|   |  |  |       C/S REGISTER    |  |
+|   |  |  +-----------------------+  |
+|   |  |                             |
++---+  +-----------------------------+
+
+           Figure 4-4 Disk Controller Command and
+                      Command Status (C/S) Registers
+
+4-18			Zilog				4—18
+
+
+--- Page 112 ---
+HRM 			Zilog				HRM
+
+
+                                              HIGH
+                     +~~~~~~~~~~~~~~~~~~~~~+     ^
+                     |                     |     |
+              CC10 --+  16 WORD BLOCK 3    |     |
+                     |  COMMAND AND C/S    |     |
+              CC00 --+     REGISTERS       |     |
+                     +~~~~~~~~~~~~~~~~~~~~~+     |
+                     |                     |     |
+              BB10 --+  16 WORD BLOCK 2    |     |
+                     |  COMMAND AND C/S    |     |
+              BB00 --+     REGISTERS       |     |
+                     +~~~~~~~~~~~~~~~~~~~~~+     |
+                     |                     |     |
+              AA10 --+  16 WORD BLOCK 1    |     |
+                     |  COMMAND AND C/S    |     |
+              AA00 --+     REGISTERS       |     |
+                     +~~~~~~~~~~~~~~~~~~~~~+     v
+                                               LOW
+
+           Figure 4-5 Disk Controller, I/0 Space
+
+
+4.5.2.2 Controller/Drive Interface: Communications between
+the disk controller and a selected disk drive travel over
+the P2/J23 mating connectors. Table 4~13 lists and defines
+the signals on these lines. The disk controller can control
+either a CDC or Finch drives. All drives attached to any
+controller must be of one type. Table 4-17 lists the codes
+for the command and status words on the control bus between
+the disk controller and the disk drive.
+
+4-19			Zilog				4—19
+
+
+--- Page 113 ---
+HRM 			Zilog				HRM
+
+Table 4-13 Disk Controller and Disk Drive, Interface
+Signals, Connector P2/J23, Slot 3
+
+------------------------------------------------------------
+SIGNAL NAME                    FUNCTION
+------------------------------------------------------------
+Control Bus	These eight signal lines are bidirectional.
+CB7 to CBO	Control signals from the Controller to the
+		selected drive are transmitted on these lines.
+		The DIRECTION\ signal controls the direction
+		transfer.
+DIRECTION\	This signal determines the direction of transfer
+		over the control bus (CB7 through CBO). When ~
+		DIRECTION\ is high, the controller reads status
+		information from one of the four status registers.
+		When this line is low the controller is sending
+		commands to the selected drive.
+
+Control Words	These signals identify one of four bytes that
+0 and 1, CWDO	can be on the control bus. The DIRECTION\
+and CWD1	signal identifies the current byte as a command
+		or status byte.
+
+Attention,	The controller sends this signal to all drives
+ATTN\		to initiate handshaking.
+
+Cycle Acknowl-	Eacn drive generates the CYAK\ signal in
+edge CYAK\	response to the ATTACK signal.
+
+Attention	The selected drive generates this active-high
+Acknowledge	signal in response to the ATTN\ signal from
+ATTACK		the controller. ATTACK then causes tne
+		selected drive to generate the CYACK signal.
+
+INDEX\		The selected drive generates an index pulse
+		for each revolution of the disk. Each cylinder
+		produces a pulse which is 2.5 microseconds long
+		and which occurs every 16.67 milliseconds.
+		Sector 00 immediately follows the pulse.
+
+SECTOR\		The selected drive generates this 2.5 micro-
+		seconds signal.
+
+SEEK END\	The selected drive generates this signal at
+		the end of a seek operation.
+
+DRIVE FAULT\	The selected drive generates this signal to
+		indicate an error condition within the
+		drive itself.
+------------------------------------------------------------
+
+4-20			Zilog				4—20
+
+
+--- Page 114 ---
+HRM 			Zilog				HRM
+
+------------------------------------------------------------
+SIGNAL NAME                    FUNCTION
+------------------------------------------------------------
+Unit Acknowl-	The selected drive places its binary address
+edge 0 to 3	on these lines.
+UNITACKO\ to
+UNITACK3\
+
+READ ENABLE\	The controller generates this signal to read
+		the selected drive at the current cylinder.
+		Before activating this signal the controller
+		must send a control word 2 and then wait until
+		the selected drive returns the CYACK signal.
+
+WRITE ENABLE\	The controller generates this signal to write
+		to the selected drive at the current cylinder.
+		If the heads are write-protected, a fault
+		results. The controller must send a control
+		word 2 and then wait until the selected
+		drive returns the CYACK signal.
+
+MASTER RESET\	A high-to-low transition on this line resets
+		all internal latches and output ports.
+
+BI-DATA\	These lines form a bidirectional, differential
+		pair that transmits NRZI read data from tne
+		currently selected drive to the controller
+		whenever READ ENABLE\ is active.
+
+SYSTEM CLK\	A pre-recorded pattern on the surface of one
+		of the disks on the drive generates this
+		signal. The selected drive sends this signal
+		to the controller: the controller derives
+		the write clock (WRITE CLK\) from system
+		CLLX. The controller sends the WRITE CLK\
+		to the selected drive.
+
+WRITE CLK\	This is a differential signal which the
+		controller derives from the SYSTEM CLK\.
+------------------------------------------------------------
+
+4-21			Zilog				4—21
+
+
+--- Page 115 ---
+HRM 			Zilog				HRM
+
+Table 4-14 Command and Command-Status Registers
+
+------------------------------------------------------------
+REGISTER      NAME       	DEFINITION
+ADDRESS
+------------------------------------------------------------
+xx00	Command Register  The CPU sends specific commands
+			  to the controller through this
+		 	  register. This must be the last
+		 	  register the CPU writes to, for
+		 	  it clears the status byte to
+		 	  enable handshaking between the
+		 	  CPU and the controller and
+		 	  begins the operation.
+
+xx01	Unit Register     The CPU uses this register to
+		 	  specify which unit (drive) it
+		 	  wants to participate in I/0
+		 	  activity. One of four drives
+		 	  (O, 1, 2, or 3) can be specified.
+
+xx02	Head Register     The CPU uses this register to
+		 	  Specify the read-write head it
+		 	  wants for the current operation.
+
+xx03	Cylinder Address  The CPU stores the low-order 8
+	Low Register	  bits (7 to 0) of the 16-bit
+		 	  cylinder address in this register.
+
+xxO4	Cylinder Address  The CPU stores the high-order .
+	High Register     8 bits (15 to 8) of the cylinder
+		 	  address in this register. With
+		 	  the current disk drives, only
+		 	  bits 8 and 9 are used.
+
+xx05	Sector Register   The CPU stores in this register
+		 	  the number of the sector it
+		 	  wants to read from or write to.
+
+xx06	reserved 	  For expansion
+
+xxO7	reserved	  For expansion
+
+xx08	Transfer Word	  This register contains the
+	Count		  loworder byte of the transfer
+	Bits 7 to 0	  word count.
+
+xx09	Transfer Word	  This register contains the
+	Count		  highorder byte of the transfer
+	Bits 15 to 8	  word count.
+------------------------------------------------------------
+
+4-22			Zilog				4—22
+
+
+--- Page 116 ---
+HRM 			Zilog				HRM
+
+------------------------------------------------------------
+REGISTER      NAME       	DEFINITION
+ADDRESS
+------------------------------------------------------------
+xxOA	Transfer Address  This register contains the
+	Bits 7 to 0	  loworder byte of the 3-byte
+		 	  transfer address. The transfer
+		 	  address is the location of the
+		 	  first word of a block of memory
+		 	  allocated for the transfer.
+		 	  Data can be leaving memory or
+		 	  coming to it.
+
+		 	  The command from the CPU
+		 	  determines the direction of
+		 	  transfer. The Read Sector
+		 	  command moves data from disk
+		 	  to main memory. The Write
+		 	  Sector command moves data from
+		 	  main memory to disk.
+
+xxOB	Transfer Address  The CPU stores the intermediate
+	Bits 15 to 8	  byte of the transfer address
+		 	  in this register.
+
+xx0C	Transfer Address  The CPU stores the high-order
+	Bits 23 to 16	  byte of the transfer address
+		 	  in this register.
+
+xxOD	Reserved	  For transfer address bits 32
+			  to 24.
+
+xxOE	Reserved
+
+xxOF	Reserved
+
+xx10	Command-Status
+	(C/S) Register
+------------------------------------------------------------
+
+4-23			Zilog				4—23
+
+
+--- Page 117 ---
+HRM 			Zilog				HRM
+
+Table 4-15 Jumper Settings for Address of
+           Command and C/S Registers
+------------------------------------------------------------
+JUMPERS         PURPOSE               CONNECTION AND RESULT
+------------------------------------------------------------
+E10,E18   Causes bit 15 of address   E10 to E18: bit 15 low
+				     to be either a high or low
+				     level
+E11,E19   Causes bit 14 of address   E11 to E19: bit 14 low
+				     to be either a high or low
+				     level
+E12,E20   Causes bit 13 of address   E12 to E20: bit 13 low
+				     to be either a high or low
+				     level
+E13,E21   Causes bit 12 of address   E13 to E21: bit 12 low
+				     to be either a high or low
+				     level
+E14,E22   Causes bit 11 of address   E14 to E22: bit 11 low
+				     to be either a high or low
+				     level
+E16;E23   Causes bit 10 of address   E15 to E23: bit 10 low
+				     to be either a high or low
+				     level
+E15,E24   Causes bit 09 of address   E16-to E24: bit 09 low
+				     to be either a high or low
+				     level
+E17,E25   Causes bit 08 of address   E17 to E25: bit 08 low
+				     to be either a high or low
+				     level
+------------------------------------------------------------
+
+4-24			Zilog				4—24
+
+
+--- Page 118 ---
+HRM 			Zilog				HRM
+
+Table 4-16 Disk Controller Jumper Settings for Memory
+------------------------------------------------------------
+  JUMPER       PURPOSE               CONNECTION AND RESULT
+ GROUP (E)
+------------------------------------------------------------
+E1,E2,E3    Permit inserting	   E2 to E3 and E42 to E43:
+E41,E42,E43 one wait state	   Inserts one wait state
+            whenever any	   during access of any
+            on-board memory is	   on-board memory.
+            accessed or whenever   E1 and E3 and E42 to E43:
+            only on-board EPROMs   Inserts one wait stave
+            are accessed.          during access of EPROM
+				   only.
+				   E41 to E43:
+				   No wait states for control-
+				   ler on-board RAM or EPROM.
+
+E4,E5, E6   Permit selecting	   E4 to E6 and E7 to E9:
+E7,E8,E9    either 2716 or	   Use 2716 EPROMs.
+            2732 EPROMS.	   E5 to E6 and E8 to E9:
+				   Use 2732 EPROMs.
+------------------------------------------------------------
+
+4.5.2.3 Command and Status Words: The disk drive control
+bus contains a command word when the direction line is
+activated, otherwise it contains a status word. The number
+of the command or status words is determined by the coding
+of CWDO and CWD1.
+
+Command Word O0--Command Word 0 is used to select one of fif-
+teen drives by a four bit unit address (uA).
+
+Command Word 1--Command Word 1 is used, together with the
+two low-order bits of Command Word 0, to establish the
+binary address of the desired cylinder specified by the
+Cylinder Address Register (CAR).
+
+Command Word 2--Command Word 2 has three basic purposes:
+(1) select forward or reverse offset, (2) select early or
+late data strobe, and (3) select one of three possible head
+positions by the HARO and HAR1 bit positions.
+
+Command Word 3--Command Word 3 enters a Diagnostic mode,
+Customer Engineering (CE) mode, Rezero (Return the heads to
+cylinder zero), clears a fault, or establishes which heads
+are to be write protected.
+
+4-25			Zilog				4—25
+
+
+--- Page 119 ---
+HRM 			Zilog				HRM
+
+Status Words--The control bus contains a status word when
+the direction line is deactivated for four possible standard
+status words.  Status Word 0--Status Word 0 communicates
+eight specific error conditions to the Controller-Formatter
+when a fault condition exists.
+
+Status Word 1--Status Word 1 signals seven different
+error/exception conditions to the Controller-Formatter.
+
+Status Words 2 and 3--Together contain the contents of the
+Position Address Register (PAR) for current locations of the
+heads.
+
+Table 4-17. Disk Command and Status Words
+             +---+---+---+---------+---------+---------+---------+---------+---------+---------+---------+
+             | D | C | C |  (MSB)  |         |         |         |         |         |         |  (LSB)  |
+             | I | W | W |  Bit 7  |  Bit 6  |  Bit 5  |  Bit 4  |  Bit 3  |  Bit 2  |  Bit 1  |  Bit 0  |
+             | R | D | D |         |         |         |         |         |         |         |         |
+             |   | 1 | 0 |         |         |         |         |         |         |         |         |
++---+--------+---+---+---+---------+---------+---------+---------+---------+---------+---------+---------+
+|   | WORD 0 | 1 | 0 | 0 | UNIT    | UNIT    | UNIT    | UNIT    | SPARE   | SPARE   | CAR9    | CAR8    |
+|   |        |   |   |   | ADDR3   | ADDR2   | ADDR1   | ADDR0   | 0       | 0       |         |         |
+| C +--------+---+---+---+---------+---------+---------+---------+---------+---------+---------+---------+
+| O | WORD 1 | 1 | 0 | 1 | CAR7    | CAR6    | CAR5    | CAR4    | CAR3    | CAR2    | CAR1    | CAR0    |
+| M +--------+---+---+---+---------+---------+---------+---------+---------+---------+---------+---------+
+| M | WORD 2 | 1 | 1 | 0 | SERVO   | SERVO   | STROBE  | STROBE  | SPARE   | SPARE   | HAR1    | HAR0    |
+| A |        |   |   |   | OFFSET  | OFFSET  | LATE    | EARLY   | 0       | 0       |         |         |
+| N |        |   |   |   | REV     | FWD     |         |         |         |         |         |         |
+| D +--------+---+---+---+---------+---------+---------+---------+---------+---------+---------+---------+
+|   | WORD 3 | 1 | 1 | 1 | DIAG    | CE      | REZERO  | FAULT   | SPARE   | SPARE   | EXT     | EXT     |
+|   |        |   |   |   | MODE    | MODE    |         | CLEAR   |         |         | PROT1   | PROT0   |
++---+--------+---+---+---+---------+---------+---------+---------+---------+---------+---------+---------+
+|   | WORD 0 | 0 | 0 | 0 | NOT     | SERVO   | R/W     | SPEED   | PWR     | WRITE   | SEEKING | NOT     |
+|   |        |   |   |   | READY   | ERROR   | FAULT   | ERROR   | LOSS    | PROTD   | RZRNG   | ON      |
+| S |        |   |   |   |         |         |         |         |         |         |         | CYL     |
+| T +--------+---+---+---+---------+---------+---------+---------+---------+---------+---------+---------+
+| A | WORD 1 | 0 | 0 | 1 | GUARD   | PLO     | UNSAFE  | INVAL   | TIME    | POR/    | SPARE   | ILL     |
+| T |        |   |   |   | BAND    | ERROR   |         | CMND    | OUT     | MR      |         | ADDR    |
+| U +--------+---+---+---+---------+---------+---------+---------+---------+---------+---------+---------+
+| S | WORD 2 | 0 | 1 | 0 | SPARE   | SPARE   | SPARE   | SPARE   | SPARE   | SPARE   | PAR9    | PAR8    |
+|   +--------+---+---+---+---------+---------+---------+---------+---------+---------+---------+---------+
+|   | WORD 3 | 0 | 1 | 1 | PAR7    | PAR6    | PAR5    | PAR4    | PAR3    | PAR2    | PAR1    | PAR0    |
++---+--------+---+---+---+---------+---------+---------+---------+---------+---------+---------+---------+
