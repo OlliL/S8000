@@ -251,6 +251,7 @@ loc_01AA:
         jp      z,complete_device_state
         jp      loc_01AA
         jp      loc_01AA
+opcode_05_handler:
         ld      a,(ix+02h)
         call    08ddh
         jp      nc,status_error_nc
@@ -265,7 +266,9 @@ loc_01AA:
         ld      c,03h
         ld      b,01h
         jp      clear_device_event
+opcode_11_handler:
         jp      invalid_state_fallback
+opcode_10_handler:
         jp      invalid_state_fallback
 command_01_handler:
         ld      a,(ix+09h)
@@ -352,6 +355,7 @@ complete_device_state:
         ld      hl,2124h
         call    13f5h
         jr      0325h
+opcode_02_handler:
 loc_02DC:
         ld      a,(ix+09h)
         or      (ix+0ah)
@@ -412,6 +416,7 @@ loc_02FA:
         ld      a,(ix+02h)
         ld      (733eh),a
         jp      finish_device_event
+opcode_03_handler:
         ld      a,(ix+0dh)
         out     (30h),a
         ld      a,00h
@@ -446,6 +451,7 @@ loc_02FA:
         ld      bc,0003h
         call    139bh
         jp      finish_device_event
+opcode_04_handler:
 initialize_device_record:
         call    10b4h
         xor     a
@@ -457,6 +463,7 @@ initialize_device_record:
         call    11d5h
         call    1227h
         jp      finish_device_event
+opcode_00_handler:
 finish_device_event:
         ld      a,(ix+00h)
         cp      03h
@@ -620,6 +627,7 @@ loc_04E5:
         ret     nz
         ld      (ix+00h),a
         ret
+opcode_06_handler:
         call    0f05h
         jp      nc,invalid_state_fallback
         ld      a,(ix+02h)
@@ -675,12 +683,17 @@ transfer_controller_data:
         xor     a
         scf
         ret
+opcode_07_handler:
         ld      a,(ix+03h)
         ld      (ix+12h),a
         jp      finish_device_event
+opcode_08_handler:
         jp      invalid_state_fallback
+opcode_09_handler:
         jp      invalid_state_fallback
+opcode_0A_handler:
         jp      invalid_state_fallback
+opcode_0B_handler:
         call    0ef7h
         jp      nc,invalid_state_fallback
         ld      a,00h
@@ -714,6 +727,7 @@ transfer_controller_data:
         call    139bh
         jp      nc,status_error_nc
         jp      finish_device_event
+opcode_17_handler:
         ld      a,(ix+06h)
         ld      (420ah),a
         and     1fh
@@ -760,10 +774,13 @@ transfer_controller_data:
         jp      nc,status_error_nc
         jp      nz,status_error_z
         jp      finish_device_event
+opcode_0C_handler:
         ld      a,(ix+06h)
         out     (40h),a
         jp      finish_device_event
+opcode_0D_handler:
         jp      invalid_state_fallback
+opcode_0E_handler:
 startup_dispatch:
         exx
         di
@@ -798,6 +815,7 @@ startup_dispatch:
         ei
         exx
         jp      (hl)
+opcode_0F_handler:
         xor     a
         ld      (75c0h),a
         ld      h,(ix+15h)
@@ -805,6 +823,7 @@ startup_dispatch:
         ld      (ix+05h),h
         ld      (ix+04h),l
         jp      finish_device_event
+opcode_14_handler:
         ld      a,01h
         ld      (75c0h),a
         call    10b4h
@@ -829,6 +848,7 @@ loc_0705:
         ret     nz
         ld      a,(0889h)
         ret
+opcode_12_handler:
 read_controller_state:
         ld      a,(ix+02h)
         call    11aah
@@ -848,6 +868,7 @@ read_controller_state:
         jp      z,status_error_minus
         ld      c,21h
         jp      loc_04E5
+opcode_13_handler:
 loc_073E:
         ld      a,(ix+02h)
         call    11aah
@@ -927,6 +948,7 @@ loc_07D9:
         cp      01h
         jp      z,status_error_z
         jp      status_error_minus
+opcode_15_handler:
         ld      a,(ix+0dh)
         out     (30h),a
         ld      hl,4240h
@@ -1003,10 +1025,14 @@ command_16_handler:
 state_dispatch_table:
         dw      01A3h, 01A4h, 01C1h, 01E1h
 opcode_dispatch_table:
-        dw      03E1h, 020Ch, 02DCh, 0375h, 03C5h, 01E4h
-        dw      052Ah, 05A2h, 05ABh, 05AEh, 05B1h, 05B4h
-        dw      0692h, 069Ah, 069Dh, 06D5h, 0209h, 0206h
-        dw      070Eh, 073Eh, 06E8h, 0801h, 0835h, 0610h
+        dw      opcode_00_handler, command_01_handler, opcode_02_handler
+        dw      opcode_03_handler, opcode_04_handler, opcode_05_handler
+        dw      opcode_06_handler, opcode_07_handler, opcode_08_handler
+        dw      opcode_09_handler, opcode_0A_handler, opcode_0B_handler
+        dw      opcode_0C_handler, opcode_0D_handler, opcode_0E_handler
+        dw      opcode_0F_handler, opcode_10_handler, opcode_11_handler
+        dw      opcode_12_handler, opcode_13_handler, opcode_14_handler
+        dw      opcode_15_handler, command_16_handler, opcode_17_handler
 
 ; Opaque constants/pattern bytes from 08C5h through 08DCh, preceding code at 08DDh.
 ; No control-flow entry into this region is evidenced; preserve its bytes as data.
