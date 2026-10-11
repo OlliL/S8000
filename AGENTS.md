@@ -141,36 +141,62 @@ The resulting record layout aligns with the manual's CP register assignments:
 This is a 15-byte snapshot: the code does not read port `0x6f` (CP15) or the
 separate C/S register. The manual reserves CP13-CP15.
 
-For command field `0x01`, `command_01_handler` provides a particularly useful
-parameter fingerprint: it rejects a zero count using `IX+9` and `IX+10`, takes
-the transfer-address high byte from `IX+13`, and uses `IX+11`/`IX+12` for the
-lower two address bytes. Its shared helpers validate sector (`IX+6`) and head
-(`IX+3`), use cylinder (`IX+4`/`IX+5`), and select the unit (`IX+2`). This
-matches the complete parameter set listed for Read Sector in Appendix B.3 and
-materially strengthens the `0x01 = Read Sector` hypothesis. It is still not an
-explicit name-to-code assignment in the available manual text.
+For command field `0x01`, `command_01_readsector_handler` provides a
+particularly useful parameter fingerprint: it rejects a zero count using
+`IX+9` and `IX+10`, takes the transfer-address high byte from `IX+13`, and
+uses `IX+11`/`IX+12` for the lower two address bytes. Its shared helpers
+validate sector (`IX+6`) and head (`IX+3`), use cylinder (`IX+4`/`IX+5`), and
+select the unit (`IX+2`). This matches the complete parameter set listed for
+Read Sector in Appendix B.3 and materially strengthens the
+`0x01 = Read Sector` hypothesis. It is still not an explicit name-to-code
+assignment in the available manual text.
 
-Command field `0x02` enters `opcode_02_handler`, which consumes the same count,
-unit, disk-address, and DMA-address fields as `0x01`. Since Appendix B.4 gives
-Write Sector the same parameter set as Read Sector, `0x02 = Write Sector` is a
-plausible candidate, but the command name should remain unassigned until the
-two handlers' transfer directions are distinguished.
+Command field `0x02` enters `command_02_writesector_handler`, which consumes
+the same count, unit, disk-address, and DMA-address fields as `0x01`. Since
+Appendix B.4 gives Write Sector the same parameter set as Read Sector,
+`0x02 = Write Sector` is a plausible candidate, but that name remains
+provisional until the two handlers' transfer directions are distinguished.
 
-Some table entries can be correlated with the host firmware, without assigning
-names to the entire table:
+Appendix B names the operations and lists their parameter sets, but it does
+not assign numeric command-field values. The following cross-reference uses
+the captured CP fields and handler behavior as fingerprints. The confidence
+column rates the name-to-code correlation, not certainty about every internal
+detail. ASM labels use these names as working identifications; `unknown` and
+`unhandled` are deliberately noncommittal:
 
-| Command field | Z80 handler | Evidence |
-|---|---:|---|
-| `0x00` | `0x03e1` (`finish_device_event`) | Finishes/clears a device event. |
-| `0x01` | `0x020c` (`command_01_handler`) | The CPU's normal WDC read setup issues command `0x01`; the Z80 handler consumes the count and transfer-address fields and uses the disk-address fields through shared helpers. Its parameter fingerprint matches Read Sector (B.3), but the numeric command-name mapping is not printed in the examined manual pages. |
-| `0x02` | `0x02dc` (`opcode_02_handler`) | Uses the same disk-address, word-count, and DMA-address fields as `0x01`; Write Sector (B.4) is a candidate because it has the same documented parameter set, but direction has not yet been established. |
-| `0x16` | `0x0835` (`command_16_handler`) | The CPU's WDC boot setup issues `0x16`; the handler copies request fields from four device records and invokes shared transfer logic. Its exact documented command name is not established here. |
+| Opcode | Appendix B command | Appendix | Confidence | Handler address | Handler label | Observed behavior / interpretation |
+|---:|---|---:|---|---:|---|---|
+| `0x00` | Null | B.7 | Strong | `0x03e1` | `command_00_null_handler` | Completes or clears the event/operation state. This is consistent with Null performing no disk operation. |
+| `0x01` | Read Sector | B.3 | Very strong | `0x020c` | `command_01_readsector_handler` | Validates the nonzero word count and uses unit, head, cylinder, sector, and 24-bit DMA address. The CPU read path issues `0x01`. |
+| `0x02` | Write Sector | B.4 | Moderate | `0x02dc` | `command_02_writesector_handler` | Uses the same disk address, word count, and DMA address as `0x01`, with a distinct transfer path. Write direction still needs confirmation. |
+| `0x03` | Read Detailed Status | B.5 | Very strong | `0x0375` | `command_03_readdetailedstatus_handler` | Uses unit and DMA address, constructs three words of status data, and copies them to host memory. The diagnostic CPU code issues `0x03` for this status transfer. |
+| `0x04` | Restore | B.6 | Strong | `0x03c5` | `command_04_restore_handler` | Initializes unit operation state, selects the drive, and enters shared device-operation/status handling. The diagnostic CPU code explicitly sends `0x04` for unit 0. |
+| `0x05` | Format | B.2 | Tentative | `0x01e4` | `command_05_format_handler` | Selects the unit and branches into long-running per-device actions, potentially including the inferred unit-wide format/verify flow. The path is shared, so the format mapping is not proved. |
+| `0x06` | Seek | B.8 | Tentative | `0x052a` | `command_06_seek_handler` | Calls shared validation and per-device action routines. Those helpers work with disk-address state, but this handler alone does not prove that it performs Seek. |
+| `0x07` | Set Strobe/Offset | B.9 | Tentative | `0x05a2` | `command_07_setstrobeoffset_handler` | Copies CP2 into a per-device record. That matches the manual's placement of the SO value in CP2; the indirect unit-specific effect is not fully traced. |
+| `0x08` |  |  | High (handler behavior only) | `0x05ab` | `command_08_invalid_handler` | Immediately enters `invalid_state_fallback`, which clears/rejects the event with error code `0x08`. No operation body is present. |
+| `0x09` |  |  | High (handler behavior only) | `0x05ae` | `command_09_invalid_handler` | Immediately enters `invalid_state_fallback`, clearing/rejecting the event with error code `0x08`. |
+| `0x0a` |  |  | High (handler behavior only) | `0x05b1` | `command_0A_invalid_handler` | Immediately enters `invalid_state_fallback`, clearing/rejecting the event with error code `0x08`. |
+| `0x0b` | Format Read | B.11 | Strong | `0x05b4` | `command_0B_formatread_handler` | Uses disk-address fields and DMA address but no ordinary word count; the fixed-size transfer includes a formatted-sector record, consistent with reading header plus data. |
+| `0x0c` | Set Interrupt Address | B.12 | Very strong | `0x0692` | `command_0C_setinterruptaddress_handler` | Takes CP5 (`WDC_EVENT_SECTOR`) and writes it to I/O port `0x40`, consistent with programming the interrupt-transfer address. |
+| `0x0d` |  |  | High (handler behavior only) | `0x069a` | `command_0D_invalid_handler` | Immediately enters `invalid_state_fallback`, clearing/rejecting the event with error code `0x08`. |
+| `0x0e` |  |  | Low | `0x069d` | `command_0E_startup_handler` | Enters shared startup/initialization code: disables interrupts, copies/validates a block in SRAM, and selects a continuation. It is not enough evidence to call it Self Test. |
+| `0x0f` |  |  | Moderate (behavior only) | `0x06d5` | `command_0F_updatecylinder_handler` | Clears a mode flag and copies an internal cylinder value from `IX+0x15/0x16` to the captured cylinder bytes. Likely an internal completion/update event rather than a documented disk command. |
+| `0x10` |  |  | High (handler behavior only) | `0x0209` | `command_10_invalid_handler` | Immediately enters `invalid_state_fallback`, clearing/rejecting the event with error code `0x08`. |
+| `0x11` |  |  | High (handler behavior only) | `0x0206` | `command_11_invalid_handler` | Immediately enters `invalid_state_fallback`, clearing/rejecting the event with error code `0x08`. |
+| `0x12` |  |  | Moderate | `0x070e` | `command_12_readcontrollerstate_handler` | Selects a unit, queries shared controller/device state, and clears or reports status. Likely a controller-internal state/event operation rather than a disk command. |
+| `0x13` | Unit Format Verify | B.15 | Strong | `0x073e` | `command_13_unitformatverify_handler` | Iterates through a unit's cylinders and heads, reads/checks sectors and then handles verification completion/failure. |
+| `0x14` |  |  | Low | `0x06e8` | `command_14_unknown_handler` | Sets an internal mode flag, calls shared initialization/action code, then completes the event. Its operation is not distinctive enough to name. |
+| `0x15` |  |  | Low | `0x0801` | `command_15_unknown_handler` | Builds a small parameter block and copies a fixed two-byte result from controller workspace to the host DMA address. The meaning of this data is unknown. |
+| `0x16` |  |  | Moderate (behavior only) | `0x0835` | `command_16_readdeviceinfo_handler` | Collects six fields from each of four internal device records, then copies the 24-byte block to the host DMA address. Likely a private device-information query. |
+| `0x17` | Format Verify | B.14 | Tentative | `0x0610` | `command_17_formatverify_handler` | Selects unit/head/cylinder and runs a track-format validation path. It also interprets CP5 as flags/options, which Appendix B.14 does not list. |
 
-Appendix B describes the host commands and their parameters, but the available
-text does not list numeric command-field values alongside the command names.
-Use handler parameter fingerprints to develop candidate mappings, but treat
-them as hypotheses until transfer behavior or another source distinguishes
-commands with overlapping parameter sets.
+The table covers every dispatched value, `0x00` through `0x17`. Appendix B
+does not provide numeric command assignments, so only mappings corroborated
+by host-side use or distinctive parameter/behavior signatures should be
+treated as strong. No opcode has yet been reliably matched to Set Write
+Protect (B.10) or Self Test (B.13); the unknown and private-operation
+interpretations remain provisional pending controller firmware or bus traces.
 
 ## Disk-read path
 

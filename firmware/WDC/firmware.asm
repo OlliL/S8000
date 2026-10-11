@@ -47,7 +47,7 @@ startup_stage_2:
         ld      a,04h
         out     (20h),a
         ld      hl,003dh
-        jp      startup_dispatch
+        jp      command_0E_startup_handler
 application_entry:
         ld      sp,41ffh
         call    00c9h
@@ -264,7 +264,7 @@ loc_01AA:
         jp      z,complete_device_state
         jp      loc_01AA
         jp      loc_01AA
-opcode_05_handler:
+command_05_format_handler:
         ld      a,(ix+WDC_EVENT_DRV)
         call    08ddh
         jp      nc,status_error_nc
@@ -275,18 +275,18 @@ opcode_05_handler:
         call    10b4h
         xor     a
         or      b
-        jp      z,loc_073E
+        jp      z,command_13_unitformatverify_handler
         ld      c,03h
         ld      b,01h
         jp      clear_device_event
-opcode_11_handler:
+command_11_invalid_handler:
         jp      invalid_state_fallback
-opcode_10_handler:
+command_10_invalid_handler:
         jp      invalid_state_fallback
-command_01_handler:
+command_01_readsector_handler:
         ld      a,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
         or      (ix+WDC_EVENT_TRANSWRD_CNT_HI)
-        jp      z,finish_device_event
+        jp      z,command_00_null_handler
         call    0ef7h
         jp      nc,invalid_state_fallback
         ld      a,00h
@@ -336,10 +336,10 @@ command_01_handler:
         jp      nc,status_error_nc
         call    0fcbh
         jp      nc,invalid_state_fallback
-        jp      nz,command_01_handler
+        jp      nz,command_01_readsector_handler
         ld      a,(ix+WDC_EVENT_DRV)
         ld      (733eh),a
-        jp      finish_device_event
+        jp      command_00_null_handler
 loc_029E:
         ld      a,(ix+WDC_EVENT_CMD)
         and     40h
@@ -368,11 +368,10 @@ complete_device_state:
         ld      hl,2124h
         call    13f5h
         jr      0325h
-opcode_02_handler:
-loc_02DC:
+command_02_writesector_handler:
         ld      a,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
         or      (ix+WDC_EVENT_TRANSWRD_CNT_HI)
-        jp      z,finish_device_event
+        jp      z,command_00_null_handler
         call    0ef7h
         jp      nc,invalid_state_fallback
         ld      a,(ix+11h)
@@ -425,11 +424,11 @@ loc_02FA:
         jp      nz,status_error_z
         call    0fcbh
         jp      nc,invalid_state_fallback
-        jp      nz,loc_02DC
+        jp      nz,command_02_writesector_handler
         ld      a,(ix+WDC_EVENT_DRV)
         ld      (733eh),a
-        jp      finish_device_event
-opcode_03_handler:
+        jp      command_00_null_handler
+command_03_readdetailedstatus_handler:
         ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
         ld      a,00h
@@ -463,9 +462,8 @@ opcode_03_handler:
         rr      e
         ld      bc,0003h
         call    139bh
-        jp      finish_device_event
-opcode_04_handler:
-initialize_device_record:
+        jp      command_00_null_handler
+command_04_restore_handler:
         call    10b4h
         xor     a
         ld      (ix+15h),a
@@ -475,9 +473,8 @@ initialize_device_record:
         jp      nc,status_error_nc
         call    11d5h
         call    1227h
-        jp      finish_device_event
-opcode_00_handler:
-finish_device_event:
+        jp      command_00_null_handler
+command_00_null_handler:
         ld      a,(ix+00h)
         cp      03h
         jr      z,03ech
@@ -640,7 +637,7 @@ loc_04E5:
         ret     nz
         ld      (ix+00h),a
         ret
-opcode_06_handler:
+command_06_seek_handler:
         call    0f05h
         jp      nc,invalid_state_fallback
         ld      a,(ix+WDC_EVENT_DRV)
@@ -648,7 +645,7 @@ opcode_06_handler:
         jp      nc,status_error_nc
         call    0552h
         jp      nc,status_error_nc
-        jp      finish_device_event
+        jp      command_00_null_handler
 transfer_controller_data:
         ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
@@ -696,17 +693,17 @@ transfer_controller_data:
         xor     a
         scf
         ret
-opcode_07_handler:
+command_07_setstrobeoffset_handler:
         ld      a,(ix+WDC_EVENT_HEAD)
         ld      (ix+12h),a
-        jp      finish_device_event
-opcode_08_handler:
+        jp      command_00_null_handler
+command_08_invalid_handler:
         jp      invalid_state_fallback
-opcode_09_handler:
+command_09_invalid_handler:
         jp      invalid_state_fallback
-opcode_0A_handler:
+command_0A_invalid_handler:
         jp      invalid_state_fallback
-opcode_0B_handler:
+command_0B_formatread_handler:
         call    0ef7h
         jp      nc,invalid_state_fallback
         ld      a,00h
@@ -739,8 +736,8 @@ opcode_0B_handler:
         rr      e
         call    139bh
         jp      nc,status_error_nc
-        jp      finish_device_event
-opcode_17_handler:
+        jp      command_00_null_handler
+command_17_formatverify_handler:
         ld      a,(ix+WDC_EVENT_SECTOR)
         ld      (420ah),a
         and     1fh
@@ -786,15 +783,14 @@ opcode_17_handler:
         call    130bh
         jp      nc,status_error_nc
         jp      nz,status_error_z
-        jp      finish_device_event
-opcode_0C_handler:
+        jp      command_00_null_handler
+command_0C_setinterruptaddress_handler:
         ld      a,(ix+WDC_EVENT_SECTOR)
         out     (40h),a
-        jp      finish_device_event
-opcode_0D_handler:
+        jp      command_00_null_handler
+command_0D_invalid_handler:
         jp      invalid_state_fallback
-opcode_0E_handler:
-startup_dispatch:
+command_0E_startup_handler:
         exx
         di
         ld      a,01h
@@ -828,19 +824,19 @@ startup_dispatch:
         ei
         exx
         jp      (hl)
-opcode_0F_handler:
+command_0F_updatecylinder_handler:
         xor     a
         ld      (75c0h),a
         ld      h,(ix+15h)
         ld      l,(ix+16h)
         ld      (ix+WDC_EVENT_CYL_HI),h
         ld      (ix+WDC_EVENT_CYL_LO),l
-        jp      finish_device_event
-opcode_14_handler:
+        jp      command_00_null_handler
+command_14_unknown_handler:
         ld      a,01h
         ld      (75c0h),a
         call    10b4h
-        jp      finish_device_event
+        jp      command_00_null_handler
 update_channel_value:
         ld      hl,0889h
         ld      b,a
@@ -861,8 +857,7 @@ loc_0705:
         ret     nz
         ld      a,(0889h)
         ret
-opcode_12_handler:
-read_controller_state:
+command_12_readcontrollerstate_handler:
         ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
         jp      nc,status_error_nc
@@ -881,8 +876,7 @@ read_controller_state:
         jp      z,status_error_minus
         ld      c,21h
         jp      loc_04E5
-opcode_13_handler:
-loc_073E:
+command_13_unitformatverify_handler:
         ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
         jp      nc,status_error_nc
@@ -957,11 +951,11 @@ loc_07D9:
         ld      a,(ix+WDC_EVENT_DRV)
         call    0966h
         jp      nc,status_error_nc
-        jp      z,finish_device_event
+        jp      z,command_00_null_handler
         cp      01h
         jp      z,status_error_z
         jp      status_error_minus
-opcode_15_handler:
+command_15_unknown_handler:
         ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
         ld      hl,4240h
@@ -986,8 +980,8 @@ opcode_15_handler:
         rr      e
         ld      bc,0002h
         call    139bh
-        jp      finish_device_event
-command_16_handler:
+        jp      command_00_null_handler
+command_16_readdeviceinfo_handler:
         ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
         push    ix
@@ -1028,7 +1022,7 @@ command_16_handler:
         rr      b
         rr      c
         call    139bh
-        jp      finish_device_event
+        jp      command_00_null_handler
         nop
         jr      nz,08cch
         rst     38h
@@ -1038,14 +1032,30 @@ command_16_handler:
 state_dispatch_table:
         dw      01A3h, 01A4h, 01C1h, 01E1h
 opcode_dispatch_table:
-        dw      opcode_00_handler, command_01_handler, opcode_02_handler
-        dw      opcode_03_handler, opcode_04_handler, opcode_05_handler
-        dw      opcode_06_handler, opcode_07_handler, opcode_08_handler
-        dw      opcode_09_handler, opcode_0A_handler, opcode_0B_handler
-        dw      opcode_0C_handler, opcode_0D_handler, opcode_0E_handler
-        dw      opcode_0F_handler, opcode_10_handler, opcode_11_handler
-        dw      opcode_12_handler, opcode_13_handler, opcode_14_handler
-        dw      opcode_15_handler, command_16_handler, opcode_17_handler
+        dw      command_00_null_handler
+        dw      command_01_readsector_handler
+        dw      command_02_writesector_handler
+        dw      command_03_readdetailedstatus_handler
+        dw      command_04_restore_handler
+        dw      command_05_format_handler
+        dw      command_06_seek_handler
+        dw      command_07_setstrobeoffset_handler
+        dw      command_08_invalid_handler
+        dw      command_09_invalid_handler
+        dw      command_0A_invalid_handler
+        dw      command_0B_formatread_handler
+        dw      command_0C_setinterruptaddress_handler
+        dw      command_0D_invalid_handler
+        dw      command_0E_startup_handler
+        dw      command_0F_updatecylinder_handler
+        dw      command_10_invalid_handler
+        dw      command_11_invalid_handler
+        dw      command_12_readcontrollerstate_handler
+        dw      command_13_unitformatverify_handler
+        dw      command_14_unknown_handler
+        dw      command_15_unknown_handler
+        dw      command_16_readdeviceinfo_handler
+        dw      command_17_formatverify_handler
 
 ; Opaque constants/pattern bytes from 08C5h through 08DCh, preceding code at 08DDh.
 ; No control-flow entry into this region is evidenced; preserve its bytes as data.
