@@ -1,3 +1,5 @@
-/AI/.idea/
-/AI/.venv/
-/AI/*.iml
+**/.idea/
+**/.venv/
+**/*.iml
+**/.history/
+**/*.kicad_*.lck
