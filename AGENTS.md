@@ -97,6 +97,41 @@ command-byte bits form the command field (Appendix B, B.1). The command
 register write clears the status byte, enables handshaking, and starts the
 operation (manual section 4.5.2.1, Table 4-14).
 
+## WDC firmware command dispatch
+
+The reconciled Z80 listing contains an indexed operation dispatcher
+(`firmware/WDC/firmware.asm`):
+
+1. `service_pending_event` at `0x017c` selects records beginning at `0x75c4`;
+   records are `0x2a` bytes apart. The first byte (`IX+0`) is treated as a
+   state and values `0` through `4` select a five-entry state table at
+   `0x088d`.
+2. State `1` enters `dispatch_device_state` at `0x01a4`. It reads `IX+1`,
+   masks it with `0x1f`, rejects values greater than or equal to `0x18`, and
+   uses the result as a word index into the 24-entry table at `0x0895`.
+   Control jumps to the selected handler. Thus this path has dispatch slots
+   for command-field values `0x00` through `0x17`; values `0x18` through
+   `0x1f` are rejected. Bits 5-7 do not affect table selection.
+3. This is strong evidence for command-code dispatch: the selector uses the
+   same low five bits that the manual defines as the command field. The
+   record-creation/host-register capture path has not yet been traced
+   end-to-end, so the exact step that places the host's CP0 value into `IX+1`
+   remains to be confirmed.
+
+Some table entries can be correlated with the host firmware, without assigning
+names to the entire table:
+
+| Command field | Z80 handler | Evidence |
+|---|---:|---|
+| `0x00` | `0x03e1` (`finish_device_event`) | Finishes/clears a device event. |
+| `0x01` | `0x020c` (`command_01_handler`) | The CPU's normal WDC read setup issues command `0x01`; this handler processes transfer-count fields and enters the disk-data path. This is consistent with Read Sector, but the numeric command-name mapping is not printed in the examined manual pages. |
+| `0x16` | `0x0835` (`command_16_handler`) | The CPU's WDC boot setup issues `0x16`; the handler copies request fields from four device records and invokes shared transfer logic. Its exact documented command name is not established here. |
+
+Appendix B describes the host commands and their parameters, but the available
+text does not list numeric command-field values alongside the command names.
+Treat the other table entries as unmapped until another source or a traced
+host-register capture path confirms their meaning.
+
 ## Disk-read path
 
 `READ_DISK` chooses exactly one controller from `DEVICE_CODE`
@@ -303,7 +338,6 @@ mistaken for a complete controller initialization sequence.
 - Sources examined: `AI/ocr/03_3237_04__4_5_2_Winchester_Disk_Controller.txt`
   (WDC manual, section 4.5.2) and
   `AI/ocr/03_3237_04__Appendix_B.txt` (host command descriptions). Appendix B
-  describes command parameters and transfer behavior, but does not provide
-  opcode values; its references to Appendix C mean opcode mapping remains
-  outstanding. No WDC firmware source, kernel direct-I/O driver, or ZBI bus
-  trace has yet been analyzed.
+  describes command parameters and transfer behavior, but the available text
+  does not provide numeric opcode values. No WDC firmware source, kernel
+  direct-I/O driver, or ZBI bus trace has yet been analyzed.

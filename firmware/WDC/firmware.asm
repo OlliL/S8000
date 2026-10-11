@@ -9,7 +9,7 @@
 
         org     0000h
 reset_vector:
-        jp      002ah
+        jp      rom_entry
 
 ; 0003h-0004h are not executed after the reset JP; retain them without a semantic claim.
         org     0003h
@@ -29,12 +29,12 @@ interrupt_vector_table:
 rom_entry:
         ld      hl,0028h
         ld      de,0033h
-        jp      1603h
+        jp      select_and_jump
 startup_stage_2:
         ld      a,04h
         out     (20h),a
         ld      hl,003dh
-        jp      069dh
+        jp      startup_dispatch
 application_entry:
         ld      sp,41ffh
         call    00c9h
@@ -53,7 +53,7 @@ process_input_event:
         call    0061h
         call    nz,00c4h
         call    0160h
-        jp      0043h
+        jp      main_loop_entry
 scan_input_event:
         ld      hl,75c4h
         in      a,(60h)
@@ -67,10 +67,10 @@ scan_input_event:
         cp      16h
         jr      z,00a5h
         cp      0eh
-        jp      z,002ah
+        jp      z,rom_entry
         in      a,(61h)
         cp      04h
-        jp      m,0094h
+        jp      m,build_input_mask
         in      a,(60h)
         and     20h
         call    00c4h
@@ -128,23 +128,25 @@ initialize_runtime:
         im      2
         ei
         ld      hl,003ch
+loc_00E7:
         call    15ebh
+loc_00EA:
         ld      a,(420dh)
         or      a
-        jp      z,00eah
+        jp      z,loc_00EA
         xor     a
         ld      (420dh),a
         dec     hl
         ld      a,h
         or      l
-        jp      nz,00e7h
+        jp      nz,loc_00E7
         call    15fch
         ld      a,04h
         push    af
         ld      ix,766ch
         pop     af
         dec     a
-        jp      m,0156h
+        jp      m,loc_0156
         push    af
         ld      de,002ah
         push    ix
@@ -180,6 +182,7 @@ initialize_runtime:
         ld      (ix+28h),a
         ld      (ix+29h),a
         jr      0105h
+loc_0156:
         ld      a,01h
         ld      (75c0h),a
         xor     a
@@ -202,7 +205,7 @@ service_pending_event:
         ld      (733eh),a
         ld      a,(ix+00h)
         cp      05h
-        jp      nc,019ch
+        jp      nc,invalid_state_fallback
         ld      hl,088dh
         rlca
         ld      c,a
@@ -216,16 +219,17 @@ service_pending_event:
 invalid_state_fallback:
         ld      b,08h
         ld      c,00h
-        jp      03f8h
+        jp      clear_device_event
         ret
 dispatch_device_state:
         ld      a,(ix+12h)
         ld      (ix+13h),a
+loc_01AA:
         ld      hl,0895h
         ld      a,(ix+01h)
         and     1fh
         cp      18h
-        jp      nc,019ch
+        jp      nc,invalid_state_fallback
         rlca
         ld      c,a
         ld      b,00h
@@ -238,43 +242,44 @@ dispatch_device_state:
         ld      a,(ix+14h)
         dec     a
         ld      (ix+14h),a
-        jp      nz,01aah
+        jp      nz,loc_01AA
         ld      (ix+14h),06h
         ld      a,(ix+13h)
         call    06f3h
         ld      (ix+13h),a
         cp      (ix+12h)
-        jp      z,02c6h
-        jp      01aah
-        jp      01aah
+        jp      z,complete_device_state
+        jp      loc_01AA
+        jp      loc_01AA
         ld      a,(ix+02h)
         call    08ddh
-        jp      nc,049fh
+        jp      nc,status_error_nc
         jr      z,01f7h
         cp      01h
-        jp      z,04a4h
-        jp      04aeh
+        jp      z,status_error_z
+        jp      status_error_minus
         call    10b4h
         xor     a
         or      b
-        jp      z,073eh
+        jp      z,loc_073E
         ld      c,03h
         ld      b,01h
-        jp      03f8h
-        jp      019ch
-        jp      019ch
+        jp      clear_device_event
+        jp      invalid_state_fallback
+        jp      invalid_state_fallback
+command_01_handler:
         ld      a,(ix+09h)
         or      (ix+0ah)
-        jp      z,03e1h
+        jp      z,finish_device_event
         call    0ef7h
-        jp      nc,019ch
+        jp      nc,invalid_state_fallback
         ld      a,00h
         ld      (420fh),a
         ld      a,(ix+0dh)
         out     (30h),a
         call    0f2ah
         call    0542h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         ld      e,(ix+0bh)
         ld      d,(ix+0ch)
         ld      c,(ix+18h)
@@ -286,13 +291,13 @@ dispatch_device_state:
         call    12eah
         ld      a,(4204h)
         call    1273h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         jr      z,0259h
         or      a
-        jp      z,04a4h
+        jp      z,status_error_z
         inc     a
-        jp      z,04aeh
-        jp      04bbh
+        jp      z,status_error_minus
+        jp      status_error_overflow
         ld      hl,2120h
         ld      c,(ix+18h)
         ld      b,(ix+19h)
@@ -300,28 +305,29 @@ dispatch_device_state:
         push    bc
         call    1324h
         pop     bc
-        jp      nc,049fh
-        jp      nz,04a4h
+        jp      nc,status_error_nc
+        jp      nz,status_error_z
         ld      a,(420fh)
         or      a
-        jp      nz,029eh
+        jp      nz,loc_029E
         ld      a,b
         ld      iy,4240h
         call    10d4h
-        jp      nc,04bbh
+        jp      nc,status_error_overflow
         exx
         ld      hl,2124h
         call    139bh
-        jp      nc,049fh
+        jp      nc,status_error_nc
         call    0fcbh
-        jp      nc,019ch
-        jp      nz,020ch
+        jp      nc,invalid_state_fallback
+        jp      nz,command_01_handler
         ld      a,(ix+02h)
         ld      (733eh),a
-        jp      03e1h
+        jp      finish_device_event
+loc_029E:
         ld      a,(ix+01h)
         and     40h
-        jp      nz,02c6h
+        jp      nz,complete_device_state
         ld      a,(ix+00h)
         cp      02h
         jr      nz,02b3h
@@ -339,27 +345,29 @@ dispatch_device_state:
 complete_device_state:
         ld      b,01h
         ld      c,20h
-        jp      03f8h
+        jp      clear_device_event
         ld      a,(4201h)
         call    12fah
         exx
         ld      hl,2124h
         call    13f5h
         jr      0325h
+loc_02DC:
         ld      a,(ix+09h)
         or      (ix+0ah)
-        jp      z,03e1h
+        jp      z,finish_device_event
         call    0ef7h
-        jp      nc,019ch
+        jp      nc,invalid_state_fallback
         ld      a,(ix+11h)
         cp      03h
-        jp      nz,02fah
+        jp      nz,loc_02FA
         ld      b,01h
         ld      c,04h
-        jp      03f8h
+        jp      clear_device_event
+loc_02FA:
         call    0f2ah
         call    0542h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         ld      a,(ix+0dh)
         out     (30h),a
         ld      hl,2124h
@@ -384,26 +392,26 @@ complete_device_state:
         call    0e2fh
         ld      a,(4204h)
         call    1273h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         jr      z,034eh
         or      a
-        jp      z,04a4h
+        jp      z,status_error_z
         inc     a
-        jp      z,04aeh
-        jp      04bbh
+        jp      z,status_error_minus
+        jp      status_error_overflow
         ld      hl,2120h
         ld      c,(ix+18h)
         ld      b,(ix+19h)
         call    0e90h
         call    130bh
-        jp      nc,049fh
-        jp      nz,04a4h
+        jp      nc,status_error_nc
+        jp      nz,status_error_z
         call    0fcbh
-        jp      nc,019ch
-        jp      nz,02dch
+        jp      nc,invalid_state_fallback
+        jp      nz,loc_02DC
         ld      a,(ix+02h)
         ld      (733eh),a
-        jp      03e1h
+        jp      finish_device_event
         ld      a,(ix+0dh)
         out     (30h),a
         ld      a,00h
@@ -437,7 +445,7 @@ complete_device_state:
         rr      e
         ld      bc,0003h
         call    139bh
-        jp      03e1h
+        jp      finish_device_event
 initialize_device_record:
         call    10b4h
         xor     a
@@ -445,10 +453,10 @@ initialize_device_record:
         ld      (ix+16h),a
         ld      a,(ix+02h)
         call    11aah
-        jp      nc,049fh
+        jp      nc,status_error_nc
         call    11d5h
         call    1227h
-        jp      03e1h
+        jp      finish_device_event
 finish_device_event:
         ld      a,(ix+00h)
         cp      03h
@@ -457,7 +465,7 @@ finish_device_event:
         jr      nz,03f4h
         ld      b,04h
         ld      c,(ix+17h)
-        jp      03f8h
+        jp      clear_device_event
         ld      b,00h
         ld      c,00h
 clear_device_event:
@@ -555,49 +563,50 @@ query_channel_state:
         ret
 status_error_nc:
         ld      c,10h
-        jp      04e5h
+        jp      loc_04E5
 status_error_z:
         ld      c,80h
-        jp      04e5h
+        jp      loc_04E5
         ld      c,40h
-        jp      04e5h
+        jp      loc_04E5
 status_error_minus:
         ld      a,(ix+00h)
         cp      02h
-        jp      z,029eh
+        jp      z,loc_029E
         ld      c,08h
-        jp      04e5h
+        jp      loc_04E5
 status_error_overflow:
         ld      a,(ix+02h)
         call    11aah
-        jp      nc,049fh
+        jp      nc,status_error_nc
         call    09e8h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         jr      nz,04d4h
         call    0a3bh
         ld      c,09h
-        jp      04e5h
+        jp      loc_04E5
         cp      01h
-        jp      z,04a4h
+        jp      z,status_error_z
         cp      02h
-        jp      z,04aeh
+        jp      z,status_error_minus
         ld      b,01h
         ld      c,09h
-        jp      03f8h
+        jp      clear_device_event
+loc_04E5:
         ld      b,01h
         ld      (ix+17h),c
         ld      a,(ix+01h)
         and     40h
-        jp      nz,03f8h
+        jp      nz,clear_device_event
         ld      a,(ix+00h)
         cp      03h
-        jp      z,03f8h
+        jp      z,clear_device_event
         ld      (ix+1ah),a
         ld      a,03h
         ld      (ix+00h),a
         ld      a,(ix+02h)
         call    11aah
-        jp      nc,049fh
+        jp      nc,status_error_nc
         call    11d5h
         call    1227h
         xor     a
@@ -612,13 +621,13 @@ status_error_overflow:
         ld      (ix+00h),a
         ret
         call    0f05h
-        jp      nc,019ch
+        jp      nc,invalid_state_fallback
         ld      a,(ix+02h)
         call    11aah
-        jp      nc,049fh
+        jp      nc,status_error_nc
         call    0552h
-        jp      nc,049fh
-        jp      03e1h
+        jp      nc,status_error_nc
+        jp      finish_device_event
 transfer_controller_data:
         ld      a,(ix+02h)
         call    11aah
@@ -668,29 +677,29 @@ transfer_controller_data:
         ret
         ld      a,(ix+03h)
         ld      (ix+12h),a
-        jp      03e1h
-        jp      019ch
-        jp      019ch
-        jp      019ch
+        jp      finish_device_event
+        jp      invalid_state_fallback
+        jp      invalid_state_fallback
+        jp      invalid_state_fallback
         call    0ef7h
-        jp      nc,019ch
+        jp      nc,invalid_state_fallback
         ld      a,00h
         ld      (420fh),a
         call    0542h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         ld      a,(ix+0dh)
         out     (30h),a
         call    11b3h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         call    12eah
         ld      a,(4204h)
         call    15ach
-        jp      nz,04aeh
+        jp      nz,status_error_minus
         ld      hl,2120h
         ld      bc,0105h
         call    1324h
-        jp      nc,049fh
-        jp      nz,04a4h
+        jp      nc,status_error_nc
+        jp      nz,status_error_z
         ld      hl,4440h
         ld      de,444ah
         ld      bc,000ah
@@ -703,35 +712,35 @@ transfer_controller_data:
         rr      d
         rr      e
         call    139bh
-        jp      nc,049fh
-        jp      03e1h
+        jp      nc,status_error_nc
+        jp      finish_device_event
         ld      a,(ix+06h)
         ld      (420ah),a
         and     1fh
         ld      (ix+06h),a
         ld      (4204h),a
         call    0ef7h
-        jp      nc,019ch
+        jp      nc,invalid_state_fallback
         xor     a
         ld      (75b5h),a
         ld      h,(ix+05h)
         ld      l,(ix+04h)
         ld      (4202h),hl
         call    0576h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         call    11b3h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         ld      a,(ix+03h)
         ld      (4201h),a
         call    12fah
         ld      a,(4204h)
         call    15ach
-        jp      nz,04aeh
+        jp      nz,status_error_minus
         ld      hl,2120h
         ld      bc,0105h
         call    1324h
-        jp      nc,049fh
-        jp      nz,04a4h
+        jp      nc,status_error_nc
+        jp      nz,status_error_z
         ld      a,(420ah)
         bit     7,a
         jr      z,066ah
@@ -744,17 +753,17 @@ transfer_controller_data:
         ld      (75b5h),a
         ld      a,(4204h)
         call    15ach
-        jp      nz,04aeh
+        jp      nz,status_error_minus
         ld      hl,2120h
         ld      bc,0105h
         call    130bh
-        jp      nc,049fh
-        jp      nz,04a4h
-        jp      03e1h
+        jp      nc,status_error_nc
+        jp      nz,status_error_z
+        jp      finish_device_event
         ld      a,(ix+06h)
         out     (40h),a
-        jp      03e1h
-        jp      019ch
+        jp      finish_device_event
+        jp      invalid_state_fallback
 startup_dispatch:
         exx
         di
@@ -795,23 +804,25 @@ startup_dispatch:
         ld      l,(ix+16h)
         ld      (ix+05h),h
         ld      (ix+04h),l
-        jp      03e1h
+        jp      finish_device_event
         ld      a,01h
         ld      (75c0h),a
         call    10b4h
-        jp      03e1h
+        jp      finish_device_event
 update_channel_value:
         ld      hl,0889h
         ld      b,a
+loc_06F7:
         ld      a,(hl)
         inc     hl
         cp      b
-        jp      z,0705h
+        jp      z,loc_0705
         xor     0ffh
-        jp      nz,06f7h
+        jp      nz,loc_06F7
         scf
         ccf
         ret
+loc_0705:
         ld      a,(hl)
         cp      0ffh
         scf
@@ -821,25 +832,26 @@ update_channel_value:
 read_controller_state:
         ld      a,(ix+02h)
         call    11aah
-        jp      nc,049fh
+        jp      nc,status_error_nc
         call    09e8h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         jr      nz,072fh
         ld      a,(ix+02h)
         call    0a3bh
         call    10b4h
         ld      c,00h
         ld      b,00h
-        jp      03f8h
+        jp      clear_device_event
         cp      01h
-        jp      z,04a4h
+        jp      z,status_error_z
         cp      02h
-        jp      z,04aeh
+        jp      z,status_error_minus
         ld      c,21h
-        jp      04e5h
+        jp      loc_04E5
+loc_073E:
         ld      a,(ix+02h)
         call    11aah
-        jp      nc,049fh
+        jp      nc,status_error_nc
         call    11e5h
         call    0a64h
         xor     a
@@ -859,15 +871,15 @@ read_controller_state:
         ld      e,(ix+27h)
         xor     a
         sbc     hl,de
-        jp      z,07d9h
+        jp      z,loc_07D9
         xor     a
         ld      (4204h),a
         ld      (4201h),a
         ld      hl,(4202h)
         call    0576h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         call    11b3h
-        jp      nc,049fh
+        jp      nc,status_error_nc
         ld      a,(4201h)
         call    12fah
         ld      a,(ix+25h)
@@ -882,14 +894,14 @@ read_controller_state:
         ld      a,(4204h)
         call    15ach
         pop     bc
-        jp      nz,04aeh
+        jp      nz,status_error_minus
         ld      hl,2120h
         call    1324h
-        jp      nc,049fh
-        jp      nz,04a4h
+        jp      nc,status_error_nc
+        jp      nz,status_error_z
         call    1174h
         ld      c,03h
-        jp      nc,04e5h
+        jp      nc,loc_04E5
         ld      a,(4201h)
         inc     a
         ld      (4201h),a
@@ -899,6 +911,7 @@ read_controller_state:
         inc     hl
         ld      (4202h),hl
         jr      076ch
+loc_07D9:
         ld      h,(ix+26h)
         ld      l,(ix+27h)
         ld      (75b1h),hl
@@ -909,11 +922,11 @@ read_controller_state:
         call    0a88h
         ld      a,(ix+02h)
         call    0966h
-        jp      nc,049fh
-        jp      z,03e1h
+        jp      nc,status_error_nc
+        jp      z,finish_device_event
         cp      01h
-        jp      z,04a4h
-        jp      04aeh
+        jp      z,status_error_z
+        jp      status_error_minus
         ld      a,(ix+0dh)
         out     (30h),a
         ld      hl,4240h
@@ -938,7 +951,8 @@ read_controller_state:
         rr      e
         ld      bc,0002h
         call    139bh
-        jp      03e1h
+        jp      finish_device_event
+command_16_handler:
         ld      a,(ix+0dh)
         out     (30h),a
         push    ix
@@ -979,7 +993,7 @@ read_controller_state:
         rr      b
         rr      c
         call    139bh
-        jp      03e1h
+        jp      finish_device_event
         nop
         jr      nz,08cch
         rst     38h
@@ -1017,6 +1031,7 @@ device_action_handler:
         ld      (75b5h),a
         ld      hl,0000h
         ld      (4202h),hl
+loc_0907:
         ld      d,(ix+26h)
         ld      e,(ix+27h)
         xor     a
@@ -1047,7 +1062,7 @@ device_action_handler:
         ld      hl,(4202h)
         inc     hl
         ld      (4202h),hl
-        jp      0907h
+        jp      loc_0907
         cp      05h
         jr      z,0957h
         scf
@@ -1193,9 +1208,10 @@ device_action_handler:
         ex      de,hl
         ld      hl,08c6h
         ld      bc,0099h
+loc_0A81:
         dec     hl
         ldi
-        jp      pe,0a81h
+        jp      pe,loc_0A81
         ret
         ld      de,(75b9h)
         ld      hl,(75b1h)
@@ -1525,6 +1541,7 @@ device_action_handler:
 initialize_io_controller:
         ld      hl,75c4h
         ld      bc,00a8h
+loc_0D10:
         xor     a
         ld      (75b5h),a
         ld      (hl),a
@@ -1532,7 +1549,7 @@ initialize_io_controller:
         dec     bc
         ld      a,b
         or      c
-        jp      nz,0d10h
+        jp      nz,loc_0D10
         ld      a,01h
         ld      (4211h),a
         ld      (75c0h),a
@@ -1580,56 +1597,17 @@ initialize_io_controller:
         dec     a
         ret     z
         jr      0d8fh
-        add     a,e
-        jp      0c3c3h
-        jp      0c3c3h
-        ld      a,c
-        nop
-        nop
-        nop
-        nop
-        ld      d,h
-        ld      (bc),a
-        ld      d,b
-        ld      (bc),a
-        add     a,b
-        xor     l
-        nop
-        nop
-        adc     a,d
-        rst     08h
-        rst     08h
-        add     a,e
-        jp      0c3c3h
-        jp      0c3c3h
-        ld      a,c
-        nop
-        nop
-        nop
-        nop
-        ld      e,h
-        adc     a,50h
-        ld      (bc),a
-        add     a,b
-        xor     l
-        nop
-        nop
-        add     a,d
-        rst     08h
-        or      e
-        ld      a,h
-        nop
-        ld      a,l
-        nop
-        nop
-        nop
-        nop
-        dec     b
-        rst     08h
-        xor     l
-        nop
-        nop
-        ld      bc,1acfh
+io_controller_config_block_1:
+        db      083h, 0C3h, 0C3h, 0C3h, 0C3h, 0C3h, 0C3h, 079h
+        db      00h, 00h, 00h, 00h, 054h, 02h, 050h, 02h
+        db      080h, 0ADh, 00h, 00h, 08Ah, 0CFh, 0CFh, 083h
+        db      0C3h, 0C3h, 0C3h, 0C3h, 0C3h, 0C3h, 079h, 00h
+        db      00h, 00h, 00h, 05Ch, 0CEh, 050h, 02h, 080h
+        db      0ADh, 00h, 00h, 082h, 0CFh, 0B3h
+io_controller_config_block_2:
+        db      07Ch, 00h, 07Dh, 00h, 00h, 00h, 00h, 05h
+        db      0CFh, 0ADh, 00h, 00h, 01h, 0CFh
+        ld      a,(de)
         cp      (hl)
         jr      nz,0de2h
         inc     hl
@@ -2387,12 +2365,13 @@ configure_io_channel:
         ld      (4224h),hl
         ld      hl,6000h
         ld      (421ah),hl
-        jp      1388h
+        jp      loc_1388
         ld      a,00h
         out     (50h),a
         ld      (421ah),hl
         ld      hl,6000h
         ld      (4224h),hl
+loc_1388:
         dec     bc
         ld      (421ch),bc
         ld      hl,4212h
@@ -2419,7 +2398,7 @@ configure_io_channel:
         ex      de,hl
         dec     bc
         adc     hl,bc
-        jp      m,13e3h
+        jp      m,loc_13E3
         ld      hl,003fh
         ld      (4233h),hl
         ld      hl,4229h
@@ -2438,10 +2417,11 @@ configure_io_channel:
         djnz    13d9h
         scf
         ret
+loc_13E3:
         sbc     hl,bc
         inc     bc
         ex      de,hl
-        jp      1437h
+        jp      loc_1437
         ld      a,88h
         out     (50h),a
         ld      a,79h
@@ -2483,6 +2463,7 @@ configure_io_channel:
         ld      (4230h),a
         ld      (4231h),de
         ld      (423bh),hl
+loc_1437:
         ld      hl,8000h
         xor     a
         sbc     hl,de
@@ -2528,11 +2509,12 @@ configure_io_channel:
         ld      d,06h
         ld      e,00h
         xor     a
+loc_147E:
         rr      b
         rr      c
         rr      e
         dec     d
-        jp      nz,147eh
+        jp      nz,loc_147E
         srl     e
         srl     e
         ld      a,e
@@ -2554,7 +2536,7 @@ configure_io_channel:
         pop     bc
         ld      a,c
         or      b
-        jp      z,14c1h
+        jp      z,loc_14C1
         ld      b,c
         ld      c,00h
         ld      a,87h
@@ -2565,6 +2547,7 @@ configure_io_channel:
         out     (c),e
         out     (c),a
         djnz    14b9h
+loc_14C1:
         pop     bc
         ld      a,b
         or      c

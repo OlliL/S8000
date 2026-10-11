@@ -7,7 +7,7 @@ HRM 21 			Zilog			      HRM 21
 
 B.1. General
 
-Appendix C describes all the commands that the host CPU
+Appendix B describes all the commands that the host CPU
 sends to the controller through the command registers. Each
 description identifies the registers that the host CPU
 uses. Bits 0 through 4 of the command byte form the com-
