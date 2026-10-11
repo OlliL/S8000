@@ -21,6 +21,11 @@ WDC_EVENT_TRANSADDR_B1:    equ     0Ch
 WDC_EVENT_TRANSADDR_B2:    equ     0Dh
 WDC_EVENT_STATUS:          equ     17h
 
+; Command-byte flags above the 5-bit command field (behavioral names only).
+WDC_CMD_FLAG_PORT_HANDSHAKE: equ 20h
+WDC_CMD_FLAG_DIRECT_COMPLETE: equ 40h
+WDC_CMD_FLAG_SKIP_ADDRESS_SETUP: equ 80h
+
 ; Result/status codes stored in WDC_EVENT_STATUS; exact host C/S mapping is unconfirmed.
 WDC_STAT_10_ERROR:         equ     10h
 WDC_STAT_20_COMPLETE:      equ     20h
@@ -403,7 +408,8 @@ command_01_readsector_handler:
         jp      command_00_null_handler
 handle_sector_transfer_progress:
         ld      a,(ix+WDC_EVENT_CMD)
-        and     40h
+        ; With bit 6 set, complete this transfer instead of retaining progress state.
+        and     WDC_CMD_FLAG_DIRECT_COMPLETE
         jp      nz,complete_device_state
         ld      a,(ix+00h)
         cp      02h
@@ -572,7 +578,8 @@ clear_device_event:
         xor     a
         ld      (ix+21h),a
         ld      a,(ix+WDC_EVENT_CMD)
-        and     20h
+        ; This flag enables the extra channel handshake below.
+        and     WDC_CMD_FLAG_PORT_HANDSHAKE
         jr      z,0460h
 transfer_port_data:
         in      a,(21h)
@@ -674,7 +681,8 @@ record_device_operation_status:
         ld      b,01h
         ld      (ix+WDC_EVENT_STATUS),c
         ld      a,(ix+WDC_EVENT_CMD)
-        and     40h
+        ; Skip the deferred event/status state when direct completion is requested.
+        and     WDC_CMD_FLAG_DIRECT_COMPLETE
         jp      nz,clear_device_event
         ld      a,(ix+00h)
         cp      03h
@@ -712,8 +720,9 @@ transfer_controller_data:
         call    wdc_select_controller_unit
         ret     nc
         ld      a,(ix+WDC_EVENT_CMD)
-        and     80h
-        xor     80h
+        ; Bit 7 bypasses loading this event's CHS fields into controller state.
+        and     WDC_CMD_FLAG_SKIP_ADDRESS_SETUP
+        xor     WDC_CMD_FLAG_SKIP_ADDRESS_SETUP
         scf
         ret     z
         ld      l,(ix+WDC_EVENT_CYL_LO)

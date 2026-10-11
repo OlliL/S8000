@@ -111,7 +111,8 @@ The reconciled Z80 listing contains an indexed operation dispatcher
    uses the result as a word index into the 24-entry table at `0x0895`.
    Control jumps to the selected handler. Thus this path has dispatch slots
    for command-field values `0x00` through `0x17`; values `0x18` through
-   `0x1f` are rejected. Bits 5-7 do not affect table selection.
+   `0x1f` are rejected. Bits 5-7 do not affect table selection. In particular,
+   `0x21` and `0x22` select the same handlers as `0x01` and `0x02`.
 3. The command-field source is visible in the capture path. `scan_input_event`
    reads port `0x60` and masks its low five bits; for ordinary events,
    `record_input_event` writes state `1` to the record's `IX+0`, then executes
@@ -122,6 +123,15 @@ The reconciled Z80 listing contains an indexed operation dispatcher
    byte, although the exact electrical mapping of Z80 ports `0x60`-`0x6e` to
    the host's CP register block is inferred from the firmware sequence and
    matching field use, not explicitly named in the listing.
+4. The upper command-byte bits are not simply part of a wider opcode. The
+   firmware directly tests bit 5 (`0x20`) in `clear_device_event`; when set,
+   it performs an additional handshake through Z80 ports `0x21` and `0x41`
+   before completing the event path. Bit 6 (`0x40`) changes completion/error
+   handling by bypassing the normal pending-event state in the observed
+   handlers. Bit 7 (`0x80`) is tested by `transfer_controller_data` and gates
+   loading the request's unit/head/cylinder/sector into the controller. These
+   are observed control effects; the available manual text does not name the
+   flags or fully specify their host-side meaning.
 
 The resulting record layout aligns with the manual's CP register assignments:
 
@@ -456,9 +466,15 @@ not itself name the WDC or SA1000.
   count at `+8`/`+9`, and DMA address at `+10` through `+12`, then issues
   command `0x21` or `0x22` at base `+0`. These offsets match the WDC register
   layout. `_zdread` passes operation value `1` and `_zdwrite` passes `0`;
-  `zdstart` selects `0x21` when request bit 0 is set, otherwise `0x22`.
-  These appear to be read/write variants, but the exact direction and role of
-  command bit 5 remain to be confirmed.
+  `zdstart` selects `0x21` when request bit 0 is set, otherwise `0x22`. These
+  values are not distinct command codes from `0x01`/`0x02`: the manual defines
+  only bits 0-4 as the command field, and the WDC firmware masks with `0x1f`
+  before dispatch, so they select handlers 1 and 2 respectively. The
+  additional `0x20` bit is tested by the controller firmware to enable an
+  additional port-`0x21`/`0x41` handshake in event completion. Its precise
+  host-level name/purpose is not given in the available manual; do not model it
+  as part of the read/write opcode. Handler names and parameter use strongly
+  identify 1 as Read Sector and 2 as Write Sector.
 
 The manual's drive sizes, register layout, status polling pattern, and the
 configuration objects' `_zdioaddr` initializer identify `zd` as the WDC driver
@@ -482,10 +498,10 @@ confirm how that configured word is consumed at runtime.
   register is read at `0x8010`; the manual's register description does not
   clarify the CPU's preceding write to that address.
 - Determine from the WDC firmware/manual or bus traces: command `0x16` and
-  `0x01` meanings; status-bit meanings and acknowledgement/clear behavior;
-  whether `out 0x8010` has any effect; bus-cycle details for byte registers and
-  word I/O; how 13,440 bytes/track maps to 512-byte sector data and formatting
-  overhead; geometry bounds;
+  exact semantic meaning of command bit `0x20`; status-bit meanings and
+  acknowledgement/clear behavior; whether `out 0x8010` has any effect;
+  bus-cycle details for byte registers and word I/O; how 13,440 bytes/track
+  maps to 512-byte sector data and formatting overhead; geometry bounds;
   drive selection; error behavior; and whether commands can complete
   asynchronously.
 - The CPU boot polling loop has no timeout, so an emulator that never reaches
@@ -495,7 +511,8 @@ confirm how that configured word is consumed at runtime.
   (WDC manual, section 4.5.2) and
   `AI/ocr/03_3237_04__Appendix_B.txt` (host command descriptions). Appendix B
   describes command parameters and transfer behavior, but the available text
-  does not provide numeric opcode values. `ZEUS/zd.*` is the WDC driver;
+  does not provide numeric opcode values or name command bit `0x20`.
+  `ZEUS/zd.*` is the WDC driver;
   `conf2.icp.o` and `conf2.nicp.o` both initialize `_zdioaddr` to `0x8000`;
   linked relocation behavior and a ZBI bus trace have not yet been examined.
   WDC controller firmware and a ZBI bus trace have not yet been analyzed.
