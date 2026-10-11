@@ -7,6 +7,19 @@
 ; Board map: 0000h-1FFFh EPROM, 4000h-7FFFh SRAM, C000h-FFFFh I/O space.
 ; The separate 512-byte PROMs are not part of firmware.bin.
 
+; Offsets in the host command snapshot stored at IX+1 through IX+0F.
+WDC_EVENT_CMD:             equ     01h
+WDC_EVENT_DRV:             equ     02h
+WDC_EVENT_HEAD:            equ     03h
+WDC_EVENT_CYL_LO:          equ     04h
+WDC_EVENT_CYL_HI:          equ     05h
+WDC_EVENT_SECTOR:          equ     06h
+WDC_EVENT_TRANSWRD_CNT_LO: equ     09h
+WDC_EVENT_TRANSWRD_CNT_HI: equ     0Ah
+WDC_EVENT_TRANSADDR_B0:    equ     0Bh
+WDC_EVENT_TRANSADDR_B1:    equ     0Ch
+WDC_EVENT_TRANSADDR_B2:    equ     0Dh
+
         org     0000h
 reset_vector:
         jp      rom_entry
@@ -157,15 +170,15 @@ loc_00EA:
         pop     ix
         pop     af
         push    af
-        ld      (ix+02h),a
+        ld      (ix+WDC_EVENT_DRV),a
         ld      a,44h
-        ld      (ix+01h),a
+        ld      (ix+WDC_EVENT_CMD),a
         call    03c5h
         ld      a,c
         cp      00h
         jr      nz,013bh
         ld      a,52h
-        ld      (ix+01h),a
+        ld      (ix+WDC_EVENT_CMD),a
         call    070eh
         ld      a,c
         cp      00h
@@ -226,7 +239,7 @@ dispatch_device_state:
         ld      (ix+13h),a
 loc_01AA:
         ld      hl,0895h
-        ld      a,(ix+01h)
+        ld      a,(ix+WDC_EVENT_CMD)
         and     1fh
         cp      18h
         jp      nc,invalid_state_fallback
@@ -252,7 +265,7 @@ loc_01AA:
         jp      loc_01AA
         jp      loc_01AA
 opcode_05_handler:
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    08ddh
         jp      nc,status_error_nc
         jr      z,01f7h
@@ -271,20 +284,20 @@ opcode_11_handler:
 opcode_10_handler:
         jp      invalid_state_fallback
 command_01_handler:
-        ld      a,(ix+09h)
-        or      (ix+0ah)
+        ld      a,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
+        or      (ix+WDC_EVENT_TRANSWRD_CNT_HI)
         jp      z,finish_device_event
         call    0ef7h
         jp      nc,invalid_state_fallback
         ld      a,00h
         ld      (420fh),a
-        ld      a,(ix+0dh)
+        ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
         call    0f2ah
         call    0542h
         jp      nc,status_error_nc
-        ld      e,(ix+0bh)
-        ld      d,(ix+0ch)
+        ld      e,(ix+WDC_EVENT_TRANSADDR_B0)
+        ld      d,(ix+WDC_EVENT_TRANSADDR_B1)
         ld      c,(ix+18h)
         ld      b,(ix+19h)
         xor     a
@@ -324,11 +337,11 @@ command_01_handler:
         call    0fcbh
         jp      nc,invalid_state_fallback
         jp      nz,command_01_handler
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         ld      (733eh),a
         jp      finish_device_event
 loc_029E:
-        ld      a,(ix+01h)
+        ld      a,(ix+WDC_EVENT_CMD)
         and     40h
         jp      nz,complete_device_state
         ld      a,(ix+00h)
@@ -357,8 +370,8 @@ complete_device_state:
         jr      0325h
 opcode_02_handler:
 loc_02DC:
-        ld      a,(ix+09h)
-        or      (ix+0ah)
+        ld      a,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
+        or      (ix+WDC_EVENT_TRANSWRD_CNT_HI)
         jp      z,finish_device_event
         call    0ef7h
         jp      nc,invalid_state_fallback
@@ -372,11 +385,11 @@ loc_02FA:
         call    0f2ah
         call    0542h
         jp      nc,status_error_nc
-        ld      a,(ix+0dh)
+        ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
         ld      hl,2124h
-        ld      e,(ix+0bh)
-        ld      d,(ix+0ch)
+        ld      e,(ix+WDC_EVENT_TRANSADDR_B0)
+        ld      d,(ix+WDC_EVENT_TRANSADDR_B1)
         xor     a
         rr      d
         rr      e
@@ -413,18 +426,18 @@ loc_02FA:
         call    0fcbh
         jp      nc,invalid_state_fallback
         jp      nz,loc_02DC
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         ld      (733eh),a
         jp      finish_device_event
 opcode_03_handler:
-        ld      a,(ix+0dh)
+        ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
         ld      a,00h
         ld      (ix+1ch),a
         ld      (ix+1dh),a
         ld      (ix+1eh),a
         ld      (ix+1fh),a
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
         jr      nc,0395h
         call    1336h
@@ -443,8 +456,8 @@ opcode_03_handler:
         add     hl,de
         rr      h
         rr      l
-        ld      e,(ix+0bh)
-        ld      d,(ix+0ch)
+        ld      e,(ix+WDC_EVENT_TRANSADDR_B0)
+        ld      d,(ix+WDC_EVENT_TRANSADDR_B1)
         xor     a
         rr      d
         rr      e
@@ -457,7 +470,7 @@ initialize_device_record:
         xor     a
         ld      (ix+15h),a
         ld      (ix+16h),a
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
         jp      nc,status_error_nc
         call    11d5h
@@ -478,7 +491,7 @@ finish_device_event:
 clear_device_event:
         ld      a,00h
         ld      (ix+00h),a
-        ld      d,(ix+02h)
+        ld      d,(ix+WDC_EVENT_DRV)
         ld      e,d
         inc     d
         ld      a,01h
@@ -500,7 +513,7 @@ clear_device_event:
         ld      (ix+20h),c
         xor     a
         ld      (ix+21h),a
-        ld      a,(ix+01h)
+        ld      a,(ix+WDC_EVENT_CMD)
         and     20h
         jr      z,0460h
 transfer_port_data:
@@ -583,7 +596,7 @@ status_error_minus:
         ld      c,08h
         jp      loc_04E5
 status_error_overflow:
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
         jp      nc,status_error_nc
         call    09e8h
@@ -602,7 +615,7 @@ status_error_overflow:
 loc_04E5:
         ld      b,01h
         ld      (ix+17h),c
-        ld      a,(ix+01h)
+        ld      a,(ix+WDC_EVENT_CMD)
         and     40h
         jp      nz,clear_device_event
         ld      a,(ix+00h)
@@ -611,7 +624,7 @@ loc_04E5:
         ld      (ix+1ah),a
         ld      a,03h
         ld      (ix+00h),a
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
         jp      nc,status_error_nc
         call    11d5h
@@ -630,29 +643,29 @@ loc_04E5:
 opcode_06_handler:
         call    0f05h
         jp      nc,invalid_state_fallback
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
         jp      nc,status_error_nc
         call    0552h
         jp      nc,status_error_nc
         jp      finish_device_event
 transfer_controller_data:
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
         ret     nc
-        ld      a,(ix+01h)
+        ld      a,(ix+WDC_EVENT_CMD)
         and     80h
         xor     80h
         scf
         ret     z
-        ld      l,(ix+04h)
-        ld      h,(ix+05h)
+        ld      l,(ix+WDC_EVENT_CYL_LO)
+        ld      h,(ix+WDC_EVENT_CYL_HI)
         ld      (75b1h),hl
         ld      (4202h),hl
-        ld      a,(ix+03h)
+        ld      a,(ix+WDC_EVENT_HEAD)
         ld      (75b3h),a
         ld      (4201h),a
-        ld      a,(ix+06h)
+        ld      a,(ix+WDC_EVENT_SECTOR)
         ld      (75b4h),a
         ld      (4204h),a
         call    104fh
@@ -684,7 +697,7 @@ transfer_controller_data:
         scf
         ret
 opcode_07_handler:
-        ld      a,(ix+03h)
+        ld      a,(ix+WDC_EVENT_HEAD)
         ld      (ix+12h),a
         jp      finish_device_event
 opcode_08_handler:
@@ -700,7 +713,7 @@ opcode_0B_handler:
         ld      (420fh),a
         call    0542h
         jp      nc,status_error_nc
-        ld      a,(ix+0dh)
+        ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
         call    11b3h
         jp      nc,status_error_nc
@@ -718,8 +731,8 @@ opcode_0B_handler:
         ld      bc,000ah
         ldir
         ld      hl,2120h
-        ld      e,(ix+0bh)
-        ld      d,(ix+0ch)
+        ld      e,(ix+WDC_EVENT_TRANSADDR_B0)
+        ld      d,(ix+WDC_EVENT_TRANSADDR_B1)
         ld      bc,0105h
         xor     a
         rr      d
@@ -728,23 +741,23 @@ opcode_0B_handler:
         jp      nc,status_error_nc
         jp      finish_device_event
 opcode_17_handler:
-        ld      a,(ix+06h)
+        ld      a,(ix+WDC_EVENT_SECTOR)
         ld      (420ah),a
         and     1fh
-        ld      (ix+06h),a
+        ld      (ix+WDC_EVENT_SECTOR),a
         ld      (4204h),a
         call    0ef7h
         jp      nc,invalid_state_fallback
         xor     a
         ld      (75b5h),a
-        ld      h,(ix+05h)
-        ld      l,(ix+04h)
+        ld      h,(ix+WDC_EVENT_CYL_HI)
+        ld      l,(ix+WDC_EVENT_CYL_LO)
         ld      (4202h),hl
         call    0576h
         jp      nc,status_error_nc
         call    11b3h
         jp      nc,status_error_nc
-        ld      a,(ix+03h)
+        ld      a,(ix+WDC_EVENT_HEAD)
         ld      (4201h),a
         call    12fah
         ld      a,(4204h)
@@ -775,7 +788,7 @@ opcode_17_handler:
         jp      nz,status_error_z
         jp      finish_device_event
 opcode_0C_handler:
-        ld      a,(ix+06h)
+        ld      a,(ix+WDC_EVENT_SECTOR)
         out     (40h),a
         jp      finish_device_event
 opcode_0D_handler:
@@ -820,8 +833,8 @@ opcode_0F_handler:
         ld      (75c0h),a
         ld      h,(ix+15h)
         ld      l,(ix+16h)
-        ld      (ix+05h),h
-        ld      (ix+04h),l
+        ld      (ix+WDC_EVENT_CYL_HI),h
+        ld      (ix+WDC_EVENT_CYL_LO),l
         jp      finish_device_event
 opcode_14_handler:
         ld      a,01h
@@ -850,13 +863,13 @@ loc_0705:
         ret
 opcode_12_handler:
 read_controller_state:
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
         jp      nc,status_error_nc
         call    09e8h
         jp      nc,status_error_nc
         jr      nz,072fh
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    0a3bh
         call    10b4h
         ld      c,00h
@@ -870,7 +883,7 @@ read_controller_state:
         jp      loc_04E5
 opcode_13_handler:
 loc_073E:
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    11aah
         jp      nc,status_error_nc
         call    11e5h
@@ -941,7 +954,7 @@ loc_07D9:
         dec     a
         ld      (75b4h),a
         call    0a88h
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         call    0966h
         jp      nc,status_error_nc
         jp      z,finish_device_event
@@ -949,7 +962,7 @@ loc_07D9:
         jp      z,status_error_z
         jp      status_error_minus
 opcode_15_handler:
-        ld      a,(ix+0dh)
+        ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
         ld      hl,4240h
         ld      a,(0003h)
@@ -966,8 +979,8 @@ opcode_15_handler:
         inc     hl
         ld      (hl),e
         ld      hl,2120h
-        ld      e,(ix+0bh)
-        ld      d,(ix+0ch)
+        ld      e,(ix+WDC_EVENT_TRANSADDR_B0)
+        ld      d,(ix+WDC_EVENT_TRANSADDR_B1)
         xor     a
         rr      d
         rr      e
@@ -975,7 +988,7 @@ opcode_15_handler:
         call    139bh
         jp      finish_device_event
 command_16_handler:
-        ld      a,(ix+0dh)
+        ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
         push    ix
         ld      ix,75c4h
@@ -1005,8 +1018,8 @@ command_16_handler:
         jr      nz,0848h
         pop     ix
         ld      hl,2120h
-        ld      e,(ix+0bh)
-        ld      d,(ix+0ch)
+        ld      e,(ix+WDC_EVENT_TRANSADDR_B0)
+        ld      d,(ix+WDC_EVENT_TRANSADDR_B1)
         xor     a
         rr      d
         rr      e
@@ -1117,7 +1130,7 @@ loc_0907:
         call    0de4h
         ld      hl,734dh
         ld      bc,0099h
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         inc     a
         dec     a
         jr      z,099ah
@@ -1223,7 +1236,7 @@ loc_0907:
         ret
         ld      hl,734dh
         ld      bc,0099h
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         inc     a
         dec     a
         jr      z,0a74h
@@ -1788,14 +1801,14 @@ io_controller_config_block_2:
         xor     a
         scf
         ret
-        ld      a,(ix+06h)
+        ld      a,(ix+WDC_EVENT_SECTOR)
         cp      (ix+25h)
         ret     nc
-        ld      a,(ix+03h)
+        ld      a,(ix+WDC_EVENT_HEAD)
         cp      (ix+24h)
         ret     nc
-        ld      l,(ix+04h)
-        ld      h,(ix+05h)
+        ld      l,(ix+WDC_EVENT_CYL_LO)
+        ld      h,(ix+WDC_EVENT_CYL_HI)
         ld      a,(75c0h)
         or      a
         jr      nz,0f19h
@@ -1808,30 +1821,30 @@ io_controller_config_block_2:
         ccf
         sbc     hl,de
         ret     nc
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         cp      04h
         ret
         ld      a,(75c0h)
         or      a
         ld      (420ch),a
-        ld      a,(ix+06h)
+        ld      a,(ix+WDC_EVENT_SECTOR)
         jr      z,0fa1h
-        ld      h,(ix+0ah)
-        ld      l,(ix+09h)
+        ld      h,(ix+WDC_EVENT_TRANSWRD_CNT_HI)
+        ld      l,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
         xor     a
         ld      (420ch),a
         or      l
         jr      z,0f44h
         inc     h
         ld      c,h
-        ld      h,(ix+05h)
-        ld      l,(ix+04h)
+        ld      h,(ix+WDC_EVENT_CYL_HI)
+        ld      l,(ix+WDC_EVENT_CYL_LO)
         ld      (75b1h),hl
         ld      (4202h),hl
-        ld      a,(ix+03h)
+        ld      a,(ix+WDC_EVENT_HEAD)
         ld      (75b3h),a
         ld      (4201h),a
-        ld      a,(ix+06h)
+        ld      a,(ix+WDC_EVENT_SECTOR)
         ld      (75b4h),a
         ld      (4204h),a
         call    104fh
@@ -1876,8 +1889,8 @@ io_controller_config_block_2:
         ld      a,c
         ld      h,a
         ld      l,00h
-        ld      d,(ix+0ah)
-        ld      e,(ix+09h)
+        ld      d,(ix+WDC_EVENT_TRANSWRD_CNT_HI)
+        ld      e,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
         push    hl
         xor     a
         sbc     hl,de
@@ -1887,28 +1900,28 @@ io_controller_config_block_2:
         ld      (ix+18h),l
         ld      (ix+19h),h
         ret
-        ld      l,(ix+09h)
-        ld      h,(ix+0ah)
+        ld      l,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
+        ld      h,(ix+WDC_EVENT_TRANSWRD_CNT_HI)
         ld      e,(ix+18h)
         ld      d,(ix+19h)
         xor     a
         sbc     hl,de
-        ld      (ix+09h),l
-        ld      (ix+0ah),h
+        ld      (ix+WDC_EVENT_TRANSWRD_CNT_LO),l
+        ld      (ix+WDC_EVENT_TRANSWRD_CNT_HI),h
         scf
         ret     z
-        ld      a,(ix+0dh)
-        ld      h,(ix+0ch)
-        ld      l,(ix+0bh)
+        ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
+        ld      h,(ix+WDC_EVENT_TRANSADDR_B1)
+        ld      l,(ix+WDC_EVENT_TRANSADDR_B0)
         add     hl,de
         jr      nc,0fefh
         inc     a
         add     hl,de
         jr      nc,0ff3h
         inc     a
-        ld      (ix+0bh),l
-        ld      (ix+0ch),h
-        ld      (ix+0dh),a
+        ld      (ix+WDC_EVENT_TRANSADDR_B0),l
+        ld      (ix+WDC_EVENT_TRANSADDR_B1),h
+        ld      (ix+WDC_EVENT_TRANSADDR_B2),a
         ld      l,(ix+18h)
         ld      h,(ix+19h)
         xor     a
@@ -1916,21 +1929,21 @@ io_controller_config_block_2:
         jr      z,1007h
         inc     h
         ld      c,h
-        ld      a,(ix+06h)
+        ld      a,(ix+WDC_EVENT_SECTOR)
         ld      (75b4h),a
-        ld      a,(ix+03h)
+        ld      a,(ix+WDC_EVENT_HEAD)
         ld      (75b3h),a
-        ld      l,(ix+04h)
-        ld      h,(ix+05h)
+        ld      l,(ix+WDC_EVENT_CYL_LO)
+        ld      h,(ix+WDC_EVENT_CYL_HI)
         ld      (75b1h),hl
         call    0c76h
         ld      a,(75b4h)
-        ld      (ix+06h),a
+        ld      (ix+WDC_EVENT_SECTOR),a
         ld      a,(75b3h)
-        ld      (ix+03h),a
+        ld      (ix+WDC_EVENT_HEAD),a
         ld      hl,(75b1h)
-        ld      (ix+04h),l
-        ld      (ix+05h),h
+        ld      (ix+WDC_EVENT_CYL_LO),l
+        ld      (ix+WDC_EVENT_CYL_HI),h
         ld      d,(ix+22h)
         ld      e,(ix+23h)
         ld      a,(75c0h)
@@ -1950,7 +1963,7 @@ io_controller_config_block_2:
         push    bc
         push    de
         push    hl
-        ld      a,(ix+02h)
+        ld      a,(ix+WDC_EVENT_DRV)
         ld      hl,734dh
         ld      bc,0099h
         inc     a
@@ -2003,19 +2016,19 @@ io_controller_config_block_2:
         pop     de
         pop     bc
         ret
-        ld      h,(ix+05h)
-        ld      l,(ix+04h)
+        ld      h,(ix+WDC_EVENT_CYL_HI)
+        ld      l,(ix+WDC_EVENT_CYL_LO)
         inc     hl
-        ld      (ix+05h),h
-        ld      (ix+04h),l
+        ld      (ix+WDC_EVENT_CYL_HI),h
+        ld      (ix+WDC_EVENT_CYL_LO),l
         call    0f05h
         ret     c
         ld      h,(ix+22h)
         ld      l,(ix+23h)
         dec     hl
         dec     hl
-        ld      (ix+05h),h
-        ld      (ix+04h),l
+        ld      (ix+WDC_EVENT_CYL_HI),h
+        ld      (ix+WDC_EVENT_CYL_LO),l
         ret
         inc     a
         push    af
@@ -2474,7 +2487,7 @@ loc_13E3:
         bit     7,h
         jr      z,1421h
         res     7,h
-        ld      a,(ix+0dh)
+        ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         inc     a
         out     (30h),a
         ex      de,hl
@@ -2505,7 +2518,7 @@ loc_1437:
         ld      b,d
         ld      c,e
         call    1463h
-        ld      a,(ix+0dh)
+        ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         inc     a
         out     (30h),a
         ld      hl,0000h

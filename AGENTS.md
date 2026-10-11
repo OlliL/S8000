@@ -102,7 +102,7 @@ operation (manual section 4.5.2.1, Table 4-14).
 The reconciled Z80 listing contains an indexed operation dispatcher
 (`firmware/WDC/firmware.asm`):
 
-1. `service_pending_event` at `0x017c` selects records beginning at `0x75c4`;
+1. `service_pending_event` at `0x0160` selects records beginning at `0x75c4`;
    records are `0x2a` bytes apart. The first byte (`IX+0`) is treated as a
    state and values `0` through `4` select a five-entry state table at
    `0x088d`.
@@ -112,11 +112,49 @@ The reconciled Z80 listing contains an indexed operation dispatcher
    Control jumps to the selected handler. Thus this path has dispatch slots
    for command-field values `0x00` through `0x17`; values `0x18` through
    `0x1f` are rejected. Bits 5-7 do not affect table selection.
-3. This is strong evidence for command-code dispatch: the selector uses the
-   same low five bits that the manual defines as the command field. The
-   record-creation/host-register capture path has not yet been traced
-   end-to-end, so the exact step that places the host's CP0 value into `IX+1`
-   remains to be confirmed.
+3. The command-field source is visible in the capture path. `scan_input_event`
+   reads port `0x60` and masks its low five bits; for ordinary events,
+   `record_input_event` writes state `1` to the record's `IX+0`, then executes
+   `INI` 15 times, incrementing port C each time from `0x60` through `0x6e`.
+   The bytes are stored consecutively beginning at `IX+1`. Therefore the
+   first captured byte (port `0x60`) becomes `IX+1`, the selector used by the
+   dispatcher. This strongly links the dispatched value to the host command
+   byte, although the exact electrical mapping of Z80 ports `0x60`-`0x6e` to
+   the host's CP register block is inferred from the firmware sequence and
+   matching field use, not explicitly named in the listing.
+
+The resulting record layout aligns with the manual's CP register assignments:
+
+| Z80 event-record offset | Captured port | Host command register | Manual field |
+|---|---:|---|---|
+| `IX+1` | `0x60` | CP0 | Command |
+| `IX+2` | `0x61` | CP1 | Unit |
+| `IX+3` | `0x62` | CP2 | Head |
+| `IX+4` | `0x63` | CP3 | Cylinder low |
+| `IX+5` | `0x64` | CP4 | Cylinder high |
+| `IX+6` | `0x65` | CP5 | Sector |
+| `IX+7`..`IX+8` | `0x66`..`0x67` | CP6..CP7 | Reserved |
+| `IX+9`..`IX+10` | `0x68`..`0x69` | CP8..CP9 | Transfer word count, low/high |
+| `IX+11`..`IX+13` | `0x6a`..`0x6c` | CP10..CP12 | 24-bit transfer address, low to high |
+| `IX+14`..`IX+15` | `0x6d`..`0x6e` | CP13..CP14 | Reserved |
+
+This is a 15-byte snapshot: the code does not read port `0x6f` (CP15) or the
+separate C/S register. The manual reserves CP13-CP15.
+
+For command field `0x01`, `command_01_handler` provides a particularly useful
+parameter fingerprint: it rejects a zero count using `IX+9` and `IX+10`, takes
+the transfer-address high byte from `IX+13`, and uses `IX+11`/`IX+12` for the
+lower two address bytes. Its shared helpers validate sector (`IX+6`) and head
+(`IX+3`), use cylinder (`IX+4`/`IX+5`), and select the unit (`IX+2`). This
+matches the complete parameter set listed for Read Sector in Appendix B.3 and
+materially strengthens the `0x01 = Read Sector` hypothesis. It is still not an
+explicit name-to-code assignment in the available manual text.
+
+Command field `0x02` enters `opcode_02_handler`, which consumes the same count,
+unit, disk-address, and DMA-address fields as `0x01`. Since Appendix B.4 gives
+Write Sector the same parameter set as Read Sector, `0x02 = Write Sector` is a
+plausible candidate, but the command name should remain unassigned until the
+two handlers' transfer directions are distinguished.
 
 Some table entries can be correlated with the host firmware, without assigning
 names to the entire table:
@@ -124,13 +162,15 @@ names to the entire table:
 | Command field | Z80 handler | Evidence |
 |---|---:|---|
 | `0x00` | `0x03e1` (`finish_device_event`) | Finishes/clears a device event. |
-| `0x01` | `0x020c` (`command_01_handler`) | The CPU's normal WDC read setup issues command `0x01`; this handler processes transfer-count fields and enters the disk-data path. This is consistent with Read Sector, but the numeric command-name mapping is not printed in the examined manual pages. |
+| `0x01` | `0x020c` (`command_01_handler`) | The CPU's normal WDC read setup issues command `0x01`; the Z80 handler consumes the count and transfer-address fields and uses the disk-address fields through shared helpers. Its parameter fingerprint matches Read Sector (B.3), but the numeric command-name mapping is not printed in the examined manual pages. |
+| `0x02` | `0x02dc` (`opcode_02_handler`) | Uses the same disk-address, word-count, and DMA-address fields as `0x01`; Write Sector (B.4) is a candidate because it has the same documented parameter set, but direction has not yet been established. |
 | `0x16` | `0x0835` (`command_16_handler`) | The CPU's WDC boot setup issues `0x16`; the handler copies request fields from four device records and invokes shared transfer logic. Its exact documented command name is not established here. |
 
 Appendix B describes the host commands and their parameters, but the available
 text does not list numeric command-field values alongside the command names.
-Treat the other table entries as unmapped until another source or a traced
-host-register capture path confirms their meaning.
+Use handler parameter fingerprints to develop candidate mappings, but treat
+them as hypotheses until transfer behavior or another source distinguishes
+commands with overlapping parameter sets.
 
 ## Disk-read path
 
