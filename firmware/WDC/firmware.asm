@@ -20,6 +20,58 @@ WDC_EVENT_TRANSADDR_B0:    equ     0Bh
 WDC_EVENT_TRANSADDR_B1:    equ     0Ch
 WDC_EVENT_TRANSADDR_B2:    equ     0Dh
 
+; Named entry points for helper routines reached by absolute CALLs.
+wdc_load_drive_geometry:          equ     11E5h
+wdc_advance_cylinder:             equ     10B4h
+wdc_validate_request_address:     equ     0EF7h
+wdc_prepare_sector_transfer:     equ     0F2Ah
+wdc_apply_head_select_bits:      equ     12EAh
+wdc_check_drive_configuration:   equ     1273h
+wdc_calculate_transfer_size:     equ     0E90h
+wdc_configure_controller_input:  equ     1324h
+wdc_build_track_record:          equ     10D4h
+wdc_configure_controller_output: equ     139Bh
+wdc_advance_host_transfer:       equ     0FCBh
+wdc_set_selected_head:           equ     12FAh
+wdc_configure_controller_read:   equ     13F5h
+wdc_set_sector_context:          equ     0E2Fh
+wdc_configure_controller_write:  equ     130Bh
+wdc_select_controller_unit:      equ     11AAh
+wdc_save_device_state:           equ     1336h
+wdc_reset_controller_interface:  equ     11D5h
+wdc_wait_controller_event:       equ     1227h
+wdc_initialize_device_position:  equ     09E8h
+wdc_get_unit_configuration:      equ     0A3Bh
+wdc_validate_cylinder_range:     equ     0F05h
+wdc_load_event_disk_address:     equ     0552h
+wdc_update_current_sector:       equ     104Fh
+wdc_check_device_ready:          equ     1242h
+wdc_wait_for_controller_ready:   equ     11B3h
+wdc_program_dma_count:            equ     15ACh
+wdc_check_cylinder_limit:        equ     0576h
+wdc_select_unit_record:          equ     0A64h
+wdc_verify_sector_record:        equ     1174h
+wdc_append_sector_address:       equ     0A88h
+wdc_initialize_drive_operation:  equ     0966h
+wdc_verify_format_track:         equ     0B20h
+wdc_compare_format_track:        equ     0BCDh
+wdc_verify_format_unit:          equ     0B75h
+wdc_build_sector_record:         equ     0DE4h
+wdc_read_sector_address:         equ     0CDCh
+wdc_check_sector_data:           equ     0C38h
+wdc_find_sector_header:          equ     1134h
+wdc_copy_sector_data:            equ     0E03h
+wdc_advance_data_pointer:        equ     0E29h
+wdc_advance_event_disk_address:  equ     0C76h
+wdc_advance_scan_disk_address:   equ     0CA8h
+wdc_compare_sector_header:       equ     114Fh
+wdc_advance_header_pointer:      equ     116Ch
+wdc_check_controller_status:     equ     1236h
+wdc_configure_channel_read:      equ     137Bh
+wdc_transfer_dma_window:         equ     142Ah
+wdc_transfer_dma_block:          equ     1463h
+wdc_initialize_dma_channel:      equ     14E1h
+
         org     0000h
 reset_vector:
         jp      rom_entry
@@ -50,7 +102,7 @@ startup_stage_2:
         jp      command_0E_startup_handler
 application_entry:
         ld      sp,41ffh
-        call    00c9h
+        call    initialize_runtime
 main_loop_entry:
         ld      sp,41ffh
 input_wait_loop:
@@ -63,9 +115,9 @@ input_wait_loop:
         jr      nz,005bh
         jr      0046h
 process_input_event:
-        call    0061h
+        call    scan_input_event
         call    nz,00c4h
-        call    0160h
+        call    service_pending_event
         jp      main_loop_entry
 scan_input_event:
         ld      hl,75c4h
@@ -86,7 +138,7 @@ scan_input_event:
         jp      m,build_input_mask
         in      a,(60h)
         and     20h
-        call    00c4h
+        call    write_control_9a
         ld      e,0fh
         ld      b,08h
         call    nz,042dh
@@ -133,16 +185,16 @@ initialize_runtime:
         ld      hl,0020h
         ld      a,h
         ld      i,a
-        call    1535h
-        call    0d0ah
-        call    134bh
+        call    initialize_timer_counters
+        call    initialize_io_controller
+        call    program_io_controller
         ld      a,91h
         out     (70h),a
         im      2
         ei
         ld      hl,003ch
 loc_00E7:
-        call    15ebh
+        call    clear_timer_interrupts
 loc_00EA:
         ld      a,(420dh)
         or      a
@@ -153,7 +205,7 @@ loc_00EA:
         ld      a,h
         or      l
         jp      nz,loc_00E7
-        call    15fch
+        call    enable_timer_interrupts
         ld      a,04h
         push    af
         ld      ix,766ch
@@ -173,17 +225,17 @@ loc_00EA:
         ld      (ix+WDC_EVENT_DRV),a
         ld      a,44h
         ld      (ix+WDC_EVENT_CMD),a
-        call    03c5h
+        call    command_04_restore_handler
         ld      a,c
         cp      00h
         jr      nz,013bh
         ld      a,52h
         ld      (ix+WDC_EVENT_CMD),a
-        call    070eh
+        call    command_12_readcontrollerstate_handler
         ld      a,c
         cp      00h
         jr      z,0105h
-        call    11e5h
+        call    wdc_load_drive_geometry
         jr      0105h
         xor     a
         ld      (ix+22h),a
@@ -258,7 +310,7 @@ loc_01AA:
         jp      nz,loc_01AA
         ld      (ix+14h),06h
         ld      a,(ix+13h)
-        call    06f3h
+        call    update_channel_value
         ld      (ix+13h),a
         cp      (ix+12h)
         jp      z,complete_device_state
@@ -266,13 +318,13 @@ loc_01AA:
         jp      loc_01AA
 command_05_format_handler:
         ld      a,(ix+WDC_EVENT_DRV)
-        call    08ddh
+        call    device_action_handler
         jp      nc,status_error_nc
         jr      z,01f7h
         cp      01h
         jp      z,status_error_z
         jp      status_error_minus
-        call    10b4h
+        call    wdc_advance_cylinder
         xor     a
         or      b
         jp      z,command_13_unitformatverify_handler
@@ -287,14 +339,14 @@ command_01_readsector_handler:
         ld      a,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
         or      (ix+WDC_EVENT_TRANSWRD_CNT_HI)
         jp      z,command_00_null_handler
-        call    0ef7h
+        call    wdc_validate_request_address
         jp      nc,invalid_state_fallback
         ld      a,00h
         ld      (420fh),a
         ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
-        call    0f2ah
-        call    0542h
+        call    wdc_prepare_sector_transfer
+        call    transfer_controller_data
         jp      nc,status_error_nc
         ld      e,(ix+WDC_EVENT_TRANSADDR_B0)
         ld      d,(ix+WDC_EVENT_TRANSADDR_B1)
@@ -304,9 +356,9 @@ command_01_readsector_handler:
         rr      d
         rr      e
         exx
-        call    12eah
+        call    wdc_apply_head_select_bits
         ld      a,(4204h)
-        call    1273h
+        call    wdc_check_drive_configuration
         jp      nc,status_error_nc
         jr      z,0259h
         or      a
@@ -317,9 +369,9 @@ command_01_readsector_handler:
         ld      hl,2120h
         ld      c,(ix+18h)
         ld      b,(ix+19h)
-        call    0e90h
+        call    wdc_calculate_transfer_size
         push    bc
-        call    1324h
+        call    wdc_configure_controller_input
         pop     bc
         jp      nc,status_error_nc
         jp      nz,status_error_z
@@ -328,13 +380,13 @@ command_01_readsector_handler:
         jp      nz,loc_029E
         ld      a,b
         ld      iy,4240h
-        call    10d4h
+        call    wdc_build_track_record
         jp      nc,status_error_overflow
         exx
         ld      hl,2124h
-        call    139bh
+        call    wdc_configure_controller_output
         jp      nc,status_error_nc
-        call    0fcbh
+        call    wdc_advance_host_transfer
         jp      nc,invalid_state_fallback
         jp      nz,command_01_readsector_handler
         ld      a,(ix+WDC_EVENT_DRV)
@@ -363,16 +415,16 @@ complete_device_state:
         ld      c,20h
         jp      clear_device_event
         ld      a,(4201h)
-        call    12fah
+        call    wdc_set_selected_head
         exx
         ld      hl,2124h
-        call    13f5h
+        call    wdc_configure_controller_read
         jr      0325h
 command_02_writesector_handler:
         ld      a,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
         or      (ix+WDC_EVENT_TRANSWRD_CNT_HI)
         jp      z,command_00_null_handler
-        call    0ef7h
+        call    wdc_validate_request_address
         jp      nc,invalid_state_fallback
         ld      a,(ix+11h)
         cp      03h
@@ -381,8 +433,8 @@ command_02_writesector_handler:
         ld      c,04h
         jp      clear_device_event
 loc_02FA:
-        call    0f2ah
-        call    0542h
+        call    wdc_prepare_sector_transfer
+        call    transfer_controller_data
         jp      nc,status_error_nc
         ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
@@ -394,9 +446,9 @@ loc_02FA:
         rr      e
         ld      c,(ix+18h)
         ld      b,(ix+19h)
-        call    13f5h
+        call    wdc_configure_controller_read
         ld      a,(4201h)
-        call    12fah
+        call    wdc_set_selected_head
         ld      iy,4240h
         ld      b,(ix+19h)
         ld      c,(ix+18h)
@@ -405,9 +457,9 @@ loc_02FA:
         jr      z,0334h
         inc     b
         ld      a,b
-        call    0e2fh
+        call    wdc_set_sector_context
         ld      a,(4204h)
-        call    1273h
+        call    wdc_check_drive_configuration
         jp      nc,status_error_nc
         jr      z,034eh
         or      a
@@ -418,11 +470,11 @@ loc_02FA:
         ld      hl,2120h
         ld      c,(ix+18h)
         ld      b,(ix+19h)
-        call    0e90h
-        call    130bh
+        call    wdc_calculate_transfer_size
+        call    wdc_configure_controller_write
         jp      nc,status_error_nc
         jp      nz,status_error_z
-        call    0fcbh
+        call    wdc_advance_host_transfer
         jp      nc,invalid_state_fallback
         jp      nz,command_02_writesector_handler
         ld      a,(ix+WDC_EVENT_DRV)
@@ -437,9 +489,9 @@ command_03_readdetailedstatus_handler:
         ld      (ix+1eh),a
         ld      (ix+1fh),a
         ld      a,(ix+WDC_EVENT_DRV)
-        call    11aah
+        call    wdc_select_controller_unit
         jr      nc,0395h
-        call    1336h
+        call    wdc_save_device_state
         jr      c,039dh
         ld      b,10h
         jr      039fh
@@ -461,18 +513,18 @@ command_03_readdetailedstatus_handler:
         rr      d
         rr      e
         ld      bc,0003h
-        call    139bh
+        call    wdc_configure_controller_output
         jp      command_00_null_handler
 command_04_restore_handler:
-        call    10b4h
+        call    wdc_advance_cylinder
         xor     a
         ld      (ix+15h),a
         ld      (ix+16h),a
         ld      a,(ix+WDC_EVENT_DRV)
-        call    11aah
+        call    wdc_select_controller_unit
         jp      nc,status_error_nc
-        call    11d5h
-        call    1227h
+        call    wdc_reset_controller_interface
+        call    wdc_wait_controller_event
         jp      command_00_null_handler
 command_00_null_handler:
         ld      a,(ix+00h)
@@ -505,7 +557,7 @@ clear_device_event:
         ld      a,(733bh)
         or      a
         ret     nz
-        call    047bh
+        call    query_channel_state
         jr      z,0426h
         ld      (ix+20h),c
         xor     a
@@ -528,7 +580,7 @@ transfer_port_data:
         in      a,(21h)
         and     20h
         jr      nz,0460h
-        call    15ebh
+        call    clear_timer_interrupts
         ld      a,b
         out     (41h),a
         in      a,(21h)
@@ -541,7 +593,7 @@ transfer_port_data:
         or      (ix+20h)
         ld      c,a
         ld      (ix+20h),a
-        call    15fch
+        call    enable_timer_interrupts
         xor     a
         or      c
         jr      z,0466h
@@ -594,12 +646,12 @@ status_error_minus:
         jp      loc_04E5
 status_error_overflow:
         ld      a,(ix+WDC_EVENT_DRV)
-        call    11aah
+        call    wdc_select_controller_unit
         jp      nc,status_error_nc
-        call    09e8h
+        call    wdc_initialize_device_position
         jp      nc,status_error_nc
         jr      nz,04d4h
-        call    0a3bh
+        call    wdc_get_unit_configuration
         ld      c,09h
         jp      loc_04E5
         cp      01h
@@ -622,10 +674,10 @@ loc_04E5:
         ld      a,03h
         ld      (ix+00h),a
         ld      a,(ix+WDC_EVENT_DRV)
-        call    11aah
+        call    wdc_select_controller_unit
         jp      nc,status_error_nc
-        call    11d5h
-        call    1227h
+        call    wdc_reset_controller_interface
+        call    wdc_wait_controller_event
         xor     a
         ld      (ix+15h),a
         ld      (ix+16h),a
@@ -638,17 +690,17 @@ loc_04E5:
         ld      (ix+00h),a
         ret
 command_06_seek_handler:
-        call    0f05h
+        call    wdc_validate_cylinder_range
         jp      nc,invalid_state_fallback
         ld      a,(ix+WDC_EVENT_DRV)
-        call    11aah
+        call    wdc_select_controller_unit
         jp      nc,status_error_nc
-        call    0552h
+        call    wdc_load_event_disk_address
         jp      nc,status_error_nc
         jp      command_00_null_handler
 transfer_controller_data:
         ld      a,(ix+WDC_EVENT_DRV)
-        call    11aah
+        call    wdc_select_controller_unit
         ret     nc
         ld      a,(ix+WDC_EVENT_CMD)
         and     80h
@@ -665,7 +717,7 @@ transfer_controller_data:
         ld      a,(ix+WDC_EVENT_SECTOR)
         ld      (75b4h),a
         ld      (4204h),a
-        call    104fh
+        call    wdc_update_current_sector
         ld      hl,(4202h)
         ex      de,hl
         ld      h,(ix+15h)
@@ -688,7 +740,7 @@ transfer_controller_data:
         jr      z,059fh
         ld      (ix+15h),d
         ld      (ix+16h),e
-        call    1242h
+        call    wdc_check_device_ready
         ret     nc
         xor     a
         scf
@@ -704,23 +756,23 @@ command_09_invalid_handler:
 command_0A_invalid_handler:
         jp      invalid_state_fallback
 command_0B_formatread_handler:
-        call    0ef7h
+        call    wdc_validate_request_address
         jp      nc,invalid_state_fallback
         ld      a,00h
         ld      (420fh),a
-        call    0542h
+        call    transfer_controller_data
         jp      nc,status_error_nc
         ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         out     (30h),a
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         jp      nc,status_error_nc
-        call    12eah
+        call    wdc_apply_head_select_bits
         ld      a,(4204h)
-        call    15ach
+        call    wdc_program_dma_count
         jp      nz,status_error_minus
         ld      hl,2120h
         ld      bc,0105h
-        call    1324h
+        call    wdc_configure_controller_input
         jp      nc,status_error_nc
         jp      nz,status_error_z
         ld      hl,4440h
@@ -734,7 +786,7 @@ command_0B_formatread_handler:
         xor     a
         rr      d
         rr      e
-        call    139bh
+        call    wdc_configure_controller_output
         jp      nc,status_error_nc
         jp      command_00_null_handler
 command_17_formatverify_handler:
@@ -743,26 +795,26 @@ command_17_formatverify_handler:
         and     1fh
         ld      (ix+WDC_EVENT_SECTOR),a
         ld      (4204h),a
-        call    0ef7h
+        call    wdc_validate_request_address
         jp      nc,invalid_state_fallback
         xor     a
         ld      (75b5h),a
         ld      h,(ix+WDC_EVENT_CYL_HI)
         ld      l,(ix+WDC_EVENT_CYL_LO)
         ld      (4202h),hl
-        call    0576h
+        call    wdc_check_cylinder_limit
         jp      nc,status_error_nc
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         jp      nc,status_error_nc
         ld      a,(ix+WDC_EVENT_HEAD)
         ld      (4201h),a
-        call    12fah
+        call    wdc_set_selected_head
         ld      a,(4204h)
-        call    15ach
+        call    wdc_program_dma_count
         jp      nz,status_error_minus
         ld      hl,2120h
         ld      bc,0105h
-        call    1324h
+        call    wdc_configure_controller_input
         jp      nc,status_error_nc
         jp      nz,status_error_z
         ld      a,(420ah)
@@ -772,15 +824,15 @@ command_17_formatverify_handler:
         ld      (75b5h),a
         ld      iy,4240h
         ld      a,01h
-        call    0e2fh
+        call    wdc_set_sector_context
         xor     a
         ld      (75b5h),a
         ld      a,(4204h)
-        call    15ach
+        call    wdc_program_dma_count
         jp      nz,status_error_minus
         ld      hl,2120h
         ld      bc,0105h
-        call    130bh
+        call    wdc_configure_controller_write
         jp      nc,status_error_nc
         jp      nz,status_error_z
         jp      command_00_null_handler
@@ -835,7 +887,7 @@ command_0F_updatecylinder_handler:
 command_14_unknown_handler:
         ld      a,01h
         ld      (75c0h),a
-        call    10b4h
+        call    wdc_advance_cylinder
         jp      command_00_null_handler
 update_channel_value:
         ld      hl,0889h
@@ -859,14 +911,14 @@ loc_0705:
         ret
 command_12_readcontrollerstate_handler:
         ld      a,(ix+WDC_EVENT_DRV)
-        call    11aah
+        call    wdc_select_controller_unit
         jp      nc,status_error_nc
-        call    09e8h
+        call    wdc_initialize_device_position
         jp      nc,status_error_nc
         jr      nz,072fh
         ld      a,(ix+WDC_EVENT_DRV)
-        call    0a3bh
-        call    10b4h
+        call    wdc_get_unit_configuration
+        call    wdc_advance_cylinder
         ld      c,00h
         ld      b,00h
         jp      clear_device_event
@@ -878,10 +930,10 @@ command_12_readcontrollerstate_handler:
         jp      loc_04E5
 command_13_unitformatverify_handler:
         ld      a,(ix+WDC_EVENT_DRV)
-        call    11aah
+        call    wdc_select_controller_unit
         jp      nc,status_error_nc
-        call    11e5h
-        call    0a64h
+        call    wdc_load_drive_geometry
+        call    wdc_select_unit_record
         xor     a
         ld      (75bfh),a
         ld      hl,0000h
@@ -904,12 +956,12 @@ command_13_unitformatverify_handler:
         ld      (4204h),a
         ld      (4201h),a
         ld      hl,(4202h)
-        call    0576h
+        call    wdc_check_cylinder_limit
         jp      nc,status_error_nc
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         jp      nc,status_error_nc
         ld      a,(4201h)
-        call    12fah
+        call    wdc_set_selected_head
         ld      a,(ix+25h)
         ld      hl,0000h
         ld      bc,0105h
@@ -920,14 +972,14 @@ command_13_unitformatverify_handler:
         xor     a
         ld      (420fh),a
         ld      a,(4204h)
-        call    15ach
+        call    wdc_program_dma_count
         pop     bc
         jp      nz,status_error_minus
         ld      hl,2120h
-        call    1324h
+        call    wdc_configure_controller_input
         jp      nc,status_error_nc
         jp      nz,status_error_z
-        call    1174h
+        call    wdc_verify_sector_record
         ld      c,03h
         jp      nc,loc_04E5
         ld      a,(4201h)
@@ -947,9 +999,9 @@ loc_07D9:
         ld      (75b3h),a
         dec     a
         ld      (75b4h),a
-        call    0a88h
+        call    wdc_append_sector_address
         ld      a,(ix+WDC_EVENT_DRV)
-        call    0966h
+        call    wdc_initialize_drive_operation
         jp      nc,status_error_nc
         jp      z,command_00_null_handler
         cp      01h
@@ -979,7 +1031,7 @@ command_15_unknown_handler:
         rr      d
         rr      e
         ld      bc,0002h
-        call    139bh
+        call    wdc_configure_controller_output
         jp      command_00_null_handler
 command_16_readdeviceinfo_handler:
         ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
@@ -1021,7 +1073,7 @@ command_16_readdeviceinfo_handler:
         xor     a
         rr      b
         rr      c
-        call    139bh
+        call    wdc_configure_controller_output
         jp      command_00_null_handler
         nop
         jr      nz,08cch
@@ -1064,15 +1116,15 @@ unclassified_table_data_08c5:
         db      06Dh, 0B6h, 0DBh, 0B6h, 0DBh, 06Dh, 0DBh, 06Dh, 0B6h, 06Dh, 0B6h, 0DBh
 
 device_action_handler:
-        call    11aah
+        call    wdc_select_controller_unit
         ret     nc
-        call    11d5h
-        call    1227h
+        call    wdc_reset_controller_interface
+        call    wdc_wait_controller_event
         xor     a
         ld      (ix+15h),a
         ld      (ix+16h),a
-        call    11e5h
-        call    0a64h
+        call    wdc_load_drive_geometry
+        call    wdc_select_unit_record
         xor     a
         ld      (4204h),a
         ld      (4201h),a
@@ -1087,18 +1139,18 @@ loc_0907:
         sbc     hl,de
         jr      z,095fh
         ld      hl,(4202h)
-        call    0576h
+        call    wdc_check_cylinder_limit
         ret     nc
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         ret     nc
         ld      iy,08c5h
         ld      a,08h
         ld      (420ah),a
         ld      (75bbh),iy
-        call    0b20h
+        call    wdc_verify_format_track
         ret     nc
         ret     nz
-        call    0bcdh
+        call    wdc_compare_format_track
         ret     nc
         jr      nz,0951h
         ld      iy,(75bbh)
@@ -1116,12 +1168,12 @@ loc_0907:
         jr      z,0957h
         scf
         ret
-        call    0966h
+        call    wdc_initialize_drive_operation
         ld      b,01h
         xor     a
         scf
         ret
-        call    0b75h
+        call    wdc_verify_format_unit
         ld      bc,0000h
         ret
         xor     a
@@ -1130,14 +1182,14 @@ loc_0907:
         ld      hl,0000h
         ld      (4202h),hl
         ld      (75b1h),hl
-        call    0576h
+        call    wdc_check_cylinder_limit
         ret     nc
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         ret     nc
         ld      iy,08c5h
         ld      hl,4240h
         ld      a,01h
-        call    0de4h
+        call    wdc_build_sector_record
         ld      hl,734dh
         ld      bc,0099h
         ld      a,(ix+WDC_EVENT_DRV)
@@ -1164,17 +1216,17 @@ loc_0907:
         jr      nc,09e5h
         ld      iy,4240h
         ld      a,01h
-        call    0e2fh
+        call    wdc_set_sector_context
         ld      a,(4201h)
-        call    12fah
+        call    wdc_set_selected_head
         ld      a,(4204h)
-        call    15ach
+        call    wdc_program_dma_count
         ld      a,02h
         scf
         ret     nz
         ld      hl,2120h
         ld      bc,0105h
-        call    130bh
+        call    wdc_configure_controller_write
         ret     nc
         ld      a,01h
         ret     nz
@@ -1188,9 +1240,9 @@ loc_0907:
         ld      hl,0000h
         ld      (4202h),hl
         ld      (75b1h),hl
-        call    0576h
+        call    wdc_check_cylinder_limit
         ret     nc
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         ret     nc
         xor     a
         jr      0a14h
@@ -1203,17 +1255,17 @@ loc_0907:
         or      a
         scf
         ret
-        call    12fah
+        call    wdc_set_selected_head
         xor     a
         ld      (420fh),a
         ld      a,(4204h)
-        call    15ach
+        call    wdc_program_dma_count
         ld      a,02h
         scf
         ret     nz
         ld      hl,2120h
         ld      bc,0105h
-        call    1324h
+        call    wdc_configure_controller_input
         ret     nc
         ld      a,01h
         ret     nz
@@ -1355,12 +1407,12 @@ loc_0A81:
         ld      (4201h),a
         ld      hl,4240h
         ld      a,(ix+25h)
-        call    0de4h
+        call    wdc_build_sector_record
         ld      a,(4201h)
-        call    12fah
+        call    wdc_set_selected_head
         ld      iy,4240h
         ld      a,(ix+25h)
-        call    0e2fh
+        call    wdc_set_sector_context
         ld      a,(ix+25h)
         ld      bc,0105h
         ld      hl,0000h
@@ -1369,13 +1421,13 @@ loc_0A81:
         jr      nz,0b49h
         push    hl
         ld      a,(4204h)
-        call    15ach
+        call    wdc_program_dma_count
         pop     bc
         ld      a,02h
         scf
         ret     nz
         ld      hl,2120h
-        call    130bh
+        call    wdc_configure_controller_write
         ret     nc
         ld      a,01h
         ret     nz
@@ -1391,33 +1443,33 @@ loc_0A81:
         ld      iy,08c8h
         ld      hl,4240h
         ld      a,01h
-        call    0de4h
+        call    wdc_build_sector_record
         ld      de,(75bdh)
         ld      (75b9h),de
-        call    0cdch
+        call    wdc_read_sector_address
         jr      z,0bcah
         ld      hl,(4202h)
-        call    0576h
+        call    wdc_check_cylinder_limit
         ret     nc
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         ret     nc
         ld      a,0ffh
         ld      (75b5h),a
         ld      iy,4240h
         ld      a,01h
-        call    0e2fh
+        call    wdc_set_sector_context
         xor     a
         ld      (75b5h),a
         ld      a,(4201h)
-        call    12fah
+        call    wdc_set_selected_head
         ld      a,(4204h)
-        call    15ach
+        call    wdc_program_dma_count
         ld      a,02h
         scf
         ret     nz
         ld      hl,2120h
         ld      bc,0105h
-        call    130bh
+        call    wdc_configure_controller_write
         ret     nc
         ld      a,01h
         ret     nz
@@ -1429,7 +1481,7 @@ loc_0A81:
         ld      (4204h),a
         ld      (4201h),a
         ld      a,(4201h)
-        call    12fah
+        call    wdc_set_selected_head
         ld      a,06h
         ld      (4209h),a
         ld      a,(ix+25h)
@@ -1442,13 +1494,13 @@ loc_0A81:
         xor     a
         ld      (420fh),a
         ld      a,(4204h)
-        call    15ach
+        call    wdc_program_dma_count
         pop     bc
         ld      a,02h
         scf
         ret     nz
         ld      hl,2120h
-        call    1324h
+        call    wdc_configure_controller_input
         ret     nc
         ld      a,01h
         ret     nz
@@ -1460,7 +1512,7 @@ loc_0A81:
         or      l
         ld      a,05h
         jr      z,0c35h
-        call    0c38h
+        call    wdc_check_sector_data
         ld      a,05h
         jr      nc,0c35h
         ld      a,(4209h)
@@ -1484,14 +1536,14 @@ loc_0A81:
         ld      a,01h
         pop     iy
         push    iy
-        call    10d4h
+        call    wdc_build_track_record
         call    nz,0ac3h
         pop     hl
         ret     nc
         jr      nz,0c5dh
         push    hl
         ld      a,01h
-        call    1134h
+        call    wdc_find_sector_header
         call    nz,0ac3h
         pop     hl
         ret     nc
@@ -1675,7 +1727,7 @@ io_controller_config_block_2:
         ld      e,l
         dec     de
         dec     de
-        call    0e03h
+        call    wdc_copy_sector_data
         ex      de,hl
         pop     af
         dec     a
@@ -1693,19 +1745,19 @@ io_controller_config_block_2:
         add     hl,bc
         ld      bc,0200h
         ld      a,(iy+00h)
-        call    0e29h
+        call    wdc_advance_data_pointer
         ret     z
         ld      a,(iy+01h)
-        call    0e29h
+        call    wdc_advance_data_pointer
         ret     z
         ld      a,(iy+02h)
-        call    0e29h
+        call    wdc_advance_data_pointer
         ret     z
         jr      0e0ah
         pop     af
         pop     iy
         pop     de
-        call    0e2fh
+        call    wdc_set_sector_context
         ret
         ld      (hl),a
         inc     hl
@@ -1799,12 +1851,12 @@ io_controller_config_block_2:
         sbc     hl,de
         jr      z,0ef4h
         ex      de,hl
-        call    0576h
+        call    wdc_check_cylinder_limit
         ret     nc
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         ret     nc
         ld      a,(4201h)
-        call    12fah
+        call    wdc_set_selected_head
         or      01h
         scf
         ret
@@ -1857,7 +1909,7 @@ io_controller_config_block_2:
         ld      a,(ix+WDC_EVENT_SECTOR)
         ld      (75b4h),a
         ld      (4204h),a
-        call    104fh
+        call    wdc_update_current_sector
         ld      a,(420bh)
         ld      b,a
         ld      a,(4204h)
@@ -1869,14 +1921,14 @@ io_controller_config_block_2:
         ld      (420ch),a
         push    bc
         ld      c,01h
-        call    0c76h
+        call    wdc_advance_event_disk_address
         ld      hl,(75b1h)
         ld      (4202h),hl
         ld      a,(75b3h)
         ld      (4201h),a
         ld      a,(75b4h)
         ld      (4204h),a
-        call    104fh
+        call    wdc_update_current_sector
         pop     bc
         ld      a,(420bh)
         cp      b
@@ -1946,7 +1998,7 @@ io_controller_config_block_2:
         ld      l,(ix+WDC_EVENT_CYL_LO)
         ld      h,(ix+WDC_EVENT_CYL_HI)
         ld      (75b1h),hl
-        call    0c76h
+        call    wdc_advance_event_disk_address
         ld      a,(75b4h)
         ld      (ix+WDC_EVENT_SECTOR),a
         ld      a,(75b3h)
@@ -1982,7 +2034,7 @@ io_controller_config_block_2:
         add     hl,bc
         jr      1061h
         ld      c,(ix+28h)
-        call    0ca8h
+        call    wdc_advance_scan_disk_address
         ld      a,0ffh
         ld      (420bh),a
         ld      a,(4201h)
@@ -2021,7 +2073,7 @@ io_controller_config_block_2:
         pop     af
         ld      a,(420bh)
         ld      c,a
-        call    0ca8h
+        call    wdc_advance_scan_disk_address
         pop     hl
         pop     de
         pop     bc
@@ -2031,7 +2083,7 @@ io_controller_config_block_2:
         inc     hl
         ld      (ix+WDC_EVENT_CYL_HI),h
         ld      (ix+WDC_EVENT_CYL_LO),l
-        call    0f05h
+        call    wdc_validate_cylinder_range
         ret     c
         ld      h,(ix+22h)
         ld      l,(ix+23h)
@@ -2102,7 +2154,7 @@ io_controller_config_block_2:
         inc     de
         inc     de
         ld      bc,0200h
-        call    114fh
+        call    wdc_compare_sector_header
         jr      nz,1171h
         pop     af
         dec     a
@@ -2114,17 +2166,17 @@ io_controller_config_block_2:
         ld      a,(hl)
         cp      (iy+00h)
         ret     nz
-        call    116ch
+        call    wdc_advance_header_pointer
         ret     z
         ld      a,(hl)
         cp      (iy+01h)
         ret     nz
-        call    116ch
+        call    wdc_advance_header_pointer
         ret     z
         ld      a,(hl)
         cp      (iy+02h)
         ret     nz
-        call    116ch
+        call    wdc_advance_header_pointer
         ret     z
         jr      114fh
         inc     hl
@@ -2142,7 +2194,7 @@ io_controller_config_block_2:
         ld      a,(iy+05h)
         or      h
         jr      z,1193h
-        call    0a88h
+        call    wdc_append_sector_address
         ld      a,(75bfh)
         inc     a
         ld      (75bfh),a
@@ -2150,7 +2202,7 @@ io_controller_config_block_2:
         jr      z,11a7h
         jr      1198h
         ld      c,01h
-        call    0c76h
+        call    wdc_advance_event_disk_address
         pop     af
         inc     a
         cp      (ix+25h)
@@ -2165,11 +2217,11 @@ io_controller_config_block_2:
         ret
         ld      (4200h),a
         out     (90h),a
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         ret
         push    bc
         ld      b,04h
-        call    15ebh
+        call    clear_timer_interrupts
         in      a,(80h)
         and     01h
         jr      z,11cfh
@@ -2178,12 +2230,12 @@ io_controller_config_block_2:
         jr      z,11b9h
         dec     b
         jr      nz,11b6h
-        call    15fch
+        call    enable_timer_interrupts
         scf
         ccf
         pop     bc
         ret
-        call    15fch
+        call    enable_timer_interrupts
         scf
         pop     bc
         ret
@@ -2228,7 +2280,7 @@ io_controller_config_block_2:
         ld      (ix+29h),a
         ret
         ld      b,04h
-        call    15ebh
+        call    clear_timer_interrupts
         ld      a,(420dh)
         or      a
         jr      z,122ch
@@ -2240,11 +2292,11 @@ io_controller_config_block_2:
         xor     02h
         scf
         ret     z
-        call    15fch
+        call    enable_timer_interrupts
         ret
         or      04h
         push    af
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         pop     bc
         ret     nc
         ld      a,06h
@@ -2288,7 +2340,7 @@ io_controller_config_block_2:
         ld      bc,0004h
         ld      a,00h
         ld      (420fh),a
-        call    1324h
+        call    wdc_configure_controller_input
         pop     bc
         ret     nc
         ld      a,00h
@@ -2363,22 +2415,22 @@ io_controller_config_block_2:
         out     (90h),a
         pop     bc
         ret
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         ret     nc
-        call    1236h
+        call    wdc_check_controller_status
         ret     nz
         di
-        call    136bh
+        call    configure_io_channel
         ld      a,24h
         out     (20h),a
         ld      a,04h
         out     (20h),a
         ei
-        call    1236h
+        call    wdc_check_controller_status
         ret
-        call    11b3h
+        call    wdc_wait_for_controller_ready
         ret     nc
-        call    137bh
+        call    wdc_configure_channel_read
         ld      a,14h
         out     (20h),a
         ld      a,04h
@@ -2487,7 +2539,7 @@ loc_13E3:
         ld      bc,0100h
         push    de
         push    hl
-        call    142ah
+        call    wdc_transfer_dma_window
         pop     hl
         ld      de,0105h
         add     hl,de
@@ -2527,7 +2579,7 @@ loc_1437:
         push    de
         ld      b,d
         ld      c,e
-        call    1463h
+        call    wdc_transfer_dma_block
         ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         inc     a
         out     (30h),a
@@ -2648,7 +2700,7 @@ loc_14C1:
         ld      b,0eh
         otir
         pop     ix
-        call    14e1h
+        call    wdc_initialize_dma_channel
         ret
 initialize_timer_counters:
         ld      a,0ffh
@@ -2725,21 +2777,21 @@ interrupt_handler_4:
         xor     a
         ld      (4205h),a
         ld      (4206h),a
-        call    15ebh
+        call    clear_timer_interrupts
         ld      a,(4208h)
         cp      b
         jr      z,15dbh
         ld      a,(420dh)
         or      a
         jr      z,15bfh
-        call    15fch
+        call    enable_timer_interrupts
         ld      a,0ffh
         ld      (4205h),a
         ld      (4208h),a
         ld      a,03h
         out     (10h),a
         ret
-        call    15fch
+        call    enable_timer_interrupts
         ld      a,0ffh
         ld      (4205h),a
         ld      (4208h),a
