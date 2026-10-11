@@ -253,7 +253,7 @@ CP11, and CP12.
 
 B.12. Set Interrupt Address. / SECTOR /
 
-The Set Interrupt Address allows the host system to specify ~
+The Set Interrupt Address allows the host system to specify
 the low order eight bits of the address for interrupt
 transfer. That.address and an eight-bit Operation Ending
 Status byte are sent to the address bus lines when the con-
@@ -262,14 +262,14 @@ Address command is issued once shortly after the controller
 is powered up.
 
 / SECTOR / The sector number of the sector to be read is
-sent to the controller through the sector register, CP5. ,
+sent to the controller through the sector register, CP5.
 
 
 B.13. Self Test
 
 This command forces the controller to execute its self diag-
 nostics. Both the command reject and the command accepted —
-bits are set in the command status byte if a self test error ~
+bits are set in the command status byte if a self test error
 is detected. It is possible that the self test error will
 preclude the setting of the bits in the command status byte.
 

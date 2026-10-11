@@ -16,8 +16,11 @@ and unresolved questions here as further sources are examined.
   failures; their captured status values must not be interpreted as evidence
   of successful drive access.
 - Drive geometry supplied for this project: nominal capacity 24 MB, 3 data
-  surfaces (about 8 MB per surface), 605 tracks per surface, track density
-  554 tracks/inch, and 13,440 bytes per track.
+  surfaces (about 8 MB per surface), 605 physical tracks per surface, track
+  density 554 tracks/inch, and 13,440 bytes per track. A ZEUS administration
+  manual entry for System 20 identifies the CDC Finch `zd` drive as having
+  43,200 logical 512-byte blocks; this is 600 logical cylinders at 3 heads x
+  24 sectors, not 605 logical cylinders.
 - Treat executable instructions and their control flow as primary evidence.
   Source comments are hypotheses, not authoritative protocol documentation;
   this is especially important for comments added by the firmware author.
@@ -145,6 +148,12 @@ The reconciled Z80 listing contains an indexed operation dispatcher
    loading the request's unit/head/cylinder/sector into the controller. These
    are observed control effects; the available manual text does not name the
    flags or fully specify their host-side meaning.
+   The SADIE test-description manual separately identifies per-command
+   controls for inhibiting implicit seek, inhibiting retries, and enabling
+   interrupts (`AI/ocr/03-3198-01__Appendix_E_SADIE_WDC_TEST_DESCRIPTIONS.txt`,
+   pp. 200-201). It does not give their command-byte masks, so these controls
+   cannot yet be matched to bits `0x20`, `0x40`, or `0x80` or to the firmware
+   effects above.
 
 The resulting record layout aligns with the manual's CP register assignments:
 
@@ -261,6 +270,23 @@ three-head divisor at `0xfeb6` (`p.disk.s:473-488`). Thus the code represents
 writes the sector offset directly (no visible `+1`). The manual says sector
 00 immediately follows the index pulse, consistent with zero-based sector
 positions 0-23; verify any drive-format-specific exceptions separately.
+The SADIE test description independently documents the same rollover:
+incrementing sector past 23 carries into head, and incrementing head past 2
+carries into cylinder (`AI/ocr/03-3198-01__Appendix_E_SADIE_WDC_TEST_DESCRIPTIONS.txt`,
+pp. 201-202). This corroborates the coordinate arithmetic, but not the
+physical on-disk layout.
+
+The ZEUS administration manual (`03-3246-04_ZeusAdmin_Oct83.pdf`, p. 42;
+System 20, 24 MB, CDC Finch `zd`) lists logical size as 43,200 half-kilobyte
+blocks. At 512 bytes per block this is 22,118,400 bytes (about 21.1 MiB),
+equivalent to 600 cylinders x 3 heads x 24 sectors. Compared with the supplied
+605 physical tracks per surface, this leaves a five-track-per-surface
+difference. Reserved tracks, defect handling, or a difference between drive
+physical geometry and configured logical capacity could explain it; the entry
+does not specify which, so do not expose 605 cylinders as the logical block
+range without further evidence. The same entry gives interleaving factors
+`m=12`, `n=72`; their meaning and effect on logical block order are not
+established by the available description.
 
 The supplied track extent is 13,440 bytes and the drive geometry has 24 sector
 positions per track. The WDC manual says a sector data transfer is 512 bytes,
@@ -270,6 +296,11 @@ headers, gaps, or other formatting overhead, its 560-byte-per-sector-position
 average is compatible with 512-byte data fields. This distinction needs
 confirmation from drive-format documentation; host transfers are 512 bytes
 per sector according to the WDC command manual.
+The SADIE test description also distinguishes ordinary sector reads from a
+format read that transfers the sector's header and CRC information along with
+its data, for exactly one sector (`FRD`; pp. 199-200). This supports treating
+physical-format information as separate from the normal 512-byte payload, but
+the description does not specify the raw image's byte layout or total length.
 
 `DISK_BUFFER` is the memory address passed to the WDC as the DMA buffer: for a
 disk read the controller writes the data there; for a disk write it would
@@ -443,7 +474,14 @@ that no hard disk is attached to this system. The command `0x04` diagnostic
 therefore exercises the controller's no-drive/error response, not a successful
 restore against a disk. The captures support the observed status progression
 and failure, but do not by themselves define which status bits specifically
-mean "no drive attached."
+mean "no drive attached." SADIE diagnostic documentation explicitly warns
+that its disk-CRC test does not check whether a drive is online or media is
+present, and reports an error for each sector attempted on a nonexistent
+drive. This independently supports expecting disk-operation errors on this
+system, without establishing the WDC's precise no-drive C/S bit encoding.
+That manual lists named error conditions including unit-not-ready, drive
+not-on-line, invalid command, timeout, seek error, and drive fault; it does not
+provide numeric C/S masks for these labels in this test-description appendix.
 
 ## Power-up WDC diagnostics
 
@@ -523,6 +561,11 @@ configuration objects' `_zdioaddr` initializer identify `zd` as the WDC driver
 with very strong confidence. The configured I/O base is `0x8000` in both
 available configuration variants; a linked image or bus trace could still
 confirm how that configured word is consumed at runtime.
+The ZEUS administration manual's System 20 entry independently identifies
+`zd` as the 24 MB CDC Finch configuration and gives its logical size as 43,200
+512-byte blocks. That exactly matches 600 cylinders x 3 heads x 24 sectors.
+It also lists interleaving factors `m=12`, `n=72`, but their semantics are
+unknown and should not be treated as host-interface register behavior.
 
 ## Emulator implications and open questions
 
@@ -540,8 +583,9 @@ confirm how that configured word is consumed at runtime.
   register is read at `0x8010`; the manual's register description does not
   clarify the CPU's preceding write to that address.
 - Determine from the WDC firmware/manual or bus traces: command `0x16` and
-  exact semantic meaning of command bit `0x20`; status-bit meanings and
-  acknowledgement/clear behavior; whether `out 0x8010` has any effect;
+  exact semantic meaning of command bit `0x20`; numeric C/S masks and mapping
+  to documented error names; acknowledgement/clear behavior; whether
+  `out 0x8010` has any effect;
   bus-cycle details for byte registers and word I/O; how 13,440 bytes/track
   maps to 512-byte sector data and formatting overhead; geometry bounds;
   drive selection; error behavior; and whether commands can complete
@@ -554,6 +598,12 @@ confirm how that configured word is consumed at runtime.
   `AI/ocr/03_3237_04__Appendix_B.txt` (host command descriptions). Appendix B
   describes command parameters and transfer behavior, but the available text
   does not provide numeric opcode values or name command bit `0x20`.
+  `AI/ocr/03-3198-01__Appendix_E_SADIE_WDC_TEST_DESCRIPTIONS.txt` provides
+  independent diagnostic evidence for geometry rollover, format-read
+  contents, and named error conditions, but not their numeric C/S masks.
+  The quoted System 20 geometry/interleave entry is from
+  `03-3246-04_ZeusAdmin_Oct83.pdf`, p. 42; the PDF is not currently in the
+  repository, so this note is based on the supplied citation and transcription.
   `ZEUS/zd.*` is the WDC driver;
   `conf2.icp.o` and `conf2.nicp.o` both initialize `_zdioaddr` to `0x8000`;
   linked relocation behavior and a ZBI bus trace have not yet been examined.
