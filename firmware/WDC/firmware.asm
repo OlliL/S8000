@@ -123,14 +123,15 @@ input_wait_loop:
         in      a,(21h)
         cpl
         and     10h
-        jr      nz,0055h
+        jr      nz,process_input_event
         ld      a,(733dh)
         or      a
-        jr      nz,005bh
-        jr      0046h
+        jr      nz,loc_005b
+        jr      input_wait_loop
 process_input_event:
         call    scan_input_event
         call    nz,00c4h
+loc_005b:
         call    service_pending_event
         jp      main_loop_entry
 scan_input_event:
@@ -138,13 +139,13 @@ scan_input_event:
         in      a,(60h)
         and     1fh
         cp      00h
-        jr      z,00a5h
+        jr      z,loc_00a5
         cp      0ch
-        jr      z,00a5h
+        jr      z,loc_00a5
         cp      15h
-        jr      z,00a5h
+        jr      z,loc_00a5
         cp      16h
-        jr      z,00a5h
+        jr      z,loc_00a5
         cp      0eh
         jp      z,rom_entry
         in      a,(61h)
@@ -163,14 +164,18 @@ build_input_mask:
         ld      b,a
         ld      a,01h
         inc     b
+loc_009b:
         dec     b
-        jr      z,00a2h
+        jr      z,loc_00a2
         add     a,a
         add     hl,de
-        jr      009bh
+        jr      loc_009b
+loc_00a2:
         ld      b,a
-        jr      00a7h
+        jr      loc_00a7
+loc_00a5:
         ld      b,01h
+loc_00a7:
         ld      a,(hl)
         cp      00h
         ret     nz
@@ -183,9 +188,10 @@ record_input_event:
         inc     hl
         ld      c,5fh
         ld      b,0fh
+loc_00ba:
         inc     c
         ini
-        jr      nz,00bah
+        jr      nz,loc_00ba
         ld      a,91h
         out     (70h),a
         ret
@@ -223,6 +229,7 @@ startup_wait_for_timer_tick:
         ld      a,04h
         push    af
         ld      ix,766ch
+loc_0105:
         pop     af
         dec     a
         jp      m,complete_startup_device_scan
@@ -242,15 +249,16 @@ startup_wait_for_timer_tick:
         call    command_04_restore_handler
         ld      a,c
         cp      00h
-        jr      nz,013bh
+        jr      nz,loc_013b
         ld      a,52h
         ld      (ix+WDC_EVENT_CMD),a
         call    command_12_readcontrollerstate_handler
         ld      a,c
         cp      00h
-        jr      z,0105h
+        jr      z,loc_0105
         call    wdc_load_drive_geometry
-        jr      0105h
+        jr      loc_0105
+loc_013b:
         xor     a
         ld      (ix+22h),a
         ld      (ix+23h),a
@@ -260,7 +268,7 @@ startup_wait_for_timer_tick:
         ld      (ix+27h),a
         ld      (ix+28h),a
         ld      (ix+29h),a
-        jr      0105h
+        jr      loc_0105
 complete_startup_device_scan:
         ld      a,01h
         ld      (75c0h),a
@@ -274,9 +282,10 @@ service_pending_event:
         ld      (75c2h),ix
         ld      a,(ix+00h)
         xor     0ffh
-        jr      nz,017ch
+        jr      nz,loc_017c
         ld      ix,75c4h
         ld      (75c2h),ix
+loc_017c:
         ld      a,(ix+00h)
         cp      00h
         ret     z
@@ -334,10 +343,11 @@ command_05_format_handler:
         ld      a,(ix+WDC_EVENT_DRV)
         call    device_action_handler
         jp      nc,status_error_nc
-        jr      z,01f7h
+        jr      z,loc_01f7
         cp      01h
         jp      z,status_error_z
         jp      status_error_minus
+loc_01f7:
         call    wdc_advance_cylinder
         xor     a
         or      b
@@ -374,12 +384,13 @@ command_01_readsector_handler:
         ld      a,(4204h)
         call    wdc_check_drive_configuration
         jp      nc,status_error_nc
-        jr      z,0259h
+        jr      z,loc_0259
         or      a
         jp      z,status_error_z
         inc     a
         jp      z,status_error_minus
         jp      status_error_overflow
+loc_0259:
         ld      hl,2120h
         ld      c,(ix+18h)
         ld      b,(ix+19h)
@@ -413,10 +424,11 @@ handle_sector_transfer_progress:
         jp      nz,complete_device_state
         ld      a,(ix+00h)
         cp      02h
-        jr      nz,02b3h
+        jr      nz,loc_02b3
         ld      a,WDC_STAT_20_COMPLETE
         ld      (ix+WDC_EVENT_STATUS),a
         ret
+loc_02b3:
         ld      a,(733dh)
         or      80h
         ld      (733dh),a
@@ -434,7 +446,7 @@ complete_device_state:
         exx
         ld      hl,2124h
         call    wdc_configure_controller_read
-        jr      0325h
+        jr      loc_0325
 command_02_writesector_handler:
         ld      a,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
         or      (ix+WDC_EVENT_TRANSWRD_CNT_HI)
@@ -464,24 +476,27 @@ setup_write_sector_transfer:
         call    wdc_configure_controller_read
         ld      a,(4201h)
         call    wdc_set_selected_head
+loc_0325:
         ld      iy,4240h
         ld      b,(ix+19h)
         ld      c,(ix+18h)
         xor     a
         or      c
-        jr      z,0334h
+        jr      z,loc_0334
         inc     b
+loc_0334:
         ld      a,b
         call    wdc_set_sector_context
         ld      a,(4204h)
         call    wdc_check_drive_configuration
         jp      nc,status_error_nc
-        jr      z,034eh
+        jr      z,loc_034e
         or      a
         jp      z,status_error_z
         inc     a
         jp      z,status_error_minus
         jp      status_error_overflow
+loc_034e:
         ld      hl,2120h
         ld      c,(ix+18h)
         ld      b,(ix+19h)
@@ -505,14 +520,17 @@ command_03_readdetailedstatus_handler:
         ld      (ix+1fh),a
         ld      a,(ix+WDC_EVENT_DRV)
         call    wdc_select_controller_unit
-        jr      nc,0395h
+        jr      nc,loc_0395
         call    wdc_save_device_state
-        jr      c,039dh
+        jr      c,loc_039d
+loc_0395:
         ld      b,10h
-        jr      039fh
+        jr      loc_039f
         ld      b,40h
-        jr      039fh
+        jr      loc_039f
+loc_039d:
         ld      b,00h
+loc_039f:
         ld      a,b
         or      (ix+20h)
         ld      (ix+20h),a
@@ -544,12 +562,14 @@ command_04_restore_handler:
 command_00_null_handler:
         ld      a,(ix+00h)
         cp      03h
-        jr      z,03ech
+        jr      z,loc_03ec
         cp      02h
-        jr      nz,03f4h
+        jr      nz,loc_03f4
+loc_03ec:
         ld      b,04h
         ld      c,(ix+WDC_EVENT_STATUS)
         jp      clear_device_event
+loc_03f4:
         ld      b,00h
         ld      c,00h
 clear_device_event:
@@ -559,10 +579,12 @@ clear_device_event:
         ld      e,d
         inc     d
         ld      a,01h
+loc_0404:
         dec     d
-        jr      z,040ah
+        jr      z,loc_040a
         add     a,a
-        jr      0404h
+        jr      loc_0404
+loc_040a:
         cpl
         ld      d,a
         ld      a,(733dh)
@@ -573,18 +595,19 @@ clear_device_event:
         or      a
         ret     nz
         call    query_channel_state
-        jr      z,0426h
+        jr      z,loc_0426
         ld      (ix+20h),c
         xor     a
         ld      (ix+21h),a
+loc_0426:
         ld      a,(ix+WDC_EVENT_CMD)
         ; This flag enables the extra channel handshake below.
         and     WDC_CMD_FLAG_PORT_HANDSHAKE
-        jr      z,0460h
+        jr      z,loc_0460
 transfer_port_data:
         in      a,(21h)
         and     20h
-        jr      nz,042dh
+        jr      nz,transfer_port_data
         ld      a,e
         add     a,a
         add     a,a
@@ -595,54 +618,62 @@ transfer_port_data:
         out     (41h),a
         in      a,(21h)
         and     20h
-        jr      nz,0460h
+        jr      nz,loc_0460
         call    clear_timer_interrupts
+loc_0445:
         ld      a,b
         out     (41h),a
         in      a,(21h)
         and     20h
-        jr      nz,045dh
+        jr      nz,loc_045d
         ld      a,(420dh)
         or      a
-        jr      z,0445h
+        jr      z,loc_0445
         ld      a,10h
         or      (ix+20h)
         ld      c,a
         ld      (ix+20h),a
+loc_045d:
         call    enable_timer_interrupts
+loc_0460:
         xor     a
         or      c
-        jr      z,0466h
+        jr      z,loc_0466
         ld      a,04h
+loc_0466:
         or      98h
         ld      c,a
         ld      a,b
         and     0fh
         cp      08h
         ld      a,c
-        jr      z,0476h
+        jr      z,loc_0476
         or      01h
         out     (70h),a
         ret
+loc_0476:
         or      02h
         out     (70h),a
         ret
 query_channel_state:
         ld      a,c
         cp      09h
-        jr      z,048eh
+        jr      z,loc_048e
         cp      21h
-        jr      z,0495h
+        jr      z,loc_0495
         cp      03h
         ret     nz
         ld      a,01h
         ld      (ix+21h),a
-        jr      049ah
+        jr      loc_049a
+loc_048e:
         ld      a,04h
         ld      (ix+21h),a
-        jr      049ah
+        jr      loc_049a
+loc_0495:
         ld      a,02h
         ld      (ix+21h),a
+loc_049a:
         xor     a
         ld      (ix+20h),a
         ret
@@ -666,10 +697,11 @@ status_error_overflow:
         jp      nc,status_error_nc
         call    wdc_initialize_device_position
         jp      nc,status_error_nc
-        jr      nz,04d4h
+        jr      nz,loc_04d4
         call    wdc_get_unit_configuration
         ld      c,WDC_STAT_09_ERROR
         jp      record_device_operation_status
+loc_04d4:
         cp      01h
         jp      z,status_error_z
         cp      02h
@@ -742,7 +774,7 @@ transfer_controller_data:
         ld      l,(ix+16h)
         xor     a
         sbc     hl,de
-        jr      nc,058fh
+        jr      nc,loc_058f
         push    de
         ex      de,hl
         ld      d,(ix+15h)
@@ -751,15 +783,17 @@ transfer_controller_data:
         inc     a
         sbc     hl,de
         pop     de
+loc_058f:
         ld      b,a
         ld      a,h
         or      l
         ld      a,b
-        jr      z,059fh
+        jr      z,loc_059f
         ld      (ix+15h),d
         ld      (ix+16h),e
         call    wdc_check_device_ready
         ret     nc
+loc_059f:
         xor     a
         scf
         ret
@@ -837,9 +871,10 @@ command_17_formatverify_handler:
         jp      nz,status_error_z
         ld      a,(420ah)
         bit     7,a
-        jr      z,066ah
+        jr      z,loc_066a
         ld      a,0ffh
         ld      (75b5h),a
+loc_066a:
         ld      iy,4240h
         ld      a,01h
         call    wdc_set_sector_context
@@ -866,6 +901,7 @@ command_0E_startup_handler:
         ld      a,01h
         ex      af,af'
         ld      a,(08cbh)
+loc_06a5:
         ld      hl,4000h
         ld      (hl),a
         ld      de,4001h
@@ -873,24 +909,27 @@ command_0E_startup_handler:
         ldir
         ld      hl,4000h
         ld      bc,36b0h
+loc_06b7:
         cp      (hl)
-        jr      nz,06cch
+        jr      nz,loc_06cc
         inc     hl
         dec     bc
         ld      e,a
         ld      a,b
         or      c
         ld      a,e
-        jr      nz,06b7h
+        jr      nz,loc_06b7
         ex      af,af'
         dec     a
-        jr      nz,06d2h
+        jr      nz,loc_06d2
         ex      af,af'
         ld      a,(08ceh)
-        jr      06a5h
+        jr      loc_06a5
+loc_06cc:
         ld      a,0bh
         out     (70h),a
-        jr      06cch
+        jr      loc_06cc
+loc_06d2:
         ei
         exx
         jp      (hl)
@@ -933,13 +972,14 @@ command_12_readcontrollerstate_handler:
         jp      nc,status_error_nc
         call    wdc_initialize_device_position
         jp      nc,status_error_nc
-        jr      nz,072fh
+        jr      nz,loc_072f
         ld      a,(ix+WDC_EVENT_DRV)
         call    wdc_get_unit_configuration
         call    wdc_advance_cylinder
         ld      c,00h
         ld      b,00h
         jp      clear_device_event
+loc_072f:
         cp      01h
         jp      z,status_error_z
         cp      02h
@@ -965,6 +1005,7 @@ command_13_unitformatverify_handler:
         dec     a
         ld      (75b4h),a
         ld      hl,(4202h)
+loc_076c:
         ld      d,(ix+26h)
         ld      e,(ix+27h)
         xor     a
@@ -979,13 +1020,15 @@ command_13_unitformatverify_handler:
         call    wdc_wait_for_controller_ready
         jp      nc,status_error_nc
         ld      a,(4201h)
+loc_0791:
         call    wdc_set_selected_head
         ld      a,(ix+25h)
         ld      hl,0000h
         ld      bc,0105h
+loc_079d:
         add     hl,bc
         dec     a
-        jr      nz,079dh
+        jr      nz,loc_079d
         push    hl
         xor     a
         ld      (420fh),a
@@ -1004,11 +1047,11 @@ command_13_unitformatverify_handler:
         inc     a
         ld      (4201h),a
         cp      (ix+24h)
-        jr      nz,0791h
+        jr      nz,loc_0791
         ld      hl,(4202h)
         inc     hl
         ld      (4202h),hl
-        jr      076ch
+        jr      loc_076c
 finish_unit_format_verify:
         ld      h,(ix+26h)
         ld      l,(ix+27h)
@@ -1059,6 +1102,7 @@ command_16_readdeviceinfo_handler:
         ld      bc,002ah
         ld      hl,4240h
         ld      a,04h
+loc_0848:
         ld      e,(ix+22h)
         ld      (hl),e
         inc     hl
@@ -1079,7 +1123,7 @@ command_16_readdeviceinfo_handler:
         inc     hl
         add     ix,bc
         dec     a
-        jr      nz,0848h
+        jr      nz,loc_0848
         pop     ix
         ld      hl,2120h
         ld      e,(ix+WDC_EVENT_TRANSADDR_B0)
@@ -1094,7 +1138,7 @@ command_16_readdeviceinfo_handler:
         call    wdc_configure_controller_output
         jp      command_00_null_handler
         nop
-        jr      nz,08cch
+        jr      nz,loc_08cc
         rst     38h
 
 ; Computed dispatch tables (little-endian word targets). The state table has
@@ -1127,10 +1171,12 @@ opcode_dispatch_table:
         dw      command_16_readdeviceinfo_handler
         dw      command_17_formatverify_handler
 
-; Opaque constants/pattern bytes from 08C5h through 08DCh, preceding code at 08DDh.
-; No control-flow entry into this region is evidenced; preserve its bytes as data.
+; Unclassified bytes from 08C5h through 08DCh; a relative branch at 088Ah targets 08CCh.
+; The target enters this pattern region; its executed meaning, if reachable, is unresolved.
 unclassified_table_data_08c5:
-        db      00h, 00h, 00h, 0FFh, 0FFh, 0FFh, 0AAh, 0AAh, 0AAh, 055h, 055h, 055h
+        db      00h, 00h, 00h, 0FFh, 0FFh, 0FFh, 0AAh
+loc_08cc:
+        db      0AAh, 0AAh, 055h, 055h, 055h
         db      06Dh, 0B6h, 0DBh, 0B6h, 0DBh, 06Dh, 0DBh, 06Dh, 0B6h, 06Dh, 0B6h, 0DBh
 
 device_action_handler:
@@ -1155,7 +1201,7 @@ format_track_verification_loop:
         ld      e,(ix+27h)
         xor     a
         sbc     hl,de
-        jr      z,095fh
+        jr      z,loc_095f
         ld      hl,(4202h)
         call    wdc_check_cylinder_limit
         ret     nc
@@ -1164,33 +1210,37 @@ format_track_verification_loop:
         ld      iy,08c5h
         ld      a,08h
         ld      (420ah),a
+loc_0926:
         ld      (75bbh),iy
         call    wdc_verify_format_track
         ret     nc
         ret     nz
         call    wdc_compare_format_track
         ret     nc
-        jr      nz,0951h
+        jr      nz,loc_0951
         ld      iy,(75bbh)
         ld      bc,0003h
         add     iy,bc
         ld      a,(420ah)
         dec     a
         ld      (420ah),a
-        jr      nz,0926h
+        jr      nz,loc_0926
         ld      hl,(4202h)
         inc     hl
         ld      (4202h),hl
         jp      format_track_verification_loop
+loc_0951:
         cp      05h
-        jr      z,0957h
+        jr      z,loc_0957
         scf
         ret
+loc_0957:
         call    wdc_initialize_drive_operation
         ld      b,01h
         xor     a
         scf
         ret
+loc_095f:
         call    wdc_verify_format_unit
         ld      bc,0000h
         ret
@@ -1212,10 +1262,12 @@ format_track_verification_loop:
         ld      bc,0099h
         ld      a,(ix+WDC_EVENT_DRV)
         inc     a
+loc_0994:
         dec     a
-        jr      z,099ah
+        jr      z,loc_099a
         add     hl,bc
-        jr      0994h
+        jr      loc_0994
+loc_099a:
         ld      de,4248h
         ldir
         ld      bc,0022h
@@ -1226,16 +1278,18 @@ format_track_verification_loop:
         ld      de,4440h
         ldir
         xor     a
-        jr      09c9h
+        jr      loc_09c9
+loc_09b1:
         ld      a,(4201h)
         inc     a
         ld      (4201h),a
         cp      (ix+24h)
-        jr      nc,09e5h
+        jr      nc,loc_09e5
         ld      iy,4240h
         ld      a,01h
         call    wdc_set_sector_context
         ld      a,(4201h)
+loc_09c9:
         call    wdc_set_selected_head
         ld      a,(4204h)
         call    wdc_program_dma_count
@@ -1248,7 +1302,8 @@ format_track_verification_loop:
         ret     nc
         ld      a,01h
         ret     nz
-        jr      09b1h
+        jr      loc_09b1
+loc_09e5:
         xor     a
         scf
         ret
@@ -1263,16 +1318,18 @@ format_track_verification_loop:
         call    wdc_wait_for_controller_ready
         ret     nc
         xor     a
-        jr      0a14h
+        jr      loc_0a14
+loc_0a03:
         ld      a,(4201h)
         inc     a
         ld      (4201h),a
         cp      (ix+24h)
-        jr      c,0a14h
+        jr      c,loc_0a14
         ld      a,03h
         or      a
         scf
         ret
+loc_0a14:
         call    wdc_set_selected_head
         xor     a
         ld      (420fh),a
@@ -1289,17 +1346,19 @@ format_track_verification_loop:
         ret     nz
         ld      a,(420fh)
         or      a
-        jr      nz,0a03h
+        jr      nz,loc_0a03
         xor     a
         scf
         ret
         ld      hl,734dh
         ld      bc,0099h
         inc     a
+loc_0a42:
         dec     a
-        jr      z,0a48h
+        jr      z,loc_0a48
         add     hl,bc
-        jr      0a42h
+        jr      loc_0a42
+loc_0a48:
         ld      a,01h
         ld      (75c0h),a
         ld      de,4248h
@@ -1318,10 +1377,12 @@ format_track_verification_loop:
         ld      bc,0099h
         ld      a,(ix+WDC_EVENT_DRV)
         inc     a
+loc_0a6e:
         dec     a
-        jr      z,0a74h
+        jr      z,loc_0a74
         add     hl,bc
-        jr      0a6eh
+        jr      loc_0a6e
+loc_0a74:
         ld      (75b9h),hl
         ld      (75bdh),hl
         ex      de,hl
@@ -1339,15 +1400,16 @@ copy_block_from_decrementing_source:
         ld      a,(75b4h)
         inc     a
         cp      (ix+25h)
-        jr      nz,0aa9h
+        jr      nz,loc_0aa9
         ld      a,c
         inc     a
         cp      (ix+24h)
         ld      c,a
         ld      a,00h
-        jr      nz,0aa9h
+        jr      nz,loc_0aa9
         ld      c,00h
         inc     hl
+loc_0aa9:
         sla     c
         sla     c
         sla     c
@@ -1377,6 +1439,7 @@ copy_block_from_decrementing_source:
         ld      a,(4204h)
         or      b
         ld      (75b8h),a
+loc_0adc:
         ld      a,(de)
         ld      h,a
         inc     de
@@ -1384,22 +1447,25 @@ copy_block_from_decrementing_source:
         ld      l,a
         inc     de
         or      h
-        jr      nz,0ae9h
+        jr      nz,loc_0ae9
         ld      a,(de)
         or      h
-        jr      z,0afdh
+        jr      z,loc_0afd
+loc_0ae9:
         ld      bc,(4202h)
         xor     a
         sbc     hl,bc
-        jr      nz,0afah
+        jr      nz,loc_0afa
         ld      a,(de)
         ld      c,a
         ld      a,(75b8h)
         cp      c
         scf
         ret     z
+loc_0afa:
         inc     de
-        jr      0adch
+        jr      loc_0adc
+loc_0afd:
         ld      de,(75b9h)
         ld      hl,(4202h)
         ld      a,h
@@ -1427,6 +1493,7 @@ copy_block_from_decrementing_source:
         ld      a,(ix+25h)
         call    wdc_build_sector_record
         ld      a,(4201h)
+loc_0b33:
         call    wdc_set_selected_head
         ld      iy,4240h
         ld      a,(ix+25h)
@@ -1434,9 +1501,10 @@ copy_block_from_decrementing_source:
         ld      a,(ix+25h)
         ld      bc,0105h
         ld      hl,0000h
+loc_0b49:
         add     hl,bc
         dec     a
-        jr      nz,0b49h
+        jr      nz,loc_0b49
         push    hl
         ld      a,(4204h)
         call    wdc_program_dma_count
@@ -1453,7 +1521,7 @@ copy_block_from_decrementing_source:
         inc     a
         ld      (4201h),a
         cp      (ix+24h)
-        jr      nz,0b33h
+        jr      nz,loc_0b33
         xor     a
         ld      (4201h),a
         scf
@@ -1464,8 +1532,9 @@ copy_block_from_decrementing_source:
         call    wdc_build_sector_record
         ld      de,(75bdh)
         ld      (75b9h),de
+loc_0b89:
         call    wdc_read_sector_address
-        jr      z,0bcah
+        jr      z,loc_0bca
         ld      hl,(4202h)
         call    wdc_check_cylinder_limit
         ret     nc
@@ -1491,23 +1560,27 @@ copy_block_from_decrementing_source:
         ret     nc
         ld      a,01h
         ret     nz
-        jr      0b89h
+        jr      loc_0b89
+loc_0bca:
         xor     a
         scf
         ret
         xor     a
         ld      (4204h),a
         ld      (4201h),a
+loc_0bd4:
         ld      a,(4201h)
         call    wdc_set_selected_head
         ld      a,06h
         ld      (4209h),a
+loc_0bdf:
         ld      a,(ix+25h)
         ld      hl,0000h
         ld      bc,0105h
+loc_0be8:
         add     hl,bc
         dec     a
-        jr      nz,0be8h
+        jr      nz,loc_0be8
         push    hl
         xor     a
         ld      (420fh),a
@@ -1524,26 +1597,28 @@ copy_block_from_decrementing_source:
         ret     nz
         ld      a,(420fh)
         or      a
-        jr      z,0c1ch
+        jr      z,loc_0c1c
         ld      hl,(4202h)
         ld      a,h
         or      l
         ld      a,05h
-        jr      z,0c35h
+        jr      z,loc_0c35
         call    wdc_check_sector_data
         ld      a,05h
-        jr      nc,0c35h
+        jr      nc,loc_0c35
+loc_0c1c:
         ld      a,(4209h)
         dec     a
         ld      (4209h),a
-        jr      nz,0bdfh
+        jr      nz,loc_0bdf
         ld      a,(4201h)
         inc     a
         ld      (4201h),a
         cp      (ix+24h)
-        jr      nz,0bd4h
+        jr      nz,loc_0bd4
         xor     a
         ld      (4201h),a
+loc_0c35:
         or      a
         scf
         ret
@@ -1551,6 +1626,7 @@ copy_block_from_decrementing_source:
         push    iy
         xor     a
         ld      (4204h),a
+loc_0c42:
         ld      a,01h
         pop     iy
         push    iy
@@ -1558,22 +1634,24 @@ copy_block_from_decrementing_source:
         call    nz,0ac3h
         pop     hl
         ret     nc
-        jr      nz,0c5dh
+        jr      nz,loc_0c5d
         push    hl
         ld      a,01h
         call    wdc_find_sector_header
         call    nz,0ac3h
         pop     hl
         ret     nc
+loc_0c5d:
         ld      a,(4204h)
         inc     a
         cp      (ix+25h)
-        jr      z,0c70h
+        jr      z,loc_0c70
         ld      (4204h),a
         ld      bc,020ah
         add     hl,bc
         push    hl
-        jr      0c42h
+        jr      loc_0c42
+loc_0c70:
         xor     a
         ld      (4204h),a
         scf
@@ -1581,39 +1659,42 @@ copy_block_from_decrementing_source:
         push    bc
         push    hl
         inc     c
+loc_0c79:
         dec     c
-        jr      z,0ca5h
+        jr      z,loc_0ca5
         ld      a,(75b4h)
         inc     a
         ld      (75b4h),a
         cp      (ix+25h)
-        jr      nz,0c79h
+        jr      nz,loc_0c79
         xor     a
         ld      (75b4h),a
         ld      a,(75b3h)
         inc     a
         ld      (75b3h),a
         cp      (ix+24h)
-        jr      nz,0c79h
+        jr      nz,loc_0c79
         xor     a
         ld      (75b3h),a
         ld      hl,(75b1h)
         inc     hl
         ld      (75b1h),hl
-        jr      0c79h
+        jr      loc_0c79
+loc_0ca5:
         pop     hl
         pop     bc
         ret
         push    bc
         push    hl
         inc     c
+loc_0cab:
         dec     c
-        jr      z,0cd9h
+        jr      z,loc_0cd9
         ld      a,(4204h)
         inc     a
         ld      (4204h),a
         cp      (ix+25h)
-        jr      nz,0cabh
+        jr      nz,loc_0cab
         xor     a
         ld      (4204h),a
         ld      a,(4201h)
@@ -1621,13 +1702,14 @@ copy_block_from_decrementing_source:
         ld      (4201h),a
         and     07h
         cp      (ix+24h)
-        jr      nz,0cabh
+        jr      nz,loc_0cab
         xor     a
         ld      (4201h),a
         ld      hl,(4202h)
         inc     hl
         ld      (4202h),hl
-        jr      0cabh
+        jr      loc_0cab
+loc_0cd9:
         pop     hl
         pop     bc
         ret
@@ -1710,12 +1792,13 @@ clear_event_queue_loop:
         ld      hl,0ffffh
         ld      bc,0099h
         ld      a,04h
+loc_0d8f:
         ld      (iy+00h),h
         ld      (iy+01h),l
         add     iy,bc
         dec     a
         ret     z
-        jr      0d8fh
+        jr      loc_0d8f
 io_controller_config_block_1:
         db      083h, 0C3h, 0C3h, 0C3h, 0C3h, 0C3h, 0C3h, 079h
         db      00h, 00h, 00h, 00h, 054h, 02h, 050h, 02h
@@ -1726,15 +1809,17 @@ io_controller_config_block_1:
 io_controller_config_block_2:
         db      07Ch, 00h, 07Dh, 00h, 00h, 00h, 00h, 05h
         db      0CFh, 0ADh, 00h, 00h, 01h, 0CFh
+loc_0dd7:
         ld      a,(de)
         cp      (hl)
-        jr      nz,0de2h
+        jr      nz,loc_0de2
         inc     hl
         inc     de
         dec     bc
         ld      a,b
         or      c
-        jr      nz,0dd7h
+        jr      nz,loc_0dd7
+loc_0de2:
         scf
         ret
         push    de
@@ -1747,9 +1832,10 @@ io_controller_config_block_2:
         dec     de
         call    wdc_copy_sector_data
         ex      de,hl
+loc_0df0:
         pop     af
         dec     a
-        jr      z,0e21h
+        jr      z,loc_0e21
         push    af
         ex      de,hl
         ld      bc,000ah
@@ -1758,10 +1844,11 @@ io_controller_config_block_2:
         add     hl,bc
         ld      bc,0200h
         ldir
-        jr      0df0h
+        jr      loc_0df0
         ld      bc,0008h
         add     hl,bc
         ld      bc,0200h
+loc_0e0a:
         ld      a,(iy+00h)
         call    wdc_advance_data_pointer
         ret     z
@@ -1771,7 +1858,8 @@ io_controller_config_block_2:
         ld      a,(iy+02h)
         call    wdc_advance_data_pointer
         ret     z
-        jr      0e0ah
+        jr      loc_0e0a
+loc_0e21:
         pop     af
         pop     iy
         pop     de
@@ -1787,6 +1875,7 @@ io_controller_config_block_2:
         push    af
         ld      a,(4204h)
         ld      (4210h),a
+loc_0e37:
         pop     af
         dec     a
         ret     z
@@ -1823,14 +1912,15 @@ io_controller_config_block_2:
         inc     a
         ld      (4210h),a
         cp      (ix+25h)
-        jr      nz,0e37h
+        jr      nz,loc_0e37
         ld      a,00h
         ld      (4210h),a
-        jr      0e37h
+        jr      loc_0e37
         xor     a
         or      c
-        jr      z,0e95h
+        jr      z,loc_0e95
         inc     b
+loc_0e95:
         ld      a,b
         sla     a
         sla     a
@@ -1841,7 +1931,7 @@ io_controller_config_block_2:
         inc     a
         ld      (4204h),a
         cp      (ix+25h)
-        jr      c,0ef0h
+        jr      c,loc_0ef0
         xor     a
         ld      (4204h),a
         ld      a,(4201h)
@@ -1849,7 +1939,7 @@ io_controller_config_block_2:
         ld      (4201h),a
         and     07h
         cp      (ix+24h)
-        jr      c,0eeah
+        jr      c,loc_0eea
         xor     a
         ld      (4201h),a
         ld      hl,(4202h)
@@ -1857,27 +1947,32 @@ io_controller_config_block_2:
         ld      (4202h),hl
         ld      a,(75c0h)
         or      a
-        jr      nz,0ed4h
+        jr      nz,loc_0ed4
         ld      d,(ix+26h)
         ld      e,(ix+27h)
-        jr      0edah
+        jr      loc_0eda
+loc_0ed4:
         ld      d,(ix+22h)
         ld      e,(ix+23h)
+loc_0eda:
         scf
         ccf
         ex      de,hl
         sbc     hl,de
-        jr      z,0ef4h
+        jr      z,loc_0ef4
         ex      de,hl
         call    wdc_check_cylinder_limit
         ret     nc
         call    wdc_wait_for_controller_ready
         ret     nc
+loc_0eea:
         ld      a,(4201h)
         call    wdc_set_selected_head
+loc_0ef0:
         or      01h
         scf
         ret
+loc_0ef4:
         xor     a
         scf
         ret
@@ -1891,12 +1986,14 @@ io_controller_config_block_2:
         ld      h,(ix+WDC_EVENT_CYL_HI)
         ld      a,(75c0h)
         or      a
-        jr      nz,0f19h
+        jr      nz,loc_0f19
         ld      d,(ix+26h)
         ld      e,(ix+27h)
-        jr      0f1fh
+        jr      loc_0f1f
+loc_0f19:
         ld      d,(ix+22h)
         ld      e,(ix+23h)
+loc_0f1f:
         scf
         ccf
         sbc     hl,de
@@ -1908,14 +2005,15 @@ io_controller_config_block_2:
         or      a
         ld      (420ch),a
         ld      a,(ix+WDC_EVENT_SECTOR)
-        jr      z,0fa1h
+        jr      z,loc_0fa1
         ld      h,(ix+WDC_EVENT_TRANSWRD_CNT_HI)
         ld      l,(ix+WDC_EVENT_TRANSWRD_CNT_LO)
         xor     a
         ld      (420ch),a
         or      l
-        jr      z,0f44h
+        jr      z,loc_0f44
         inc     h
+loc_0f44:
         ld      c,h
         ld      h,(ix+WDC_EVENT_CYL_HI)
         ld      l,(ix+WDC_EVENT_CYL_LO)
@@ -1932,10 +2030,11 @@ io_controller_config_block_2:
         ld      b,a
         ld      a,(4204h)
         push    af
+loc_0f6e:
         ld      a,(420ch)
         inc     a
         cp      c
-        jr      z,0f9ch
+        jr      z,loc_0f9c
         ld      (420ch),a
         push    bc
         ld      c,01h
@@ -1950,11 +2049,14 @@ io_controller_config_block_2:
         pop     bc
         ld      a,(420bh)
         cp      b
-        jr      z,0f6eh
-        jr      0fa0h
+        jr      z,loc_0f6e
+        jr      loc_0fa0
+loc_0f9c:
         xor     a
         ld      (420ch),a
+loc_0fa0:
         pop     af
+loc_0fa1:
         ld      b,a
         ld      a,(ix+25h)
         sub     b
@@ -1963,10 +2065,11 @@ io_controller_config_block_2:
         ld      c,a
         or      a
         ld      a,b
-        jr      z,0fb3h
+        jr      z,loc_0fb3
         cp      c
-        jr      c,0fb3h
+        jr      c,loc_0fb3
         ld      a,c
+loc_0fb3:
         ld      h,a
         ld      l,00h
         ld      d,(ix+WDC_EVENT_TRANSWRD_CNT_HI)
@@ -1975,8 +2078,9 @@ io_controller_config_block_2:
         xor     a
         sbc     hl,de
         pop     hl
-        jr      c,0fc4h
+        jr      c,loc_0fc4
         ex      de,hl
+loc_0fc4:
         ld      (ix+18h),l
         ld      (ix+19h),h
         ret
@@ -1994,11 +2098,13 @@ io_controller_config_block_2:
         ld      h,(ix+WDC_EVENT_TRANSADDR_B1)
         ld      l,(ix+WDC_EVENT_TRANSADDR_B0)
         add     hl,de
-        jr      nc,0fefh
+        jr      nc,loc_0fef
         inc     a
+loc_0fef:
         add     hl,de
-        jr      nc,0ff3h
+        jr      nc,loc_0ff3
         inc     a
+loc_0ff3:
         ld      (ix+WDC_EVENT_TRANSADDR_B0),l
         ld      (ix+WDC_EVENT_TRANSADDR_B1),h
         ld      (ix+WDC_EVENT_TRANSADDR_B2),a
@@ -2006,8 +2112,9 @@ io_controller_config_block_2:
         ld      h,(ix+19h)
         xor     a
         or      l
-        jr      z,1007h
+        jr      z,loc_1007
         inc     h
+loc_1007:
         ld      c,h
         ld      a,(ix+WDC_EVENT_SECTOR)
         ld      (75b4h),a
@@ -2028,9 +2135,10 @@ io_controller_config_block_2:
         ld      e,(ix+23h)
         ld      a,(75c0h)
         or      a
-        jr      nz,1047h
+        jr      nz,loc_1047
         ld      d,(ix+26h)
         ld      e,(ix+27h)
+loc_1047:
         xor     a
         sbc     hl,de
         ret     nc
@@ -2047,10 +2155,12 @@ io_controller_config_block_2:
         ld      hl,734dh
         ld      bc,0099h
         inc     a
+loc_1061:
         dec     a
-        jr      z,1067h
+        jr      z,loc_1067
         add     hl,bc
-        jr      1061h
+        jr      loc_1061
+loc_1067:
         ld      c,(ix+28h)
         call    wdc_advance_scan_disk_address
         ld      a,0ffh
@@ -2066,6 +2176,7 @@ io_controller_config_block_2:
         or      c
         push    af
         ld      bc,(4202h)
+loc_1089:
         ld      a,(420bh)
         inc     a
         ld      (420bh),a
@@ -2078,17 +2189,19 @@ io_controller_config_block_2:
         ex      de,hl
         sbc     hl,bc
         ex      de,hl
-        jr      c,1089h
-        jr      nz,10a8h
+        jr      c,loc_1089
+        jr      nz,loc_10a8
         dec     hl
         ld      e,(hl)
         inc     hl
         pop     af
         cp      e
-        jr      c,10a9h
+        jr      c,loc_10a9
         push    af
-        jr      1089h
+        jr      loc_1089
+loc_10a8:
         pop     af
+loc_10a9:
         ld      a,(420bh)
         ld      c,a
         call    wdc_advance_scan_disk_address
@@ -2118,6 +2231,7 @@ io_controller_config_block_2:
         ld      d,a
         ld      a,(4204h)
         ld      e,a
+loc_10e3:
         pop     af
         dec     a
         scf
@@ -2125,42 +2239,44 @@ io_controller_config_block_2:
         push    af
         ld      a,19h
         cp      (iy+00h)
-        jr      nz,112bh
+        jr      nz,loc_112b
         ld      a,e
         sla     a
         sla     a
         sla     a
         or      d
         cp      (iy+01h)
-        jr      nz,112bh
+        jr      nz,loc_112b
         ld      a,h
         cp      (iy+02h)
-        jr      nz,112bh
+        jr      nz,loc_112b
         ld      a,l
         cp      (iy+03h)
-        jr      nz,112bh
+        jr      nz,loc_112b
         ld      h,(iy+04h)
         ld      a,(iy+05h)
         or      h
-        jr      nz,1130h
+        jr      nz,loc_1130
         ld      bc,020ah
         add     iy,bc
         inc     e
         ld      a,e
         cp      (ix+25h)
-        jr      nz,10e3h
+        jr      nz,loc_10e3
         ld      e,00h
         inc     d
         ld      a,d
         cp      (ix+24h)
-        jr      nz,10e3h
+        jr      nz,loc_10e3
         ld      d,00h
         inc     hl
-        jr      10e3h
+        jr      loc_10e3
+loc_112b:
         pop     af
         or      01h
         scf
         ret
+loc_1130:
         pop     af
         xor     a
         inc     a
@@ -2171,16 +2287,18 @@ io_controller_config_block_2:
         add     hl,de
         inc     de
         inc     de
+loc_113f:
         ld      bc,0200h
         call    wdc_compare_sector_header
-        jr      nz,1171h
+        jr      nz,loc_1171
         pop     af
         dec     a
         scf
         ret     z
         push    af
         add     hl,de
-        jr      113fh
+        jr      loc_113f
+loc_114f:
         ld      a,(hl)
         cp      (iy+00h)
         ret     nz
@@ -2196,31 +2314,35 @@ io_controller_config_block_2:
         ret     nz
         call    wdc_advance_header_pointer
         ret     z
-        jr      114fh
+        jr      loc_114f
         inc     hl
         dec     bc
         ld      a,b
         or      c
         ret
+loc_1171:
         pop     de
         scf
         ret
         ld      iy,4240h
         xor     a
         push    af
+loc_117a:
         ld      h,(iy+04h)
         ld      a,(iy+05h)
         or      h
-        jr      z,1193h
+        jr      z,loc_1193
         call    wdc_append_sector_address
         ld      a,(75bfh)
         inc     a
         ld      (75bfh),a
         cp      33h
-        jr      z,11a7h
-        jr      1198h
+        jr      z,loc_11a7
+        jr      loc_1198
+loc_1193:
         ld      c,01h
         call    wdc_advance_event_disk_address
+loc_1198:
         pop     af
         inc     a
         cp      (ix+25h)
@@ -2229,7 +2351,8 @@ io_controller_config_block_2:
         push    af
         ld      bc,020ah
         add     iy,bc
-        jr      117ah
+        jr      loc_117a
+loc_11a7:
         pop     af
         xor     a
         ret
@@ -2239,20 +2362,23 @@ io_controller_config_block_2:
         ret
         push    bc
         ld      b,04h
+loc_11b6:
         call    clear_timer_interrupts
+loc_11b9:
         in      a,(80h)
         and     01h
-        jr      z,11cfh
+        jr      z,loc_11cf
         ld      a,(420dh)
         or      a
-        jr      z,11b9h
+        jr      z,loc_11b9
         dec     b
-        jr      nz,11b6h
+        jr      nz,loc_11b6
         call    enable_timer_interrupts
         scf
         ccf
         pop     bc
         ret
+loc_11cf:
         call    enable_timer_interrupts
         scf
         pop     bc
@@ -2272,19 +2398,21 @@ io_controller_config_block_2:
         and     03h
         ld      c,05h
         cp      03h
-        jr      z,11ffh
+        jr      z,loc_11ff
         dec     c
         cp      02h
-        jr      z,11ffh
+        jr      z,loc_11ff
         dec     c
         cp      01h
-        jr      z,11ffh
+        jr      z,loc_11ff
         ld      c,01h
+loc_11ff:
         ld      (ix+24h),c
         xor     a
+loc_1203:
         add     a,18h
         dec     c
-        jr      nz,1203h
+        jr      nz,loc_1203
         ld      (ix+28h),a
         ld      hl,0258h
         ld      (ix+22h),h
@@ -2298,12 +2426,14 @@ io_controller_config_block_2:
         ld      (ix+29h),a
         ret
         ld      b,04h
+loc_1229:
         call    clear_timer_interrupts
+loc_122c:
         ld      a,(420dh)
         or      a
-        jr      z,122ch
+        jr      z,loc_122c
         dec     b
-        jr      nz,1229h
+        jr      nz,loc_1229
         ret
         in      a,(80h)
         and     02h
@@ -2322,9 +2452,11 @@ io_controller_config_block_2:
         ld      c,a
         ld      a,b
         out     (20h),a
+loc_1251:
         ld      d,01h
+loc_1253:
         dec     d
-        jr      nz,1253h
+        jr      nz,loc_1253
         ld      a,c
         out     (20h),a
         ld      a,b
@@ -2333,27 +2465,30 @@ io_controller_config_block_2:
         ld      a,h
         ld      a,h
         or      l
-        jr      nz,1251h
+        jr      nz,loc_1251
         ld      a,04h
         out     (20h),a
         scf
         ret
         ld      hl,0ffffh
+loc_126b:
         scf
         ret     z
         dec     hl
         ld      a,h
         or      l
         ret     z
-        jr      126bh
+        jr      loc_126b
         dec     a
         cp      0ffh
-        jr      nz,127ch
+        jr      nz,loc_127c
         ld      a,(ix+25h)
         dec     a
+loc_127c:
         push    af
         ld      a,00h
         ld      (4207h),a
+loc_1282:
         ld      hl,3998h
         ld      bc,0004h
         ld      a,00h
@@ -2373,10 +2508,10 @@ io_controller_config_block_2:
         ld      (4207h),a
         cp      c
         scf
-        jr      z,12dfh
+        jr      z,loc_12df
         ld      a,(420fh)
         or      a
-        jr      nz,1282h
+        jr      nz,loc_1282
         ld      a,(7331h)
         and     07h
         ld      b,a
@@ -2384,7 +2519,7 @@ io_controller_config_block_2:
         and     07h
         cp      b
         scf
-        jr      nz,12dfh
+        jr      nz,loc_12df
         ld      a,(7332h)
         ld      d,a
         ld      a,(7333h)
@@ -2393,7 +2528,7 @@ io_controller_config_block_2:
         xor     a
         sbc     hl,de
         scf
-        jr      nz,12dfh
+        jr      nz,loc_12df
         ld      a,(7331h)
         srl     a
         srl     a
@@ -2403,13 +2538,15 @@ io_controller_config_block_2:
         scf
         ret     z
         push    bc
-        jr      1282h
+        jr      loc_1282
+loc_12df:
         pop     bc
-        jr      nc,12e6h
+        jr      nc,loc_12e6
         xor     a
         dec     a
         scf
         ret
+loc_12e6:
         xor     a
         inc     a
         scf
@@ -2502,10 +2639,10 @@ write_io_channel_configuration:
         ret
         xor     a
         cp      c
-        jr      nz,13eah
+        jr      nz,loc_13ea
         inc     a
         cp      b
-        jr      nz,13eah
+        jr      nz,loc_13ea
         ld      a,88h
         out     (50h),a
         ld      a,79h
@@ -2529,11 +2666,13 @@ write_io_channel_configuration:
         ld      a,87h
         ld      d,0b3h
         ld      e,0d3h
-        jr      13ddh
+        jr      loc_13dd
+loc_13d9:
         out     (c),d
         out     (c),e
+loc_13dd:
         out     (c),a
-        djnz    13d9h
+        djnz    loc_13d9
         scf
         ret
 adjust_dma_transfer_range:
@@ -2541,18 +2680,21 @@ adjust_dma_transfer_range:
         inc     bc
         ex      de,hl
         jp      transfer_dma_to_window_boundary
+loc_13ea:
         ld      a,88h
         out     (50h),a
         ld      a,79h
         ld      (733ah),a
-        jr      13feh
+        jr      loc_13fe
         ld      a,88h
         out     (50h),a
         ld      a,7dh
         ld      (733ah),a
+loc_13fe:
         inc     b
+loc_13ff:
         dec     b
-        jr      z,1426h
+        jr      z,loc_1426
         push    bc
         ld      bc,0100h
         push    de
@@ -2565,15 +2707,17 @@ adjust_dma_transfer_range:
         ld      de,0100h
         add     hl,de
         bit     7,h
-        jr      z,1421h
+        jr      z,loc_1421
         res     7,h
         ld      a,(ix+WDC_EVENT_TRANSADDR_B2)
         inc     a
         out     (30h),a
+loc_1421:
         ex      de,hl
         pop     hl
         pop     bc
-        jr      13ffh
+        jr      loc_13ff
+loc_1426:
         xor     a
         or      c
         scf
@@ -2591,8 +2735,8 @@ transfer_dma_to_window_boundary:
         ld      l,c
         xor     a
         sbc     hl,de
-        jr      c,1463h
-        jr      z,1463h
+        jr      c,loc_1463
+        jr      z,loc_1463
         push    hl
         push    de
         ld      b,d
@@ -2608,11 +2752,12 @@ transfer_dma_to_window_boundary:
         add     hl,bc
         ld      (423bh),hl
         pop     bc
+loc_1463:
         xor     a
         ld      d,a
         ld      e,a
         or      c
-        jr      nz,1474h
+        jr      nz,loc_1474
         ld      a,b
         ld      b,c
         add     a,a
@@ -2620,11 +2765,12 @@ transfer_dma_to_window_boundary:
         add     a,a
         rl      b
         ld      c,a
-        jr      1497h
+        jr      loc_1497
+loc_1474:
         ld      a,c
         dec     a
         or      b
-        jr      z,14e6h
+        jr      z,loc_14e6
         ld      d,06h
         ld      e,00h
         xor     a
@@ -2638,12 +2784,14 @@ calculate_dma_transfer_chunk:
         srl     e
         ld      a,e
         or      a
-        jr      z,1497h
+        jr      z,loc_1497
         dec     a
-        jr      nz,1496h
+        jr      nz,loc_1496
         ld      e,41h
         dec     bc
+loc_1496:
         dec     e
+loc_1497:
         push    de
         push    bc
         ld      hl,003fh
@@ -2661,11 +2809,13 @@ calculate_dma_transfer_chunk:
         ld      a,87h
         ld      d,0b3h
         ld      e,0d3h
-        jr      14bdh
+        jr      loc_14bd
+loc_14b9:
         out     (c),d
         out     (c),e
+loc_14bd:
         out     (c),a
-        djnz    14b9h
+        djnz    loc_14b9
 program_dma_transfer_ports:
         pop     bc
         ld      a,b
@@ -2690,6 +2840,7 @@ program_dma_transfer_ports:
         ld      a,87h
         out     (00h),a
         ret
+loc_14e6:
         ld      iy,4229h
         ld      (iy+0ah),c
         ld      (iy+0bh),b
@@ -2699,7 +2850,7 @@ program_dma_transfer_ports:
         otir
         ld      a,(733ah)
         cp      79h
-        jr      nz,1531h
+        jr      nz,loc_1531
         push    ix
         ld      ix,733fh
         ld      a,(iy+08h)
@@ -2718,6 +2869,7 @@ program_dma_transfer_ports:
         ld      b,0eh
         otir
         pop     ix
+loc_1531:
         call    wdc_initialize_dma_channel
         ret
 initialize_timer_counters:
@@ -2736,14 +2888,16 @@ interrupt_handler_1:
         push    af
         ld      a,(4208h)
         inc     a
-        jr      z,1563h
+        jr      z,loc_1563
         cp      (ix+25h)
-        jr      c,1560h
+        jr      c,loc_1560
         ld      a,(4206h)
         inc     a
         ld      (4206h),a
         ld      a,00h
+loc_1560:
         ld      (4208h),a
+loc_1563:
         ld      a,03h
         out     (11h),a
         pop     af
@@ -2753,7 +2907,7 @@ interrupt_handler_2:
         push    af
         ld      a,(4205h)
         inc     a
-        jr      z,1586h
+        jr      z,loc_1586
         ld      a,00h
         ld      (4208h),a
         ld      a,(4206h)
@@ -2763,6 +2917,7 @@ interrupt_handler_2:
         out     (10h),a
         ld      a,01h
         out     (10h),a
+loc_1586:
         pop     af
         ei
         reti
@@ -2779,11 +2934,12 @@ interrupt_handler_4:
         inc     a
         ld      (420eh),a
         cp      2eh
-        jr      c,15a8h
+        jr      c,loc_15a8
         ld      a,03h
         out     (13h),a
         ld      a,01h
         ld      (420dh),a
+loc_15a8:
         pop     af
         ei
         reti
@@ -2796,12 +2952,13 @@ interrupt_handler_4:
         ld      (4205h),a
         ld      (4206h),a
         call    clear_timer_interrupts
+loc_15bf:
         ld      a,(4208h)
         cp      b
-        jr      z,15dbh
+        jr      z,loc_15db
         ld      a,(420dh)
         or      a
-        jr      z,15bfh
+        jr      z,loc_15bf
         call    enable_timer_interrupts
         ld      a,0ffh
         ld      (4205h),a
@@ -2809,6 +2966,7 @@ interrupt_handler_4:
         ld      a,03h
         out     (10h),a
         ret
+loc_15db:
         call    enable_timer_interrupts
         ld      a,0ffh
         ld      (4205h),a

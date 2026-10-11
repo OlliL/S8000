@@ -11,6 +11,10 @@ and unresolved questions here as further sources are examined.
   project context it controls SA1000 drives; this CPU source alone does not
   establish the complete drive geometry or command protocol.
 - The WDC controller contains a Z80 processor (confirmed project information).
+- The system currently has no hard disk attached to the WDC (owner-provided
+  context). Therefore, disk-operation diagnostics are expected to report
+  failures; their captured status values must not be interpreted as evidence
+  of successful drive access.
 - Drive geometry supplied for this project: nominal capacity 24 MB, 3 data
   surfaces (about 8 MB per surface), 605 tracks per surface, track density
   554 tracks/inch, and 13,440 bytes per track.
@@ -19,8 +23,10 @@ and unresolved questions here as further sources are examined.
   this is especially important for comments added by the firmware author.
 - Distinguish observed CPU bus instructions from their documented semantics.
   The Zilog WDC manual sections examined so far describe the CPU/ZBI-facing
-  register interface and command requirements; controller firmware and bus
-  traces have not yet been examined.
+  register interface and command requirements. Normal disk-command bus traces
+  and the controller's disk-side operation have not yet been examined. The
+  available `SignalCaptures/CPU_1.2_WDC_TEST_ENTRY_Part*.csv` files capture
+  CPU-side WDC diagnostic I/O, not disk-side signals.
 - References below point to the current source tree and line ranges, so update
   them if those files change.
 
@@ -79,6 +85,13 @@ firmware often issues 16-bit `in`/`out` instructions. Preserve exact bus
 accesses in an emulator and apply the documented byte-register semantics.
 Appendix B describes command codes as occupying bits 0-4 of the command byte.
 The unit register accepts drive numbers 0-3.
+
+The CSV exports contain `Status[4:0]`, both data-byte lanes, and bus control
+signals, but no address lines. The observed diagnostic transfers have status
+`2`, consistent with the CPU I/O-reference status described by the Z8001
+handbook. Consequently, the CSVs verify data and cycle direction/timing but
+cannot independently identify a transfer's address or verify the board's
+dual-port-RAM address decode.
 
 ## ZBI host interface
 
@@ -409,6 +422,29 @@ publication path. Trace the event/state transition, port `0x41` handshake,
 and board-side register logic (or inspect WDC firmware/bus traces) to identify
 how the Z80 result reaches the host C/S register.
 
+The CSV captures provide direct samples of C/S-like read data on the low byte
+lane, with `0xff` on the high lane:
+
+- `CPU_1.2_WDC_TEST_ENTRY_Part02.csv` captures reads returning `0xf1`.
+- `CPU_1.2_WDC_TEST_ENTRY_Part03.csv` captures reads returning `0xfd`, and
+  later reads returning `0xf1`.
+
+This agrees with parts of the `WDC_TEST_ENTRY` / `WDC_CHECK_STATUS` sequence
+(`p.testothr.s:34-197`): the code first waits for bit 7, then for bit 3, and
+finally rejects a status with bit 1 or bit 2 set. Under the Z8000 source's
+zero-based bit operands, `0xf1` has bits 7 set, 3 clear, and bits 1-2 clear;
+`0xfd` has bit 7 set, bit 3 set, bit 1 clear, and bit 2 set. Thus `0xf1` can
+satisfy the initial ready wait but not the later bit-3 wait, while `0xfd`
+passes the bit-3 wait and then fails the bit-2 check, consistent with the
+diagnostic failure path. The source explains the checks; the CSVs corroborate
+the observed byte values. The available CSV samples do not show `0x71`, so
+that intermediate value is not confirmed by these exports. The owner confirms
+that no hard disk is attached to this system. The command `0x04` diagnostic
+therefore exercises the controller's no-drive/error response, not a successful
+restore against a disk. The captures support the observed status progression
+and failure, but do not by themselves define which status bits specifically
+mean "no drive attached."
+
 ## Power-up WDC diagnostics
 
 `TEST_` samples the boot-device switches into `ABOOT_DEV` and later walks the
@@ -419,7 +455,13 @@ SMC, MDC, and WDC diagnostics (`p.testram.s:171-186`, `p.testram.s:165-168`,
 - Presence probe: write byte `0xa5` to `0x8001`, read that byte back, and
   compare it. If it does not match, the WDC is considered absent. If WDC is
   the selected boot device (`ABOOT_DEV == 3`), report error `0x1000`;
-  otherwise return without that boot-device error.
+  otherwise return without that boot-device error. `Part01.csv` records the
+  write value `0xa5` with `/R/W` low and a subsequent read returning `0xa5` on
+  `Data LL`, while `Data LH` reads `0xff`; both cycles carry `Status[4:0] = 2`.
+  This confirms the successful byte-lane readback and the I/O-reference status
+  for the presence probe. Since the export has no address bus, the register
+  address is identified by matching the captured sequence to this source
+  routine, not from the CSV alone.
 - If present, display `WDC`. Only when it is the selected boot device does the
   diagnostic continue with drive value zero and command `0x04`.
 - `WDC_TEST` first reads status and treats `(status & 3) == 3` as self-test
