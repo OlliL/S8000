@@ -1,5 +1,6 @@
 **/.idea/
 **/.venv/
+**/__pycache__/
 **/*.iml
 **/.history/
 **/*.kicad_*.lck
