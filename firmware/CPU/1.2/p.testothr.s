@@ -42,7 +42,6 @@ WDC_REG_TRANSWRD_CNT_HI	:= %8009	!WDC Transfer Word Count High Register!
 WDC_REG_TRANSADDR_B0	:= %800a	!WDC Transfer Address Byte 0 (Bits 7-0) Register!
 WDC_REG_TRANSADDR_B1	:= %800b	!WDC Transfer Address Byte 1 (Bits 15-8) Register!
 WDC_REG_TRANSADDR_B2	:= %800c	!WDC Transfer Address Byte 2 (Bits 23-16) Register!
-WDC_REG_TRANSADDR_B3	:= %800d	!WDC Transfer Address Byte 3 (Bits 31-24) Register!
 WDC_REG_STAT		:= %8010	!WDC Status Register!
 
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

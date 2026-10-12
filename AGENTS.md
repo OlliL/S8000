@@ -6,16 +6,15 @@ and unresolved questions here as further sources are examined.
 
 ## Scope and evidence policy
 
-- These notes initially cover `firmware/CPU/1.2/`.
-- The WDC is the controller selected by device code `3` in this firmware. Per
-  project context it controls SA1000 drives; this CPU source alone does not
+- These notes initially cover the CPU 1.2 firmware sources [S1-S3].
+- The WDC is the controller selected by device code `3` in this firmware. It
+  controls SA1000 drives [S17]; this CPU source alone does not
   establish the complete drive geometry or command protocol.
-- The WDC controller contains a Z80 processor (confirmed project information).
-- The system currently has no hard disk attached to the WDC (owner-provided
-  context). Therefore, disk-operation diagnostics are expected to report
+- The WDC controller contains a Z80 processor [S17].
+- No hard disk is currently attached to the WDC [S17]. Therefore, disk-operation diagnostics are expected to report
   failures; their captured status values must not be interpreted as evidence
   of successful drive access.
-- Drive geometry supplied for this project: nominal capacity 24 MB, 3 data
+- Supplied drive geometry [S17]: nominal capacity 24 MB, 3 data
   surfaces (about 8 MB per surface), 605 physical tracks per surface, track
   density 554 tracks/inch, and 13,440 bytes per track. The ZEUS administration
   manual's 24 MB CDC Finch `zd` entry identifies 43,200 logical 512-byte
@@ -68,7 +67,7 @@ The firmware defines the same address names in the disk and test sources
 | `0x800a` | `WDC_REG_TRANSADDR_B0` | Transfer address bits 7-0 |
 | `0x800b` | `WDC_REG_TRANSADDR_B1` | Transfer address bits 15-8 |
 | `0x800c` | `WDC_REG_TRANSADDR_B2` | Transfer address bits 23-16 |
-| `0x800d` | `WDC_REG_TRANSADDR_B3` | Reserved; not part of the documented 24-bit DMA address |
+| `0x800d` |  | Reserved register slot; documented as transfer-address bits 32-24 |
 | `0x8010` | `WDC_REG_STAT` | Status in reads; also written by the firmware |
 
 The WDC manual [S5] describes sixteen 8-bit command registers at relative addresses
@@ -79,10 +78,12 @@ controller's configured I/O block; the manual describes the upper address as
 jumper-selectable rather than a universal WDC address.
 
 The manual [S5] identifies `xx06` and `xx07` as reserved, `xx0d`-`xx0f` as
-reserved, and `xx10` as the C/S register. `xx0d` is reserved for transfer
-address bits 32-24; supported DMA addresses are 24-bit and use `xx0a`-`xx0c`.
-The firmware's `WDC_REG_TRANSADDR_B3` name at `0x800d` does not make it an
-active fourth address byte. Keep the distinction between register width and
+reserved, and `xx10` as the C/S register. `xx0d` is a documented reserved
+register slot associated with possible transfer-address bits 32-24, but the
+host interface described in the examined manuals uses a 24-bit transfer
+address in `xx0a`-`xx0c` / CP10-CP12 [S5-S6]. No examined host-side source or
+manual command description uses `xx0d` as an active fourth DMA-address byte.
+Keep the distinction between register width and
 CPU instruction width: the manual specifies byte registers, while the
 firmware often issues 16-bit `in`/`out` instructions. Preserve exact bus
 accesses in an emulator and apply the documented byte-register semantics.
@@ -90,8 +91,9 @@ Appendix B [S6] describes command codes as occupying bits 0-4 of the command byt
 The unit register accepts drive numbers 0-3 [S5].
 
 The CSV exports [S12-S14] contain `Status[4:0]`, both data-byte lanes, and bus
-control signals, but no address lines. The observed diagnostic transfers have
-status `2`, consistent with the Z8001 I/O-reference status encoding [X1].
+control signals, but no address lines. The observed diagnostic transfers show
+status value `2`, which matches the Z8000 CPU manual's `0010 = I/O Reference`
+status-line code [S16].
 Consequently, the CSVs verify data and cycle direction/timing but
 cannot independently identify a transfer's address or verify the board's
 dual-port-RAM address decode.
@@ -169,8 +171,12 @@ assignments [S5]:
 | `IX+11`..`IX+13` | `0x6a`..`0x6c` | CP10..CP12 | 24-bit transfer address, low to high |
 | `IX+14`..`IX+15` | `0x6d`..`0x6e` | CP13..CP14 | Reserved |
 
-This is a 15-byte snapshot: the code does not read port `0x6f` (CP15) or the
-separate C/S register. The manual reserves CP13-CP15 [S5].
+This is a 15-byte snapshot: the code reads ports `0x60` through `0x6e`, which
+map positionally to CP0 through CP14 under the Appendix-B numbering [S6]. The
+WDC manual's register table [S5] marks `xx0d`-`xx0f`—that is, the positions
+corresponding to CP13-CP15—as reserved, so the final two captured bytes should
+not be treated as documented command parameters. The code does not read port
+`0x6f` (CP15 by this numbering) or the separate C/S register.
 
 For command field `0x01`, `command_01_readsector_handler` provides a
 particularly useful parameter fingerprint: it rejects a zero count using
@@ -219,7 +225,7 @@ detail. ASM labels use these names as working identifications; `unknown` and
 | `0x13` | Unit Format Verify | B.15 | Strong | `0x073e` | `command_13_unitformatverify_handler` | Iterates through a unit's cylinders and heads, reads/checks sectors and then handles verification completion/failure. |
 | `0x14` |  |  | Low | `0x06e8` | `command_14_unknown_handler` | Sets an internal mode flag, calls shared initialization/action code, then completes the event. Its operation is not distinctive enough to name. |
 | `0x15` |  |  | Low | `0x0801` | `command_15_unknown_handler` | Builds a small parameter block and copies a fixed two-byte result from controller workspace to the host DMA address. The meaning of this data is unknown. |
-| `0x16` |  |  | Moderate (behavior only) | `0x0835` | `command_16_readdeviceinfo_handler` | Collects six fields from each of four internal device records, then copies the 24-byte block to the host DMA address. Likely a private device-information query. |
+| `0x16` |  |  | Moderate (behavior only) | `0x0835` | `command_16_readdeviceinfo_handler` | A host-used DMA-returning command. The handler collects six fields from each of four internal device records and copies the resulting 24-byte block to the host DMA address. The same numeric host command is issued by the CPU boot path and the ZEUS `zd` driver, but its official command name remains unknown. |
 | `0x17` | Format Verify | B.14 | Tentative | `0x0610` | `command_17_formatverify_handler` | Selects unit/head/cylinder and runs a track-format validation path. It also interprets CP5 as flags/options, which Appendix B.14 does not list. |
 
 The table covers every dispatched value, `0x00` through `0x17` [S4]. Appendix B [S6]
@@ -377,6 +383,15 @@ detail from a ZBI trace if required for cycle-accurate emulation.
 - Writes zero at `0x800c` and `0x8010`.
 - Writes command value `0x16` to `0x8000`.
 
+The ZEUS `zd` driver also issues command `0x16` [S9], with the same
+DMA-address-first setup and the same status-polling pattern. This strongly
+suggests that both paths invoke the same WDC host command, even though its
+published name is still unknown.
+This polling sequence is the normal host command-completion path used by the
+CPU boot/read code. Similar bit tests also appear in the diagnostic code [S2],
+but those diagnostics serve a different purpose and should not be read as the
+normal disk-I/O setup sequence.
+
 Both this boot command and normal sector reads share the completion sequence
 at `WDCBOOT_CMD` [S1, lines 488-502]. The sequence writes `r0` to `0x8000`,
 repeatedly reads `0x8010` until bit 7 is set, then reads status until either
@@ -387,8 +402,10 @@ There is no visible timeout in this polling path. For sector reads, `r0` is
 The WDC manual [S5] states that the command register must be written last: this
 clears the status byte, enables host/controller handshaking, and starts the command.
 This confirms the significance of the shared routine's final `out 0x8000`.
-The command descriptions in Appendix B [S6] do not give numeric opcode values, so
-the meanings of `0x16` and `0x01` still require the command table or firmware.
+The command descriptions in Appendix B [S6] do not give numeric opcode values,
+so command-name assignments must be inferred from host-side usage, parameter
+fingerprints, and controller-firmware behavior rather than read directly from
+the manual.
 
 The WDC manual [S5] defines `0x8010` as the 8-bit C/S register read by the CPU, while
 the CPU source also executes `out 0x8010, r0` before commands. Record that
@@ -455,8 +472,8 @@ how the Z80 result reaches the host C/S register.
 The CSV captures [S13-S14] provide direct samples of C/S-like read data on the low byte
 lane, with `0xff` on the high lane:
 
-- `SignalCaptures/CPU_1.2_WDC_TEST_ENTRY_Part02.csv` captures reads returning `0xf1`.
-- `SignalCaptures/CPU_1.2_WDC_TEST_ENTRY_Part03.csv` captures reads returning `0xfd`, and
+- The part-02 capture [S13] records reads returning `0xf1`.
+- The part-03 capture [S14] records reads returning `0xfd`, and
   later reads returning `0xf1`.
 
 This agrees with parts of the `WDC_TEST_ENTRY` / `WDC_CHECK_STATUS` sequence
@@ -493,7 +510,7 @@ code is in the test source [S2, lines 49-197]:
   compare it. If it does not match, the WDC is considered absent. If WDC is
   the selected boot device (`ABOOT_DEV == 3`), report error `0x1000`;
   otherwise return without that boot-device error.
-  `SignalCaptures/CPU_1.2_WDC_TEST_ENTRY_Part01.csv` [S12] records the
+  The part-01 capture [S12] records the
   write value `0xa5` with `/R/W` low and a subsequent read returning `0xa5` on
   `Data LL`, while `Data LH` reads `0xff`; both cycles carry `Status[4:0] = 2`.
   This confirms the successful byte-lane readback and the I/O-reference status
@@ -516,8 +533,9 @@ code is in the test source [S2, lines 49-197]:
   treat it as part of the WDC protocol.
 
 Diagnostics are useful evidence for presence detection and status-handshake
-expectations, but they are not the normal disk-read path and should not be
-mistaken for a complete controller initialization sequence.
+expectations, but they are not the normal boot/read command path described
+above and should not be mistaken for a complete controller initialization or
+data-transfer sequence.
 
 ## ZEUS kernel disk-driver evidence
 
@@ -537,7 +555,10 @@ not itself name the WDC or SA1000.
 - `zdopen` [S9] initializes each six-byte per-drive parameter record with values
   `3` and `24` at offsets `+2` and `+3`; `zdstart` later uses these values as
   divisors while converting the block number to drive coordinates. It also
-  submits command `0x16` through base `+0`.
+  submits command `0x16` through base `+0`. This is the same numeric host
+  command used by the CPU boot path [S1]. In both cases the host first
+  programs only the DMA address and then polls the WDC C/S register for
+  completion, which strongly suggests a shared command function.
 - `polled_command` [S9] writes the command at base `+0` and reads status at base
   `+16`; it polls bit 7, then bit 1, and if bit 1 is clear waits for bit 3.
   This matches the CPU firmware's WDC boot command/status polling sequence.
@@ -595,8 +616,8 @@ should not be treated as host-interface register behavior.
   states need to be established before choosing emulator behavior.
 ## References
 
-In-text `[S#]` citations refer to the files below. All listed paths were
-checked in the current workspace.
+In-text `[S#]` citations refer to the workspace files below. `[X#]` citations
+refer to explicitly unavailable external references.
 
 - **[S1] CPU disk firmware:** `firmware/CPU/1.2/p.disk.s`
 - **[S2] CPU miscellaneous-controller tests (including WDC):**
@@ -628,8 +649,8 @@ checked in the current workspace.
 - **[S15] ZEUS administration manual, disk characteristics table:**
   `AI/ocr/03_3246_04__page_3_13.txt` (OCR transcription, printed leaf page
   3-13; the PDF source is not in the workspace).
-
-**Unavailable reference:** **[X1]** The Z8001 handbook cited for the I/O-reference
-status encoding is not present in the workspace, and its exact title/edition
-has not been identified here. Treat that point as external contextual evidence
-until the handbook is added and fully cited.
+- **[S16] Z8000 CPU technical manual, status-line codes:**
+  `https://bitsavers.org/components/zilog/z8000/Z8000_CPU_Technical_Manual_Jan83.pdf`
+  (Table 2-1, p. 23).
+- **[S17] Supplied project/owner context:**
+  User-provided statements outside the repository sources.
