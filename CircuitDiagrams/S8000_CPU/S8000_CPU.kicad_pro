@@ -396,7 +396,7 @@
         "R/~{W}",
         "B/~{W}",
         "ST0",
-        "ST1", 
+        "ST1",
         "ST2",
         "ST3",
         "~{STOP}",
@@ -452,7 +452,7 @@
         "uuid": "cee545ba-d57c-4b2c-bcb3-989a68b0ecfa"
       }
     ],
-    "used_designators": "#FLG1-2,#PWR1-2,#PWR20,#PWR50-67,#PWR69-83,R13,TP4,TP6-7,U32,U35,U46-47,U62-63,U65-68,U71,U81,U99,U118-119",
+    "used_designators": "1-57,#FLG1-3,#PWR1-10,#PWR20,#PWR50-98,R1-4,R13,TP4,TP6-8,U1-2,U4-5,U8-10,U25-28,U32-33,U35-36,U46-51,U54-55,U62-63,U65-68,U71,U81-82,U99,U118-119",
     "variants": []
   },
   "sheets": [
@@ -463,6 +463,10 @@
     [
       "ab8f6896-63aa-4318-b4ac-54bd1f3ca919",
       "S8000 CPU 02"
+    ],
+    [
+      "6aea3ece-e0fb-43cc-a96f-a4a1ab81d40b",
+      "S8000 CPU 03"
     ]
   ],
   "text_variables": {},
