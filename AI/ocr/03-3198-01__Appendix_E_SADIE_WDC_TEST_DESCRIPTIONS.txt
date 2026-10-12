@@ -1,0 +1,1362 @@
+--- Page 199 ---
+                                                                                    
+                                                                                    
+                                                                                    
+        HRM                           Zilog                          HRM            
+                                                                                    
+                                                                                    
+             TEST NAME                                                              
+                  WDCCRC - a non-destructive verification of the Winches            
+                  ter Disk Data, Cyclic Redundancy Checks (CRCs)                    
+                                                                                    
+                                                                                    
+             PARAMETERS                                                             
+                  Disk drive to be tested (default=O)                               
+                                                                                    
+             DESCRIPTION                                                            
+                  WDCCRC reads all tracks of the selected drive •. If an            
+                  error  is  detected,  each sector of the track is read.           
+                  WDCCRC repeats n times, where n is the  #REPS  in  the            
+                  test line.                                                        
+                                                                                    
+                                                                                    
+             ERROR MESSAGES                                                         
+                                                                                    
+                                                                                    
+                  UNCORRECTABLE ERROR                                               
+                            The disk controller returned an uncorrectable           
+                            error  (hard error). The cylinder, head, and            
+                            sector number of the bad sector are given.              
+                  CRC ERROR                                                         
+                            The data field of the sector number displayed           
+                            contains a CRC error.                                   
+                                                                                    
+                  CONTROLLER SEEK ERROR                                             
+                            The header field of the sector prior to  the            
+                            sector displayed, contains a CRC error or the           
+                            wrong information.                                      
+                  FULL TRACK READ                                                   
+                            The track, beginning at the cylinder head of            
+                            the  sector  displayed, had an error when the           
+                            whole track was read; however, no errors were           
+                            found when each sector was read individually.           
+                                                                                    
+             LAP SUMMARY                                                            
+                  A lap summary is  displayed  when each  repetition  of            
+                  WDCDRC is completed.  The lap summary includes:                   
+                                                                                    
+                                                                                    
+                       o    The lap number.                                         
+                                                                                    
+                       o    The number of hard errors.                              
+                                                                                    
+                       o    The number of invalid commands issued to the            
+                            disk controller.                                        
+                                                                                    
+                                                                                    
+                                                                                    
+         182                          Zilog                          182            
+                                                                                    
+                                                                                    
+                                                                                    
+
+--- Page 200 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       HRM                          Zilog                                           
+                                                                                    
+                                                                                    
+                     o    The number of warnings  issued by  the  disk              
+                          controller.                                               
+                                                                                    
+                     o    The number of times each disk controller com              
+                          mand was issued during the test.                          
+                                                                                    
+                     o    A tally of the number of times each  of  the              
+                          following  status  bits  were returned by the             
+                          disk controller when a hard error occurred:               
+                          TOT     total number of errors                            
+                          DAT     CRC errors                                        
+                          pas     sector not found                                  
+                          FOR     format error (sector header                       
+                                  field error)                                      
+                          NR      unit· not ready                                   
+                          SVE     servo error                                       
+                          RWF     read 6r write fault                               
+                          SPE     speed error                                       
+                          PL      power loss                                        
+                          WPT     write protected                                   
+                          DSE     seek error                                        
+                          NCL     not on cylinder                                   
+                          GB      guard band error                                  
+                          PLE     PLO error                                         
+                          UNS     unsafe                                            
+                          DCE     invaid command                                    
+                          DTO     timeout error                                     
+                          P/M     POR/MR                                            
+                          ADE     address error                                     
+                          DF      drive fault                                       
+                          NOL     drive not on-line                                 
+                           CTO    controller operation timed out                    
+                           CWP    write protect error                               
+                          VF      verify failure                                    
+                           BD     bad disk (713 bad cylinders)                      
+                           CRDT   can't read defect table                           
+                           ME     map error                                         
+                      o    The last eight error messages of the lap.                
+                 For detailed information the disk controller  commands             
+                 and status registers, refer to the Winchester Disk Con             
+                 troller Hardware Reference Manual (03-3203).                       
+                                                                                    
+            NOTES                                                                   
+                 WDCCRC does not recognize if the  drive  selected  for             
+                 testing is on-line, or if the disk medium is present in            
+                 the drive. WDCCRC will display an  error  message  for             
+                 each  sector  it attempts  to  read on the nonexistent             
+                 drive.  The same results occur when the drive and disk             
+                                                                                    
+                                                                                    
+       183                           Zilog                          183             
+                                                                                    
+                                                                                    
+
+--- Page 201 ---
+                                                                                    
+                                                                                    
+        HRM                           Zilog                          HRM            
+                                                                                    
+                                                                                    
+                                                                                    
+                  medium are present but the disk is locked. To recover,            
+                  press the system       button, then respond with    to            
+                                   S~ART                          'AI               
+                  the PAUSE menu.                                                   
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+         184                          Zilog                          184            
+                                                                                    
+                                                                                    
+                                                                                    
+
+--- Page 202 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       HRM                          Zilog                           HRM             
+                                                                                    
+                                                                                    
+            TEST NAME                                                               
+                 WDCFMT - data destructive formatting of the entire disk            
+                                                                                    
+                                                                                    
+            PARAMETERS                                                              
+                 Disk drive to be tested (default=O)                                
+                                                                                    
+                                                                                    
+            DESCRIPTION                                                             
+                 WDCFMT formats every sector  of  the  disk.   This  is             
+                 accomplished by issuing the format command, FMT, to the            
+                 Winchester Disk Controller. WDCFMT reformats the  disk             
+                 n times, where n = #REPS in the test line.                         
+                                                                                    
+            ERROR MESSAGES                                                          
+                                                                                    
+                                                                                    
+                 Error Indicated During Format                                      
+                      The message DONE=XXXX, appears when an uncorrect              
+                      able   error   bit  is   returned   in  the  disk             
+                      controller's status register, at the completion of            
+                      the format command. The  'XXXX' is replaced by the            
+                      operation ending status byte value.                           
+                 CRC Error                                                          
+                                                                                    
+                      The data field of the sector number shown  had  a             
+                      CRC error.                                                    
+                                                                                    
+                 Controller Seek Error                                              
+                      The header field of the sector  just  before  the             
+                      sector  shown had a CRC error, or the sector shown            
+                      had wrong header information.                                 
+                                                                                    
+                                                                                    
+                 Not CSG or CRC                                                     
+                      An error other than CRC ERROR or CONTROLLER  SEEK             
+                      ERROR occurred during the FMT command.                        
+                                                                                    
+                                                                                    
+            LAP SUMMARY                                                             
+                 The lap summary displayed on completion of  each  test             
+                 repetition  shows  the  same type .of information as the           
+                 WDCCRC test.                                                       
+                                                                                    
+                                                                                    
+            NOTES                                                                   
+                 If the START buttQn is pressed while the FMT command is            
+  (              being  executed,  requests  by the user to skip to the             
+                                                                                    
+                                                                                    
+       185                           Zilog                          185             
+                                                                                    
+                                                                                    
+
+--- Page 203 ---
+                                                                                    
+                                                                                    
+                                                                                    
+        HRM                          Zilog                           HRM            
+                                                                                    
+                                                                                    
+                  next test line, or return to the COMMAND  LEVEL,  will            
+                  not  be  honored until the FMT command c,ompletes execu           
+                  tion.   The  FMT command  runs  for  approximately  90            
+                  minutes.  To stop this test, press the RESET button.              
+                                                                                    
+                  If the drive selected for testing does not exist,  the            
+                  FMT  command will still execute, and display the error            
+                  message:                                                          
+                       "NOT CSE OR CRC"                                             
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+        186                           Zilog                          186            
+                                                                                    
+                                                                                    
+                                                                                    
+
+--- Page 204 ---
+                                                                                    
+                                                                                    
+                                                                                    
+        HRM                          Zilog                          HRM             
+                                                                                    
+                                                                                    
+                                                                                    
+            TEST NAME                                                               
+                 WDCMEDIA - data-destructive,  write-read test  of  the             
+                 Winchester disk, using several data patterns                       
+                                                                                    
+                                                                                    
+             PARAMETERS                                                             
+                 disk drive to be tested (default=O)                                
+                                                                                    
+             DESCRIPTION                                                            
+                 WDCMEDIA exercises the  disk  medium by  writing  four             
+                 separate  data  patterns  to each sector of the medium.            
+                 After each data pattern is          the disk  is  read             
+                                            w~itten,                                
+                 for verification.  All errors incurred while writing or            
+                  reading a data pattern are displayed. The  four  data             
+                 patterns are:                                                      
+                      1.  'AAAA'                                                    
+                      2.   '5555'                                                   
+                      3.   'FFFF'                                                   
+                      4.  The 'worst case' pattern 'B6DB6DB6DB6D'                   
+                                                                                    
+             ERROR MESSAGES                                                         
+                                                                                    
+                  Uncorrectable Error                                               
+                      The  disk  controller  returned  an uncorrectable             
+                       (hard) error code. The cylinder, head, and sector            
+                      numbers are displayed.                                        
+                                                                                    
+                                                                                    
+                  CRC Error                                                         
+                      The data field of the sector number displayed had             
+                      a CRC error.                                                  
+                                                                                    
+                  Controller Seek Error                                             
+                      The header field of the sector,  just before  the             
+                      sector  number  displayed,  had a CRC error. Also,            
+                       the sector number displayed, had the wrong infor             
+                      mation in the header field.                                   
+                                                                                    
+                                                                                    
+                  Not CSE or CRC                                                    
+                      An error occurred other than a  CRC  error, or  a             
+                      Controller Seek Error.                                        
+                                                                                    
+                                                                                    
+                                                                                    
+   (                                                                                
+                                                                                    
+                                                                                    
+                                                                                    
+        189                          Zilog                          189             
+                                                                                    
+                                                                                    
+
+--- Page 205 ---
+                                                                                    
+                                                                                    
+                                                                                    
+        HRM                          Zilog                          HRM             
+                                                                                    
+                                                                                    
+                 Full Track Read                                                    
+                      The track beginning at the disk address displayed,            
+                      had  an error when the entire track was read; how             
+                      ever no errors were encountered when each  sector             
+                      on the track was read individually.                           
+                                                                                    
+                                                                                    
+            LAP SUMMARY                                                             
+                 At the end of each test repetition, a  lap summary  is             
+                 desplayed showing cumulative statistics for all repeti             
+                 tions.  The lap summary includes:                                  
+                                                                                    
+                      o    The lap number.                                          
+                                                                                    
+                      o    The error count.                                         
+                                                                                    
+                      o    The number of invalid commands issued to the             
+                           disk controller.                                         
+                      o   ,The number of warnings  issued by  the  disk             
+                           controller.                                              
+                                                                                    
+                      o    The number of times each disk controller com             
+                           mand was issued during the test.                         
+                                                                                    
+                      o    A tally of the number of  times each  status             
+                           bit, in each of the following disk controller            
+                           registers, was set  by  a  soft error.   The             
+                           registers are:                                           
+                           the disk ready register                                  
+                           the disk status register                                 
+                           the operation error status register                      
+                           the self test status register                            
+                                                                                    
+                      o    A tally of the number of  times  each status             
+                           bit,  in  each  of the disk controller regis             
+                           ters, was set by a hard error.                           
+                  For detailed information the disk  contoller  commands            
+                  and status registers, refer to the Winchester Disk Con            
+                  troller Hardware Reference Manual (03-3203).                      
+                                                                                    
+                                                                                    
+             NOTES                                                                  
+                  None                                                              
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+        190                          Zilog                          190             
+                                                                                    
+                                                                                    
+                                                                                    
+
+--- Page 206 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       HRM                          Zilog  .                       HRM              
+                                                                                    
+                                                                                    
+                                                                                    
+            TEST NAME                                                               
+                 WDCTST3 - a random queue test of the Winchester disk               
+                                                                                    
+            PARAMETERS                                                              
+                 disk drive to be tested (default=O)                                
+                                                                                    
+                                                                                    
+            DESCRIPTION                                                             
+                 WDCTST3 creates a 128 element queue. Each queue member             
+                 has the following three addresses:                                 
+                      1)  a source buffer address                                   
+                      2)  a destination buffer address                              
+                      3)  a disk address                                            
+                                                                                    
+                 Each source and destination buffer is 512 bytes  long.             
+                 The  source  buffers are  in memory segment 1, and the             
+                 destination buffers are in memory segment 2.                       
+                                                                                    
+                 Initially, the test randomizes the source  buffer  and             
+                 disk  addresses  of the  128 queue elements.  For each             
+                 element, the source buffer contents are written to the             
+                 disk sector.                                                       
+                 Next the test reads the sector at the disk address  of             
+                 each  element,  into the destination buffer. The source            
+                 and destination buffers are then compared.                         
+                                                                                    
+                 Finally, the disk addresses are  again  randomized  to             
+                 prevent  subsequent test  repetitions from testing the             
+                 same disk sectors.                                                 
+                 WDCTST3 repeats n times, where  n=#REPS  in  the  test             
+                 line.                                                              
+                                                                                    
+                                                                                    
+            ERROR MESSAGES                                                          
+                                                                                    
+                                                                                    
+                 Compare Error                                                      
+                      The contents of the source and destination buffers            
+                      did not match.  The address and data of the source            
+                      and destination buffers is displayed with the disk            
+                      address.                                                      
+                 Hard and Soft Errors Indicated Concurrently                        
+                      Both hard  and  soft errors  were  reported  con              
+                      currently  during a  disk transfer.  The error is             
+                      logged as a hard error in the lap summary table.              
+  (                                                                                 
+                 Error During Read Detailed Status Command                          
+                                                                                    
+                                                                                    
+       191                           Zilog                          191             
+                                                                                    
+                                                                                    
+
+--- Page 207 ---
+                                                                                    
+                                                                                    
+                                                                                    
+        BRM                          Zilog                           BRM            
+                                                                                    
+                                                                                    
+                       A hard or soft error occurred; however, the error            
+                       statistics could not be logged in the lap summary            
+                       table due to an error reading detailed status.               
+                                                                                    
+                                                                                    
+             LAP SUMMARY                                                            
+                  WDCTST3 tallies a number of statistics whenever a hard            
+                  or  soft error occurs. At the end of each test repeti             
+                  tion, these statistics are displayed in tabular  form.            
+                  The lap summary includes:                                         
+                                                                                    
+                       o    The lap number.                                         
+                                                                                    
+                       o    The error count.                                        
+                                                                                    
+                       o    The number of invalid commands issued to the            
+                            disk controller.                                        
+                       o    The number of warnings issued  by  the  disk            
+                            controller.                                             
+                                                                                    
+                       o    The number of times each disk controller com            
+                            mand was issued.                                        
+                                                                                    
+                       o    A tally of the number of times each  of  the            
+                            following  status bits  were returned by the            
+                            disk controller when a hard error occurred;             
+                                                                                    
+                            TOT     total number of errors                          
+                            DAT     CRC errors                                      
+                            POS     sector not found                                
+                            FOR     format error (sector header                     
+                                    field error)                                    
+                            NR      unit not ready                                  
+                            SVE     servo error                                     
+                            RWF     read or write fault                             
+                            SPE     speed error                                     
+                            PL      power loss                                      
+                            WPT     write protected                                 
+                            DSE     seek error                                      
+                            NCL     not on cylinder                                 
+                            GB      guard band error                                
+                            PLE     PLO error                                       
+                            UNS     unsafe                                          
+                            DCE     invaid command                                  
+                            DTO     timeout error                                   
+                            P/M     POR/MR                                          
+                            ADE     address error                                   
+                            DF      drive fault                                     
+                            NOL     drive not on-line                               
+                            CTO     controller operation timed out                  
+                                                                                I~ ••
+         192                          Zilog                          192            
+                                                                                    
+                                                                                    
+
+--- Page 208 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       HRM                          Zilog                          HRM              
+                                                                                    
+                                                                                    
+                                                                                    
+                           CWP    write protect error                               
+                          VF      verify failure                                    
+                           BD     bad disk (713 bad cylinders)                      
+                           CRDT   can't read defect table                           
+                           ME     map error of hard errors,                         
+                                                                                    
+                      o    A tally of hard errors, identical to the one             
+                           just described.                                          
+                                                                                    
+                 For detailed informatioon on the disk controller  com              
+                 mands,  and status  registers, refer to the Winchester             
+                 Disk Controller Hardware Reference Manaul (03-3203).               
+                                                                                    
+            NOTES                                                                   
+            None                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+  ,4:"'.-                                                                           
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       193                           Zilog                          193             
+                                                                                    
+                                                                                    
+
+--- Page 209 ---
+                                                                                    
+                                                                                    
+        HRM                          Zilog                           HRM            
+                                                                                    
+                                                                                    
+                                                                                    
+             TEST NAME                                                              
+             WDCTST7 - a comprehensive, multisector,  write-read-compare            
+             test of the Winchester disk                                            
+                                                                                    
+                                                                                    
+             PARAMETERS                                                             
+             disk drive to be tested (default=O)                                    
+                                                                                    
+             number of test loops equals the number of iterations per lap           
+             (default=O)                                                            
+                                                                                    
+                                                                                    
+             DESCRIPTION                                                            
+             WDCTST7 exercises the Winchester Disk Controller  by  doing            
+             large,  variable  sized writes  and  reads  to  random disk            
+             addresses.  The test repeats n times, where n=#REPS in  the            
+             test line.  Each test contains 'loop" iterations of the fol            
+             lowing:                                                                
+                  1.   Fill segment 1-7 with 'AAAA's.                               
+                                                                                    
+                  2.   Fill a ramdomly chosen source buffer with  random            
+                       data.                                                        
+                                                                                    
+                  3.   Write  the  source buffer  into  a  random   disk            
+                       address.                                                     
+                  4.   Read from the disk into a destination file.                  
+                                                                                    
+                  5.   Compare the source and destination buffers.                  
+                                                                                    
+                  6.   Fill the buffers with 'AAAA's.                               
+                                                                                    
+                  7.   Check segments 1-7 for all 'AAAA's to verify that            
+                       the  disk transfers did not corrupt locations out            
+                       side the buffers.                                            
+                                                                                    
+             ERROR MESSAGES                                                         
+                                                                                    
+                                                                                    
+             Compare Error                                                          
+                  The source address and data, the  destination  address            
+                  and data, and the disk address are shown.                         
+                                                                                    
+             Both Hard and Soft Errors Appear Concurrently                          
+                  The error is tallied as a hard error in the lap summary           
+                  table.                                                            
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                '~- 
+                                                                                    
+        194                           Zilog                          194            
+                                                                                    
+                                                                                    
+                                                                                    
+
+--- Page 210 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       HRM                          Zilog                          HRM              
+                                                                                    
+                                                                                    
+                                                                                    
+            An Error Occurred During a Read Detailed Status Command                 
+                A hard  or  soft  error  occured;  however, the  error              
+                 statistics could not be logged in the lap summary table            
+                 because of an error reading detailed status.                       
+                                                                                    
+            LAP SUMMARY                                                             
+            WDCTST7 tallies statistics whenever a hard or  soft  error              
+            occurs.  At the end of each test repetition, the statistics             
+            are displayed in tablular form. Refer  to  diagnostic test              
+            WDCTST3 for a description of the statistical table.                     
+                                                                                    
+            NOTES                                                                   
+            WDCTST7 requires eight segments of memory.                              
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+
+
+                                                                                    
+                                                                                    
+       195                          Zilog                           195             
+                                                                                    
+                                                                                    
+
+--- Page 211 ---
+                                                                                    
+                                                                                    
+                                                                                    
+        HRM                          Zilog                          HRM             
+                                                                                    
+                                                                                    
+             TEST NAME
+             WDCMON
+                                                                                    
+                                                                                    
+             PARAMETERS                                                             
+             None                                                                   
+                                                                                    
+                                                                                    
+             DESCRIPTION                                                            
+             WDCMON is an interactive monitor  for  the Winchester  Disk
+             Controller.  The user interacts with the monitor by issuing            
+             commands and parameters in response to the prompt: CMD? In             
+             order to run this test, the user must know the following:              
+                 1.   Commands are entered in upper case letters.                   
+                                                                                    
+                  2.  Numeric parameters are interpreted by the monitor             
+                      as decimal, unless the digits are followed by an H            
+                       (which indicates a hexadecimal number).                      
+                                          =                                         
+                           Example:  100H   256.                                    
+                  3.  Missing parameters take on their previous values.             
+                                                                                    
+                           Example:  CMD?                                           
+                                     READ 1 1000H 100H 0 1 0                        
+                                     CMD?                                           
+                                     READ                                           
+                                                                                    
+                      The second READ and the first READ  are  identical            
+                       commands.                                                    
+                  4.   A number in front of a command is a repeat factor.           
+                                                                                    
+                  5.   Commands can be nested within  command  lines by             
+                       using parenthesis. Each command on a command line            
+                      must be parenthesized (unless there  is  only one             
+                       command).                                                    
+                                                                                    
+                           Example:  CMD?                                           
+                                     READ 1 100OH 100H 0 1 0
+                                     CMD?                                           
+                                     10 ((READ)  (ISEC 1))
+                       The first command reads from cyl:O, head:l,  sec             
+                       tor:O, 100H words into segment 1, offset 1000H.              
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+        196                          Zilog                           196            
+                                                                                    
+                                                                                    
+                                                                                    
+
+--- Page 212 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       HRM                          Zilog                           HRM             
+                                                                                    
+                                                                                    
+                                                                                    
+                      The second command does the following:                        
+                      a.   Reads 1000H words from the disk address into             
+                           the memory buffer.                                       
+                                                                                    
+                      b.   Increments the sector number by 1  (carrying             
+                           into head and cylinder numbers).                         
+                                                                                    
+                      c.   Decrements the loop counter (initially  10),             
+                           and  returns to step "a" if it is still posi-
+                           tive.                                                    
+                 6.   If the user forgets the available  commands,  the             
+                      command  HELP will display the entire list of com-
+                      mands and parameters.                                         
+                                                                                    
+                                                                                    
+            NOTES                                                                   
+                 WDCMON does not protect the user against commands that             
+                 will destroy the memory resident SADIE code, the WDCMON            
+                 code, the SADIE test catalog, and the test list  cata              
+                 log.  These reside in segment O.                                   
+                                                                                    
+            COMMAND DESCRIPTIONS                                                    
+                 The following list of. commands are accepted by WDCMON.            
+                 Command  names  are  indicated in  uppercase  letters;             
+                 parameters are indicated in lowercase letters.                     
+                                                                                    
+                                                                                    
+                                                                                    
+            COMMAND:  BADCYL                                                        
+                 Description                                                        
+                      BADCYL reads the defect table residing at physical            
+                      cylinder  0,  and displays a list of bad physical             
+                      cylinders.                                                    
+                                                                                    
+                 Example                                                            
+                      BADCYL                                                        
+                                                                                    
+                                                                                    
+            COMMAND:  CEC/REC                                                       
+                                                                                    
+                 Description                                                        
+                      CEC clears all error counters; REC  displays  all             
+                      error and instruction counters.                               
+                                                                                    
+                 Example                                                            
+                      REC                                                           
+                      CEC                                                           
+                                                                                    
+                                                                                    
+       197                           Zilog                          197             
+                                                                                    
+                                                                                    
+
+--- Page 213 ---
+                                                                                    
+                                                                                    
+                                                                                    
+        HRM                          Zilog                          HRM             
+                                                                                    
+                                                                                    
+             COMMAND: CEMODE, EXITCE                                                
+                                                                                    
+                  Description                                                       
+                       CEMODE enters Customer Engineer mode.  This  dis-
+                       ables defect mapping, and subsequent disk accesses           
+                       will  be  to  physical,  not  logical,  cylinders.
+                       EXITCE exits  Customer  Engineer  mode,  enabling            
+                       defect mapping.                                              
+                                                                                    
+                  Example                                                           
+                       CEMODE                                                       
+                       EXITCE                                                       
+                                                                                    
+                                                                                    
+             COMMAND:  CLC/ILC/RLC                                                  
+                                                                                    
+                  Description                                                       
+                       CLC clears the lap counter; ILC increments the lap           
+                       counter by 1; and RLC displays the lap counter.              
+                  Example                                                           
+                       CLC                                                          
+                       ILC                                                          
+                       RLC                                                          
+                                                                                    
+                                                                                    
+                                                                                    
+             COMMAND:  CMP srcseg srcoff desseg desoff count                        
+                                                                                    
+                  Description                                                       
+                       This command compares two buffers.   Count  is  a            
+                       word count.                                                  
+                  Example                                                           
+                       CMP 1 0 2 0 8000H                                            
+                                                                                    
+                                                                                    
+                                                                                    
+             COMMAND:  DISP dseg doff d1nth                                         
+                  Description                                                       
+                       DISP displays d1nth words  beginning  at  segment            
+                       dseg  and  offset doff.   Addresses appear at the            
+                       left margin of the display. Words  are  displayed            
+                       in hexadecimal.                                              
+                                                                                    
+                  Example                                                           
+                       DISP 1 0 .100H                                               
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+        198                           Zilog                          198            
+                                                                                    
+                                                                                    
+                                                                                    
+
+--- Page 214 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       HRM                          Zilog                          HRM              
+                                                                                    
+                                                                                    
+            COMMAND: DISPRT/ENPRT                                                   
+                                                                                    
+                 Description                                                        
+                      DISPRT disables the printing of operational mes               
+                      sages  from the monitor. ENPRT enables the print              
+                      ing of operational messages from the monitor.                 
+                                                                                    
+                 Example                                                            
+                      DISPRT                                                        
+                                                                                    
+                                                                                    
+            COMMAND:  FMT unit                                                      
+                                                                                    
+                 Description                                                        
+                      This command will  home  the  selected  drive  to             
+                      cylinder 0, and clear any drive fault.                        
+                                                                                    
+                 Example                                                            
+                      FMT 0                                                         
+                                                                                    
+                                                                                    
+            COMMAND:  FRD fseg roff cyl head sec unit                               
+                                                                                    
+                 Description                                                        
+                      This command is the same as a read,  except,  all             
+                      disk  format header  and  crc information is also
+                      transferred. This reads the exact image of a disk             
+                      sector   into  the  host  memory.   This  command             
+                      transfers only one sector.                                    
+                 Example                                                            
+                      FRD 2 0 1 2 l4H 0                                             
+                                                                                    
+                                                                                    
+            COMMAND:  HALT/NOHALT                                                   
+                                                                                    
+                 Description                                                        
+                      HALT enables all subsequent CMP errors to cause a             
+                      halt until a <cr> is entered. NOHALT enhibits CMP             
+                      to halt on an error.                                          
+                 Example                                                            
+                      HALT                                                          
+                      NOHALT                                                        
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       199                           Zilog                          199             
+                                                                                    
+                                                                                    
+
+--- Page 215 ---
+                                                                                    
+                                                                                    
+                                                                                    
+        HRM                          Zilog                           HRM            
+                                                                                    
+                                                                                    
+             COMMAND:  HELP                                                         
+                                                                                    
+                  Description                                                       
+                       HELP'displays a list of the WDCMON  commands  and            
+                       parameters.                                                  
+                                                                                    
+                  Example                                                           
+                       HELP                                                         
+                                                                                    
+                                                                                    
+             COMMAND: HOME unit                                                     
+                                                                                    
+                  Description                                                       
+                       This command will  home  the  selected  drive  to            
+                       cylinder 0, and clear any drive fault.                       
+                                                                                    
+                  Example                                                           
+                       HOME 0                                                       
+                                                                                    
+                                                                                    
+             COMMAND: INHIS/ENAIS
+                                                                                    
+                  Description                                                       
+                       INHIS sets the 'inhibit implicit seek' bit in each           
+                       command  to  the WDC.   ENAIS clears the 'inhibit            
+                       implicit seek' bit.                                          
+                  Example                                                           
+                       INHIS                                                        
+                       ENAIS                                                        
+                                                                                    
+                                                                                    
+
+             COMMAND:  INHRTY/ENTRY
+                                                                                    
+                  Description                                                       
+                       INHRTY sets the 'inhibit retry flag' in each com             
+                       mand  to the WDC.  ENTRY clears the 'inhibit retry           
+                       flag' • WDC.                                                 
+                  Example                                                           
+                       INHRTY                                                       
+                       ENTRY                                                        
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+        200                           Zilog                          200            
+                                                                                    
+                                                                                    
+                                                                                    
+
+--- Page 216 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       HRM                           Zilog                          HRM             
+                                                                                    
+                                                                                    
+            COMMAND:  ININT/ENINT                                                   
+                                                                                    
+            Description                                                             
+                 ENINT sets the 'interrupt enable flag' in each command             
+                 to the WDC.  ININT clears the interrupt enable flag.               
+                                                                                    
+            Example                                                                 
+                 ENINT                                                              
+                 ININT                                                              
+                                                                                    
+                                                                                    
+            COMMAND:  INV N                                                         
+                                                                                    
+            Description                                                             
+                 This command forces any value of N as a command to the             
+                 WDC.  N must be less than 100H.                                    
+                                                                                    
+            Example                                                                 
+                 INV 23H                                                            
+                                                                                    
+                                                                                    
+            COMMAND:  IROFF, IWOFF, ILNTH, ICYL, IHEAD, ISEC                        
+                      value                                                         
+                                                                                    
+            Description                                                             
+                 These commands are issued in the following format:                 
+                      Ixxxx value                                                   
+                                                                                    
+                 The  selected  variable  is  incremented by   'value'.             
+                 Incrementing  sec  beyond 23 causes a carryover to the             
+                 head number.  Incrementing HEAD beyond 2 causes a carry            
+                 over  into  the  Cylinder number. Incrementing ROFF or
+                 WOFF beyond FFFH causes a carryover into RSEG or WSEG.             
+                                                                                    
+            Example                                                                 
+                 If CYL=O HEAD=2 SEC=3, after entering  ISEC  1,  CYL=O             
+                 HEAD=2  SEC=4.   If CYL=O HEAD=2 SEC=23, after entering            
+                 ISECl, CYL=l HEAD=O SEC=O.                                         
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+  (                                                                                 
+                                                                                    
+                                                                                    
+                                                                                    
+        201                          Zilog                          201             
+                                                                                    
+                                                                                    
+
+--- Page 217 ---
+                                                                                    
+                                                                                    
+                                                                                    
+        HRM                          Zilog                                          
+                                                                    ~RM             
+                                                                                    
+             COMMAND: NULL                                                          
+                                                                                    
+             Description                                                            
+                 NULL sends a NOP command to the-WOC.                               
+                                                                                    
+             Example                                                                
+                 NULL                                                               
+                                                                                    
+                                                                                    
+             COMMAND: Q, QUIT                                                       
+                                                                                    
+             Description                                                            
+                 QUIT exits WDCMON                                                  
+                                                                                    
+             Example                                                                
+                 QUIT                                                               
+                 Q                                                                  
+                                                                                    
+                                                                                    
+             COMMAND:      rndseg rndoff rlnth                                      
+                      ~AND                                                          
+             Description                                                            
+                 This  fills  rlnth  WORDs  of   memory,   starting  at             
+                  <rndseg>rndoff, with random data.                                 
+                                                                                    
+             Example                                                                
+                  RAND I 0 8000H                                                    
+                                                                                    
+                                                                                    
+             COMMAND: RCYL, RHEAD, RSEC, RALL                                       
+                                                                                    
+             Description                                                            
+                  RCYL sets CYL=random value from 0 to  599,  inclusive.            
+                  RHEAD sets  HEAD=random  value from 0 to 2, inclusive.            
+                  RSEC sets SEC=random value from 0  to  23,  inclusive.            
+                  RALL does RCYL, RHEAD and RSEC all in one command.                
+             Example                                                                
+                  RCYL                                                              
+                  RHEAD                                                             
+                  RSEC                                                              
+                  RALL                                                              
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+        202                          Zilog                           202            
+                                                                                    
+                                                                                    
+                                                                                    
+
+--- Page 218 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       HRM                          Zilog                          HRM              
+                                                                                    
+                                                                                    
+            COMMAND:  RDDT, RBDT                                                    
+                                                                                    
+            Description                                                             
+                 RDDT issues a 'read defect table' command to the WDC.              
+                 RBDT  issues a   'rebuild defect table' command to the             
+                 WDC.                                                               
+                                                                                    
+            Example                                                                 
+                 RDDT                                                               
+                 RBDT                                                               
+                                                                                    
+                                                                                    
+            COMMAND:  READ rseg roff lnth cyl head sec unit                         
+                                                                                    
+            Description                                                             
+                 This  command  reads  (lnth)  words   of   data   from             
+                 unit#(unit)  into memory  <rseg>roff.   The first disk             
+                 address accessed is cyl-head-sec.                                  
+            Example                .                                                
+                 READ 1 1000H 100H 23 2 20 0                                        
+                                                                                    
+                                                                                    
+                                                                                    
+            COMMAND:  SEEK cyl unit                                                 
+                                                                                    
+            Description                                                             
+                 This command does an explicit seek, for  the  cylinder             
+                 specified, on the selected unit.                                   
+            Example                                                                 
+                 SEEK 240 0                                                         
+                                                                                    
+                                                                                    
+                                                                                    
+            COMMAND:  SETOFF offset                                                 
+                                                                                    
+            Description                                                             
+                 This command sets the strobe offset to the given value.            
+            Example                                                                 
+             .   SETOFF 1                                                           
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+
+                                                                                    
+                                                                                    
+                                                                                    
+       203                           Zilog                          203             
+                                                                                    
+                                                                                    
+
+--- Page 219 ---
+                                                                                    
+                                                                                    
+                                                                                    
+        HRM                           Zilog                          HRM            
+                                                                                    
+                                                                                    
+             COMMAND:  SROFF, SWOFF, SLNTH, SCYL, SHEAD, SSEC,                      
+                       SUNIT value                                                  
+                                                                                    
+             Description                                                            
+                  These commands are entered in the following format:               
+                  Sxxxx value                                                       
+                                                                                    
+                  The selected  variable is  initialized  to  the  given            
+                  'value'.                                                          
+             Example                                                                
+                  SROFF 1000H                                                       
+                  SCYL 500                                                          
+                                                                                    
+                                                                                    
+                                                                                    
+             COMMAND:  SRSEG, SWSEG segnum                                          
+                                                                                    
+             Description                                                            
+                  SRSEG sets the read segment number to the given segment           
+                  number  (segnum).  SWSEG, sets the write segment number           
+                  to the given 'segnum'.                                            
+             Example                                                                
+                  SRSEG 1                                                           
+                  SWSEG 3                                                           
+                                                                                    
+                                                                                    
+             COMMAND:  STAT unit                                                    
+                                                                                    
+             Description                                                            
+                  STAT returns the detailed disk controller status regis-
+                  ters.                                                             
+                                                                                    
+             Example                                                                
+                  STAT 0                                                            
+                                                                                    
+                                                                                    
+             COMMAND:  WP unit, UNPROT unit                                         
+                                                                                    
+             Description                                                            
+                  WP does a software write protect on the selected unit.            
+                  UNPROT disables the WP command.                                   
+                                                                                    
+             Example                                                                
+                  WP 0                                                              
+                  UNPROT 1                                                          
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+         204                          Zilog                          204            
+                                                                                    
+                                                                                    
+                                                                                    
+
+--- Page 220 ---
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       HRM                          Zilog                          HRM              
+                                                                                    
+                                                                                    
+            COMMAND:  WRITE' wseg woff lnth cyl head sec unit                       
+                                                                                    
+            Description                                                             
+                 This command writes (lnth) data words  to  unit#(unit)             
+                 from   memory  <rseg>roff.   The  first  disk  address             
+                 accessed is cyl-head-sec.                                          
+                                                                                    
+            Example                                                                 
+                 WRITE 2 1024 100H 2 0 20 0                                         
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+                                                                                    
+       205                           Zilog                          205             
+                                                                                    
+                                                                                    

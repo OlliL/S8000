@@ -1,0 +1,50 @@
+--- Page 42 ---
+			Zilog
+    Table 3-2. System 8996 Disk Drive @ Characteristics
+
+System     	Disk Drive	Disk		Interleaving	Logical
+ 8800		Type		Model		Factors		Size
+ Model          				m	n	(.5K blocks)
+---------------	---------------	---------------	---------------	------------
+20 and 30	8" 		CDC Finch	12	72	43200
+(24Mbyte)	Winchester 	BASF 		12 	72 	43200
+		(zd)
+
+21		8"		CDC		12	96	57699
+(32Mbyte)	Winchester	CDC Finch
+		(zd)
+
+31		8"		Fujitsu		16	224	131936
+(80Mbyte)	Winchester	Memorex		16	224	131936
+		(smd)
+
+
+3.3. Disk Formatting Information
+
+Disk formatting is unnecessary at installation of a new system,
+since it has been formatted at the factory. However, the format-
+ting procedure may be a necessary part of disk repair. Disk for-
+matting is performed with the Stand-Alone Diagnostic Interactive
+Executive (SADIE) program. Refer to the descriptions of SADIE
+operation in the SADIE Reference Manual.
+In the rare event where system disk formatting is required, the
+individual procedures described in the remaining subsections must
+be followed instead of the overall procedure described in the
+preceding section.
+
+
+3.4. Initializing the Root and /usr File Systems
+
+In the case where the system disk has had to be formatted, the
+next step is to initialize the root and /usr filesystems as empty
+ZEUS filesystems. This procedure uses a stand-alone version of
+mkf£s(M) (Make File System). While the stand-alone version of
+mkfs could also be used to initialize other filesystems on the
+disk, it is somewhat easier to initialize them under a running
+ZEUS system using the regular mkfs (as in the recommended pro-
+cedures given in this section and Section 3.5).
+
+
+
+3-13			Zilog				3-13
+
