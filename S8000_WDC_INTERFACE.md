@@ -1,3 +1,4 @@
+
 # S8000 WDC Interface Reference
 
 This document describes the host-visible behavior of the S8000 Winchester Disk
@@ -5,6 +6,38 @@ Controller (WDC), the way the S8000 CPU firmware uses it, and the controller
 firmware evidence that helps interpret the host command stream. It is intended
 as a structured technical reference distilled from the current project notes and
  source material.
+
+<!-- TOC -->
+* [S8000 WDC Interface Reference](#s8000-wdc-interface-reference)
+  * [1. Purpose and scope](#1-purpose-and-scope)
+  * [2. Evidence model and source classes](#2-evidence-model-and-source-classes)
+  * [3. System context](#3-system-context)
+  * [4. Host-visible WDC interface](#4-host-visible-wdc-interface)
+    * [4.1 Register block and addressing](#41-register-block-and-addressing)
+    * [4.2 Unified host / CP / capture mapping](#42-unified-host--cp--capture-mapping)
+    * [4.3 Command launch and status register](#43-command-launch-and-status-register)
+  * [5. CPU firmware interaction with the WDC](#5-cpu-firmware-interaction-with-the-wdc)
+    * [5.1 Controller selection](#51-controller-selection)
+    * [5.2 Boot-time WDC command path](#52-boot-time-wdc-command-path)
+    * [5.3 Disk-read command path](#53-disk-read-command-path)
+    * [5.4 DMA address programming model](#54-dma-address-programming-model)
+  * [6. WDC controller firmware behavior](#6-wdc-controller-firmware-behavior)
+    * [6.1 Event capture and dispatch model](#61-event-capture-and-dispatch-model)
+    * [6.2 Meaning of upper command-byte bits](#62-meaning-of-upper-command-byte-bits)
+    * [6.3 Internal status/result handling](#63-internal-statusresult-handling)
+  * [7. Command map and confidence](#7-command-map-and-confidence)
+  * [8. Diagnostic path and signal-capture evidence](#8-diagnostic-path-and-signal-capture-evidence)
+    * [8.1 Power-up diagnostics](#81-power-up-diagnostics)
+    * [8.2 Captured CPU-side bus evidence](#82-captured-cpu-side-bus-evidence)
+    * [8.3 Why diagnostics are not the normal I/O path](#83-why-diagnostics-are-not-the-normal-io-path)
+  * [9. ZEUS driver correlation](#9-zeus-driver-correlation)
+  * [10. Geometry, media model, and transfer size](#10-geometry-media-model-and-transfer-size)
+    * [10.1 Logical versus physical geometry](#101-logical-versus-physical-geometry)
+    * [10.2 Track extent versus host-visible sector payload](#102-track-extent-versus-host-visible-sector-payload)
+  * [11. Emulator implications](#11-emulator-implications)
+  * [12. Open questions](#12-open-questions)
+  * [13. References](#13-references)
+<!-- TOC -->
 
 ## 1. Purpose and scope
 
