@@ -2,523 +2,36 @@
 	(version 20251024)
 	(generator "kicad_symbol_editor")
 	(generator_version "10.0")
-	(symbol "74LS245"
-		(pin_names
-			(offset 1.016)
-		)
+	(symbol "Z80 CTC"
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at 19.05 43.18 0)
+			(at 12.446 36.068 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
-					(size 2.54 2.54)
+					(size 1.27 1.27)
 				)
 				(justify right bottom)
 			)
 		)
-		(property "Value" "74245"
-			(at -19.05 43.18 0)
+		(property "Value" "Z80 CTC"
+			(at -12.446 36.068 0)
 			(show_name no)
 			(do_not_autoplace no)
-			(effects
-				(font
-					(size 2.54 2.54)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Footprint" "DIP20"
-			(at -18.034 48.006 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS245"
-			(at -2.032 50.038 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Octal BUS Transceivers, 3-State outputs"
-			(at -1.016 52.07 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "ki_keywords" "TTL BUS 3State"
-			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "ki_fp_filters" "DIP?20*"
-			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(symbol "74LS245_1_0"
-			(polyline
-				(pts
-					(xy -0.635 -1.27) (xy 1.27 -1.27) (xy 1.27 1.27) (xy 1.905 1.27)
-				)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-			(polyline
-				(pts
-					(xy 0 -1.27) (xy 0 1.27) (xy 1.27 1.27)
-				)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-			(pin input line
-				(at -25.4 -26.67 0)
-				(length 5.08)
-				(name "A->B"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "1"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at -25.4 34.29 0)
-				(length 5.08)
-				(name "A0"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "2"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at -25.4 26.67 0)
-				(length 5.08)
-				(name "A1"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "3"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at -25.4 19.05 0)
-				(length 5.08)
-				(name "A2"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "4"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at -25.4 11.43 0)
-				(length 5.08)
-				(name "A3"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "5"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at -25.4 3.81 0)
-				(length 5.08)
-				(name "A4"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "6"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at -25.4 -3.81 0)
-				(length 5.08)
-				(name "A5"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "7"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at -25.4 -11.43 0)
-				(length 5.08)
-				(name "A6"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "8"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at -25.4 -19.05 0)
-				(length 5.08)
-				(name "A7"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "9"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin power_in line
-				(at 25.4 -34.29 180)
-				(length 5.08)
-				(name "GND"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "10"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 -19.05 180)
-				(length 5.08)
-				(name "B7"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "11"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 -11.43 180)
-				(length 5.08)
-				(name "B6"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "12"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 -3.81 180)
-				(length 5.08)
-				(name "B5"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "13"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 3.81 180)
-				(length 5.08)
-				(name "B4"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "14"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 11.43 180)
-				(length 5.08)
-				(name "B3"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "15"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 19.05 180)
-				(length 5.08)
-				(name "B2"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "16"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 26.67 180)
-				(length 5.08)
-				(name "B1"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "17"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 34.29 180)
-				(length 5.08)
-				(name "B0"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "18"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input inverted
-				(at -25.4 -34.29 0)
-				(length 5.08)
-				(name "CE"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "19"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin power_in line
-				(at 25.4 -26.67 180)
-				(length 5.08)
-				(name "VCC"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "20"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-		)
-		(symbol "74LS245_1_1"
-			(rectangle
-				(start -20.32 41.91)
-				(end 20.32 -41.91)
-				(stroke
-					(width 0.254)
-					(type default)
-				)
-				(fill
-					(type background)
-				)
-			)
-		)
-		(embedded_fonts no)
-	)
-	(symbol "74LS373"
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
-		(property "Reference" "U"
-			(at 19.05 43.18 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 2.54 2.54)
-				)
-				(justify right bottom)
-			)
-		)
-		(property "Value" "74373"
-			(at -19.05 43.18 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 2.54 2.54)
 				)
 				(justify left bottom)
 			)
 		)
 		(property "Footprint" ""
-			(at 0 0 0)
+			(at -31.75 -306.07 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -528,8 +41,8 @@
 				)
 			)
 		)
-		(property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS373"
-			(at 0 0 0)
+		(property "Datasheet" ""
+			(at -31.75 -306.07 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -539,8 +52,8 @@
 				)
 			)
 		)
-		(property "Description" "8-bit Latch, 3-state outputs"
-			(at 0 0 0)
+		(property "Description" "Z80 CTC"
+			(at -31.75 -306.07 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -550,248 +63,10 @@
 				)
 			)
 		)
-		(property "ki_keywords" "TTL REG DFF DFF8 LATCH"
-			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "ki_fp_filters" "DIP?20* SOIC?20* SO?20* SSOP?20* TSSOP?20*"
-			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(symbol "74LS373_1_0"
-			(pin input inverted
-				(at -25.4 -26.67 0)
-				(length 5.08)
-				(name "OE"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "1"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 34.29 180)
-				(length 5.08)
-				(name "O0"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "2"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at -25.4 34.29 0)
-				(length 5.08)
-				(name "D0"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "3"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at -25.4 26.67 0)
-				(length 5.08)
-				(name "D1"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "4"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 26.67 180)
-				(length 5.08)
-				(name "O1"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "5"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 19.05 180)
-				(length 5.08)
-				(name "O2"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "6"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at -25.4 19.05 0)
-				(length 5.08)
-				(name "D2"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "7"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at -25.4 11.43 0)
-				(length 5.08)
-				(name "D3"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "8"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 11.43 180)
-				(length 5.08)
-				(name "O3"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "9"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin power_in line
-				(at 25.4 -34.29 180)
-				(length 5.08)
-				(name "GND"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "10"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at -25.4 -34.29 0)
-				(length 5.08)
-				(name "LE"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "11"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 3.81 180)
-				(length 5.08)
-				(name "O4"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "12"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at -25.4 3.81 0)
-				(length 5.08)
+		(symbol "Z80 CTC_1_0"
+			(pin bidirectional line
+				(at -20.32 20.32 0)
+				(length 7.62)
 				(name "D4"
 					(effects
 						(font
@@ -799,250 +74,6 @@
 						)
 					)
 				)
-				(number "13"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at -25.4 -3.81 0)
-				(length 5.08)
-				(name "D5"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "14"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 -3.81 180)
-				(length 5.08)
-				(name "O5"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "15"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 -11.43 180)
-				(length 5.08)
-				(name "O6"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "16"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at -25.4 -11.43 0)
-				(length 5.08)
-				(name "D6"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "17"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin input line
-				(at -25.4 -19.05 0)
-				(length 5.08)
-				(name "D7"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "18"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 -19.05 180)
-				(length 5.08)
-				(name "O7"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "19"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin power_in line
-				(at 25.4 -26.67 180)
-				(length 5.08)
-				(name "VCC"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "20"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-		)
-		(symbol "74LS373_1_1"
-			(rectangle
-				(start -20.32 41.91)
-				(end 20.32 -41.91)
-				(stroke
-					(width 0.254)
-					(type default)
-				)
-				(fill
-					(type background)
-				)
-			)
-		)
-		(embedded_fonts no)
-	)
-	(symbol "74LS374"
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
-		(property "Reference" "U"
-			(at 19.05 43.18 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 2.54 2.54)
-				)
-				(justify right bottom)
-			)
-		)
-		(property "Value" "74374"
-			(at -19.05 43.18 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 2.54 2.54)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Footprint" ""
-			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "http://www.ti.com/lit/gpn/sn74LS374"
-			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "8-bit Register, 3-state outputs"
-			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "ki_keywords" "TTL DFF DFF8 REG 3State"
-			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "ki_fp_filters" "DIP?20* SOIC?20* SO?20*"
-			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(symbol "74LS374_1_0"
-			(pin input inverted
-				(at -25.4 -26.67 0)
-				(length 5.08)
-				(name "OE"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
 				(number "1"
 					(effects
 						(font
@@ -1051,10 +82,10 @@
 					)
 				)
 			)
-			(pin tri_state line
-				(at 25.4 34.29 180)
-				(length 5.08)
-				(name "O0"
+			(pin bidirectional line
+				(at -20.32 17.78 0)
+				(length 7.62)
+				(name "D5"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1069,10 +100,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -25.4 34.29 0)
-				(length 5.08)
-				(name "D0"
+			(pin bidirectional line
+				(at -20.32 15.24 0)
+				(length 7.62)
+				(name "D6"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1087,10 +118,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -25.4 26.67 0)
-				(length 5.08)
-				(name "D1"
+			(pin bidirectional line
+				(at -20.32 12.7 0)
+				(length 7.62)
+				(name "D7"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1105,28 +136,10 @@
 					)
 				)
 			)
-			(pin tri_state line
-				(at 25.4 26.67 180)
-				(length 5.08)
-				(name "O1"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "5"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(pin tri_state line
-				(at 25.4 19.05 180)
-				(length 5.08)
-				(name "O2"
+			(pin input inverted
+				(at -20.32 -5.08 0)
+				(length 7.62)
+				(name "~{RD}"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1141,10 +154,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -25.4 19.05 0)
-				(length 5.08)
-				(name "D2"
+			(pin output line
+				(at 20.32 -17.78 180)
+				(length 7.62)
+				(name "ZC/TO0"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1159,10 +172,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -25.4 11.43 0)
-				(length 5.08)
-				(name "D3"
+			(pin output line
+				(at 20.32 -20.32 180)
+				(length 7.62)
+				(name "ZC/TO1"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1177,10 +190,10 @@
 					)
 				)
 			)
-			(pin tri_state line
-				(at 25.4 11.43 180)
-				(length 5.08)
-				(name "O3"
+			(pin output line
+				(at 20.32 -22.86 180)
+				(length 7.62)
+				(name "ZC/TO2"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1195,10 +208,10 @@
 					)
 				)
 			)
-			(pin power_in line
-				(at 25.4 -34.29 180)
-				(length 5.08)
-				(name "GND"
+			(pin input inverted
+				(at -20.32 -2.54 0)
+				(length 7.62)
+				(name "~{IOREQ}"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1213,10 +226,10 @@
 					)
 				)
 			)
-			(pin input clock
-				(at -25.4 -34.29 0)
-				(length 5.08)
-				(name "Cp"
+			(pin output line
+				(at 20.32 -30.48 180)
+				(length 7.62)
+				(name "IEO"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1231,10 +244,10 @@
 					)
 				)
 			)
-			(pin tri_state line
-				(at 25.4 3.81 180)
-				(length 5.08)
-				(name "O4"
+			(pin open_collector inverted
+				(at -20.32 -7.62 0)
+				(length 7.62)
+				(name "~{INT}"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1250,9 +263,9 @@
 				)
 			)
 			(pin input line
-				(at -25.4 3.81 0)
-				(length 5.08)
-				(name "D4"
+				(at -20.32 -30.48 0)
+				(length 7.62)
+				(name "IEI"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1267,10 +280,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -25.4 -3.81 0)
-				(length 5.08)
-				(name "D5"
+			(pin input inverted
+				(at -20.32 0 0)
+				(length 7.62)
+				(name "~{M1}"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1285,10 +298,10 @@
 					)
 				)
 			)
-			(pin tri_state line
-				(at 25.4 -3.81 180)
-				(length 5.08)
-				(name "O5"
+			(pin input line
+				(at -20.32 -15.24 0)
+				(length 7.62)
+				(name "CLK"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1303,10 +316,10 @@
 					)
 				)
 			)
-			(pin tri_state line
-				(at 25.4 -11.43 180)
-				(length 5.08)
-				(name "O6"
+			(pin input inverted
+				(at -20.32 7.62 0)
+				(length 7.62)
+				(name "~{CE}"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1321,10 +334,10 @@
 					)
 				)
 			)
-			(pin input line
-				(at -25.4 -11.43 0)
-				(length 5.08)
-				(name "D6"
+			(pin input inverted
+				(at -20.32 -10.16 0)
+				(length 7.62)
+				(name "~{RESET}"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1340,9 +353,9 @@
 				)
 			)
 			(pin input line
-				(at -25.4 -19.05 0)
-				(length 5.08)
-				(name "D7"
+				(at -20.32 5.08 0)
+				(length 7.62)
+				(name "CS0"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1357,10 +370,10 @@
 					)
 				)
 			)
-			(pin tri_state line
-				(at 25.4 -19.05 180)
-				(length 5.08)
-				(name "O7"
+			(pin input line
+				(at -20.32 2.54 0)
+				(length 7.62)
+				(name "CS1"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1375,10 +388,10 @@
 					)
 				)
 			)
-			(pin power_in line
-				(at 25.4 -26.67 180)
-				(length 5.08)
-				(name "VCC"
+			(pin input line
+				(at -20.32 -25.4 0)
+				(length 7.62)
+				(name "CLK/TRG3"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1393,17 +406,179 @@
 					)
 				)
 			)
+			(pin input line
+				(at -20.32 -22.86 0)
+				(length 7.62)
+				(name "CLK/TRG2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "21"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -20.32 -20.32 0)
+				(length 7.62)
+				(name "CLK/TRG1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "22"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -20.32 -17.78 0)
+				(length 7.62)
+				(name "CLK/TRG0"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "23"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at -20.32 30.48 0)
+				(length 7.62)
+				(name "D0"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "25"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at -20.32 27.94 0)
+				(length 7.62)
+				(name "D1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "26"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at -20.32 25.4 0)
+				(length 7.62)
+				(name "D2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "27"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at -20.32 22.86 0)
+				(length 7.62)
+				(name "D3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "28"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
 		)
-		(symbol "74LS374_1_1"
+		(symbol "Z80 CTC_1_1"
 			(rectangle
-				(start -20.32 41.91)
-				(end 20.32 -41.91)
+				(start -12.7 35.56)
+				(end 12.7 -35.56)
 				(stroke
-					(width 0.254)
-					(type default)
+					(width 0)
+					(type solid)
 				)
 				(fill
 					(type background)
+				)
+			)
+			(pin power_in line
+				(at 0 -43.18 90)
+				(length 7.62)
+				(name "GND"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 0 43.18 270)
+				(length 7.62)
+				(name "VCC"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "24"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
 				)
 			)
 		)
@@ -1939,24 +1114,6 @@
 					)
 				)
 			)
-			(pin bidirectional line
-				(at 20.32 38.1 180)
-				(length 7.62)
-				(name "AD4"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-				(number "41"
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
 			(pin output line
 				(at 20.32 -40.64 180)
 				(length 7.62)
@@ -2276,6 +1433,24 @@
 					)
 				)
 				(number "34"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 20.32 38.1 180)
+				(length 7.62)
+				(name "AD5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "41"
 					(effects
 						(font
 							(size 1.27 1.27)

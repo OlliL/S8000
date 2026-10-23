@@ -452,7 +452,7 @@
         "uuid": "cee545ba-d57c-4b2c-bcb3-989a68b0ecfa"
       }
     ],
-    "used_designators": "1-57,#FLG1-3,#PWR1-10,#PWR20,#PWR50-98,R1-4,R13,TP4,TP6-8,U1-2,U4-5,U8-10,U25-28,U32-33,U35-36,U46-51,U54-55,U62-63,U65-68,U71,U81-82,U99,U118-119",
+    "used_designators": "#FLG1-3,#PWR1-10,#PWR20,#PWR50-103,1\\-57,R1-4,R13,TP4,TP6-8,U1-2,U4-5,U8-10,U25-28,U32-36,U42,U46-51,U54-55,U62-63,U65-68,U71,U81-82,U99,U118-119",
     "variants": []
   },
   "sheets": [
@@ -467,6 +467,10 @@
     [
       "6aea3ece-e0fb-43cc-a96f-a4a1ab81d40b",
       "S8000 CPU 03"
+    ],
+    [
+      "c84d5b69-34c9-4634-824a-223e6b3f03d4",
+      "S8000 CPU 04"
     ]
   ],
   "text_variables": {},
