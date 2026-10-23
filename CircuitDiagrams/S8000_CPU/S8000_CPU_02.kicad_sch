@@ -6489,6 +6489,16 @@
 		)
 		(uuid "370f6906-3a81-43e7-a5c0-dc1f163c3e69")
 	)
+	(text "PIN 19\nFIXME check\nreal board"
+		(exclude_from_sim no)
+		(at 188.976 195.072 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "38d68c91-3ea0-41b3-85f9-8509db395b53")
+	)
 	(text ""
 		(exclude_from_sim no)
 		(at 549.656 50.8 0)
@@ -14505,6 +14515,30 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+	)
+	(global_label "U119_PIN4"
+		(shape input)
+		(at 226.06 110.49 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "754bff5f-b891-4450-918b-609103469ee9")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 239.3866 110.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 	)

@@ -4292,7 +4292,7 @@
 	)
 	(text "(Sh. 7,14)"
 		(exclude_from_sim no)
-		(at 553.72 228.854 0)
+		(at 553.72 228.6 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4336,7 +4336,7 @@
 	)
 	(text "(Sh. 5)"
 		(exclude_from_sim no)
-		(at 553.72 218.694 0)
+		(at 553.72 218.44 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4347,7 +4347,7 @@
 	)
 	(text "(Sh. 13)"
 		(exclude_from_sim no)
-		(at 553.72 278.384 0)
+		(at 553.72 278.13 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4358,7 +4358,7 @@
 	)
 	(text "(Sh. 5)"
 		(exclude_from_sim no)
-		(at 553.72 216.154 0)
+		(at 553.72 215.9 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4391,7 +4391,7 @@
 	)
 	(text "(Sh. 5)"
 		(exclude_from_sim no)
-		(at 553.72 112.014 0)
+		(at 553.72 111.76 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4413,7 +4413,7 @@
 	)
 	(text "(Sh. 3,10,11)"
 		(exclude_from_sim no)
-		(at 553.72 332.994 0)
+		(at 553.72 332.74 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4567,7 +4567,7 @@
 	)
 	(text "(Sh. 13)"
 		(exclude_from_sim no)
-		(at 553.72 288.544 0)
+		(at 553.72 288.29 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4578,7 +4578,7 @@
 	)
 	(text "(Sh. 5)"
 		(exclude_from_sim no)
-		(at 553.72 221.234 0)
+		(at 553.72 220.98 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4600,7 +4600,7 @@
 	)
 	(text "(Sh. 5)"
 		(exclude_from_sim no)
-		(at 553.72 109.474 0)
+		(at 553.72 109.22 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4645,7 +4645,7 @@
 	)
 	(text "(Sh. 5)"
 		(exclude_from_sim no)
-		(at 553.72 114.554 0)
+		(at 553.72 114.3 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4656,7 +4656,7 @@
 	)
 	(text "(Sh. 14)"
 		(exclude_from_sim no)
-		(at 553.72 122.174 0)
+		(at 553.72 121.92 0)
 		(effects
 			(font
 				(size 1.27 1.27)
