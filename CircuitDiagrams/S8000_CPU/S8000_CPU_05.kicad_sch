@@ -6328,7 +6328,7 @@
 		)
 		(uuid "e47b26a4-4b5e-4f6b-b727-20f9b37ea5f1")
 	)
-	(global_label "TERMO_CTS3"
+	(global_label "P2_SIO_CTS3"
 		(shape output)
 		(at 533.4 287.02 0)
 		(fields_autoplaced yes)
@@ -6352,7 +6352,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_RXD2"
+	(global_label "P2_SIO_RXD2"
 		(shape output)
 		(at 533.4 233.68 0)
 		(fields_autoplaced yes)
@@ -6376,7 +6376,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_RTS2"
+	(global_label "P2_SIO_RTS2"
 		(shape input)
 		(at 533.4 248.92 0)
 		(fields_autoplaced yes)
@@ -6400,7 +6400,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_RTS0"
+	(global_label "P2_SIO_RTS0"
 		(shape input)
 		(at 533.4 86.36 0)
 		(fields_autoplaced yes)
@@ -6448,7 +6448,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_DSR0"
+	(global_label "P2_SIO_DSR0"
 		(shape output)
 		(at 533.4 55.88 0)
 		(fields_autoplaced yes)
@@ -6568,7 +6568,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_TXD2"
+	(global_label "P2_SIO_TXD2"
 		(shape input)
 		(at 533.4 256.54 0)
 		(fields_autoplaced yes)
@@ -6592,7 +6592,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_TXD1"
+	(global_label "P2_SIO_TXD1"
 		(shape input)
 		(at 533.4 154.94 0)
 		(fields_autoplaced yes)
@@ -6616,7 +6616,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_RTS3"
+	(global_label "P2_SIO_RTS3"
 		(shape input)
 		(at 533.4 309.88 0)
 		(fields_autoplaced yes)
@@ -6640,7 +6640,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_DTR2"
+	(global_label "P2_SIO_DTR2"
 		(shape input)
 		(at 533.4 241.3 0)
 		(fields_autoplaced yes)
@@ -6664,7 +6664,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_RTS1"
+	(global_label "P2_SIO_RTS1"
 		(shape input)
 		(at 533.4 147.32 0)
 		(fields_autoplaced yes)
@@ -6712,7 +6712,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_DTR0"
+	(global_label "P2_SIO_DTR0"
 		(shape input)
 		(at 533.4 78.74 0)
 		(fields_autoplaced yes)
@@ -6808,7 +6808,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_TXRTN2"
+	(global_label "P2_SIO_TXRTN2"
 		(shape input)
 		(at 533.4 264.16 0)
 		(fields_autoplaced yes)
@@ -6832,7 +6832,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_TXD3"
+	(global_label "P2_SIO_TXD3"
 		(shape input)
 		(at 533.4 317.5 0)
 		(fields_autoplaced yes)
@@ -6856,7 +6856,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_TXRTN0"
+	(global_label "P2_SIO_TXRTN0"
 		(shape input)
 		(at 533.4 101.6 0)
 		(fields_autoplaced yes)
@@ -6904,7 +6904,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_CTS0"
+	(global_label "P2_SIO_CTS0"
 		(shape output)
 		(at 533.4 63.5 0)
 		(fields_autoplaced yes)
@@ -6928,7 +6928,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_DTR1"
+	(global_label "P2_SIO_DTR1"
 		(shape input)
 		(at 533.4 139.7 0)
 		(fields_autoplaced yes)
@@ -7000,7 +7000,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_RXD3"
+	(global_label "P2_SIO_RXD3"
 		(shape output)
 		(at 533.4 294.64 0)
 		(fields_autoplaced yes)
@@ -7024,7 +7024,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_RXD1"
+	(global_label "P2_SIO_RXD1"
 		(shape output)
 		(at 533.4 132.08 0)
 		(fields_autoplaced yes)
@@ -7048,7 +7048,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_TXD0"
+	(global_label "P2_SIO_TXD0"
 		(shape input)
 		(at 533.4 93.98 0)
 		(fields_autoplaced yes)
@@ -7072,7 +7072,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_DTR3"
+	(global_label "P2_SIO_DTR3"
 		(shape input)
 		(at 533.4 302.26 0)
 		(fields_autoplaced yes)
@@ -7096,7 +7096,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_DSR1"
+	(global_label "P2_SIO_DSR1"
 		(shape output)
 		(at 533.4 116.84 0)
 		(fields_autoplaced yes)
@@ -7120,7 +7120,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_DSR3"
+	(global_label "P2_SIO_DSR3"
 		(shape output)
 		(at 533.4 279.4 0)
 		(fields_autoplaced yes)
@@ -7144,7 +7144,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_TXRTN3"
+	(global_label "P2_SIO_TXRTN3"
 		(shape input)
 		(at 533.4 325.12 0)
 		(fields_autoplaced yes)
@@ -7216,7 +7216,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_TXRTN1"
+	(global_label "P2_SIO_TXRTN1"
 		(shape input)
 		(at 533.4 162.56 0)
 		(fields_autoplaced yes)
@@ -7264,7 +7264,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_DSR2"
+	(global_label "P2_SIO_DSR2"
 		(shape output)
 		(at 533.4 218.44 0)
 		(fields_autoplaced yes)
@@ -7288,7 +7288,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_CTS2"
+	(global_label "P2_SIO_CTS2"
 		(shape output)
 		(at 533.4 226.06 0)
 		(fields_autoplaced yes)
@@ -7312,7 +7312,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_CTS1"
+	(global_label "P2_SIO_CTS1"
 		(shape output)
 		(at 533.4 124.46 0)
 		(fields_autoplaced yes)
@@ -7360,7 +7360,7 @@
 			)
 		)
 	)
-	(global_label "TERMO_RXD0"
+	(global_label "P2_SIO_RXD0"
 		(shape output)
 		(at 533.4 71.12 0)
 		(fields_autoplaced yes)

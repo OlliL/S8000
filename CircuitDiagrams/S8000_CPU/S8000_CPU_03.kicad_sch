@@ -8366,7 +8366,7 @@
 			)
 		)
 	)
-	(global_label "NMI_SWITCH_NC"
+	(global_label "P2_NMI_SWITCH_NC"
 		(shape input)
 		(at 59.69 271.78 180)
 		(fields_autoplaced yes)
@@ -8378,7 +8378,7 @@
 		)
 		(uuid "c644470a-9f60-4795-b072-5af3821b7695")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 41.9486 271.78 0)
+			(at 38.5015 271.78 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8510,7 +8510,7 @@
 			)
 		)
 	)
-	(global_label "NMI_SWITCH_NO"
+	(global_label "P2_NMI_SWITCH_NO"
 		(shape input)
 		(at 59.69 237.49 180)
 		(fields_autoplaced yes)
@@ -8522,7 +8522,7 @@
 		)
 		(uuid "f70aaee3-40c7-4837-bca5-4fc8526cc4ca")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 41.8881 237.49 0)
+			(at 38.441 237.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
