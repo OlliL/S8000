@@ -3154,6 +3154,17 @@
 		)
 		(uuid "d77e2fa2-e9bf-40a0-84bb-0d256e28dc1b")
 	)
+	(text "(Sh. 14)"
+		(exclude_from_sim no)
+		(at 553.72 339.09 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ec76cccc-df62-497d-9d49-276561191f26")
+	)
 	(text "(Sh. 2)"
 		(exclude_from_sim no)
 		(at 39.37 241.3 0)
@@ -4480,6 +4491,16 @@
 	)
 	(wire
 		(pts
+			(xy 236.22 289.56) (xy 223.52 289.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5932365d-3aad-4fc0-a953-90cdbe1d2f7d")
+	)
+	(wire
+		(pts
 			(xy 236.22 243.84) (xy 196.85 243.84)
 		)
 		(stroke
@@ -5260,6 +5281,16 @@
 	)
 	(wire
 		(pts
+			(xy 223.52 289.56) (xy 223.52 339.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a35184c9-1cf9-487a-a474-4a5f136d994b")
+	)
+	(wire
+		(pts
 			(xy 450.85 118.11) (xy 438.15 118.11)
 		)
 		(stroke
@@ -5407,6 +5438,16 @@
 			(type default)
 		)
 		(uuid "b3a51f9f-5b39-454b-9397-b2e69c883c27")
+	)
+	(wire
+		(pts
+			(xy 223.52 339.09) (xy 533.4 339.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b5772fbe-4016-4c6a-9842-d8e9d359eb33")
 	)
 	(wire
 		(pts
@@ -6901,6 +6942,30 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+	)
+	(global_label "SIO 1 IEO"
+		(shape output)
+		(at 533.4 339.09 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7206602d-04ab-472b-b534-8e7f6ee86486")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 545.759 339.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 	)
