@@ -3205,13 +3205,13 @@
 		(uuid "034a5a6e-d2cc-4252-a1ad-7ffb41ccc2bb")
 	)
 	(junction
-		(at 207.01 389.89)
+		(at 207.01 391.16)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "041bcd3b-4ddf-4f5e-be9d-3c37e8352ab9")
 	)
 	(junction
-		(at 231.14 382.27)
+		(at 231.14 383.54)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "25e35c89-483d-4ee5-99ed-91919298edd6")
@@ -3247,7 +3247,7 @@
 		(uuid "2d5cf265-dfda-4286-ab7b-129af2c3b70c")
 	)
 	(junction
-		(at 88.9 389.89)
+		(at 88.9 391.16)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "35d0275a-7f80-4418-8325-b9606f7d7dee")
@@ -3271,13 +3271,13 @@
 		(uuid "56ac6678-f3f0-4b03-8b7f-9385295415b9")
 	)
 	(junction
-		(at 220.98 382.27)
+		(at 220.98 383.54)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5de68a30-2b26-468b-826c-4eb04a81cb05")
 	)
 	(junction
-		(at 170.18 345.44)
+		(at 170.18 346.71)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "68f0ff85-c143-48f3-9f0e-32f8470870bd")
@@ -3295,13 +3295,13 @@
 		(uuid "78800143-08d4-4040-a9b3-e70f6312a669")
 	)
 	(junction
-		(at 160.02 356.87)
+		(at 160.02 358.14)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7b4a5a6a-4247-4870-98c3-7ee64acc036a")
 	)
 	(junction
-		(at 190.5 356.87)
+		(at 190.5 358.14)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "82c79456-cfae-4e78-b753-e418573d92a2")
@@ -3313,7 +3313,7 @@
 		(uuid "85662fd9-3b9e-4bca-800b-339749222db2")
 	)
 	(junction
-		(at 251.46 382.27)
+		(at 251.46 383.54)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "85803157-f159-42e4-ba9f-1c24d5b79969")
@@ -3337,7 +3337,7 @@
 		(uuid "9579e0fe-ba62-4566-a3f3-8ef5eec13988")
 	)
 	(junction
-		(at 200.66 382.27)
+		(at 200.66 383.54)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9bcb5031-976c-4feb-9df2-66cbc40cc0a6")
@@ -3385,7 +3385,7 @@
 		(uuid "aa16ae4b-abce-4469-a392-d8053c2bbcc1")
 	)
 	(junction
-		(at 130.81 382.27)
+		(at 130.81 383.54)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "aad74a36-fcdf-4406-9113-63c33744b4c0")
@@ -3415,13 +3415,13 @@
 		(uuid "bb2bb409-30e0-4f45-a179-959ab79914dc")
 	)
 	(junction
-		(at 176.53 389.89)
+		(at 176.53 391.16)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bf463566-289b-46c5-8e43-15c5c3d03e55")
 	)
 	(junction
-		(at 261.62 382.27)
+		(at 261.62 383.54)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c093c69a-45c1-40f0-8c69-7104ea3cb4f9")
@@ -3433,19 +3433,19 @@
 		(uuid "c1e8ee2f-31ba-4653-994d-3fe633808b99")
 	)
 	(junction
-		(at 130.81 356.87)
+		(at 130.81 358.14)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c2403aba-8db6-4c8d-ae4c-c8611bf327b7")
 	)
 	(junction
-		(at 160.02 382.27)
+		(at 160.02 383.54)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c5f86282-403a-4fe6-a276-d075a16b6ff3")
 	)
 	(junction
-		(at 220.98 356.87)
+		(at 220.98 358.14)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c6e74eaa-bdcf-40f9-be9c-a7e339362a18")
@@ -3457,13 +3457,13 @@
 		(uuid "cf8f8d06-05d9-4dd8-9cd9-77d325d729a9")
 	)
 	(junction
-		(at 140.97 345.44)
+		(at 140.97 346.71)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d345589f-3440-4f22-81a1-7e054a74711e")
 	)
 	(junction
-		(at 176.53 356.87)
+		(at 176.53 358.14)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d5ade162-8ef3-4d87-81b9-fd0abfbb3776")
@@ -3475,7 +3475,7 @@
 		(uuid "d67f6975-97ad-433f-8dfd-e8e551156490")
 	)
 	(junction
-		(at 147.32 389.89)
+		(at 147.32 391.16)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "eebff3e9-40ea-479d-afbe-be04723a82b1")
@@ -3487,7 +3487,7 @@
 		(uuid "f1077be3-c1c6-42a8-95a0-f8de1a379256")
 	)
 	(junction
-		(at 190.5 382.27)
+		(at 190.5 383.54)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f50454bd-0c2a-4cca-b70f-cf7838c518d8")
@@ -3499,7 +3499,7 @@
 		(uuid "f6b087e4-43ab-4e5d-b3d4-2c1095220696")
 	)
 	(junction
-		(at 118.11 389.89)
+		(at 118.11 391.16)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f7fb866c-0a33-4c13-ba9d-cfe446749a33")
@@ -3806,7 +3806,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 356.87) (xy 190.5 356.87)
+			(xy 101.6 358.14) (xy 190.5 358.14)
 		)
 		(stroke
 			(width 0)
@@ -3896,7 +3896,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 382.27) (xy 130.81 382.27)
+			(xy 101.6 383.54) (xy 130.81 383.54)
 		)
 		(stroke
 			(width 0)
@@ -3976,7 +3976,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 382.27) (xy 160.02 382.27)
+			(xy 130.81 383.54) (xy 160.02 383.54)
 		)
 		(stroke
 			(width 0)
@@ -3996,7 +3996,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 369.57) (xy 118.11 369.57)
+			(xy 120.65 370.84) (xy 118.11 370.84)
 		)
 		(stroke
 			(width 0)
@@ -4076,7 +4076,7 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 345.44) (xy 111.76 369.57)
+			(xy 111.76 346.71) (xy 111.76 370.84)
 		)
 		(stroke
 			(width 0)
@@ -4086,7 +4086,7 @@
 	)
 	(wire
 		(pts
-			(xy 200.66 369.57) (xy 200.66 382.27)
+			(xy 200.66 370.84) (xy 200.66 383.54)
 		)
 		(stroke
 			(width 0)
@@ -4116,7 +4116,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 389.89) (xy 88.9 389.89)
+			(xy 118.11 391.16) (xy 88.9 391.16)
 		)
 		(stroke
 			(width 0)
@@ -4126,7 +4126,7 @@
 	)
 	(wire
 		(pts
-			(xy 210.82 369.57) (xy 207.01 369.57)
+			(xy 210.82 370.84) (xy 207.01 370.84)
 		)
 		(stroke
 			(width 0)
@@ -4266,7 +4266,7 @@
 	)
 	(wire
 		(pts
-			(xy 160.02 382.27) (xy 190.5 382.27)
+			(xy 160.02 383.54) (xy 190.5 383.54)
 		)
 		(stroke
 			(width 0)
@@ -4286,7 +4286,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 369.57) (xy 147.32 369.57)
+			(xy 149.86 370.84) (xy 147.32 370.84)
 		)
 		(stroke
 			(width 0)
@@ -4296,7 +4296,7 @@
 	)
 	(wire
 		(pts
-			(xy 231.14 369.57) (xy 231.14 382.27)
+			(xy 231.14 370.84) (xy 231.14 383.54)
 		)
 		(stroke
 			(width 0)
@@ -4306,7 +4306,7 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 345.44) (xy 140.97 369.57)
+			(xy 140.97 346.71) (xy 140.97 370.84)
 		)
 		(stroke
 			(width 0)
@@ -4316,7 +4316,7 @@
 	)
 	(wire
 		(pts
-			(xy 170.18 345.44) (xy 170.18 339.09)
+			(xy 170.18 346.71) (xy 170.18 340.36)
 		)
 		(stroke
 			(width 0)
@@ -4416,7 +4416,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 369.57) (xy 147.32 389.89)
+			(xy 147.32 370.84) (xy 147.32 391.16)
 		)
 		(stroke
 			(width 0)
@@ -4516,7 +4516,7 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 369.57) (xy 237.49 369.57)
+			(xy 241.3 370.84) (xy 237.49 370.84)
 		)
 		(stroke
 			(width 0)
@@ -4566,7 +4566,7 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 356.87) (xy 251.46 356.87)
+			(xy 220.98 358.14) (xy 251.46 358.14)
 		)
 		(stroke
 			(width 0)
@@ -4676,7 +4676,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 369.57) (xy 118.11 389.89)
+			(xy 118.11 370.84) (xy 118.11 391.16)
 		)
 		(stroke
 			(width 0)
@@ -4726,7 +4726,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 356.87) (xy 176.53 339.09)
+			(xy 176.53 358.14) (xy 176.53 340.36)
 		)
 		(stroke
 			(width 0)
@@ -4736,7 +4736,7 @@
 	)
 	(wire
 		(pts
-			(xy 180.34 369.57) (xy 176.53 369.57)
+			(xy 180.34 370.84) (xy 176.53 370.84)
 		)
 		(stroke
 			(width 0)
@@ -4786,7 +4786,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 369.57) (xy 176.53 389.89)
+			(xy 176.53 370.84) (xy 176.53 391.16)
 		)
 		(stroke
 			(width 0)
@@ -4906,7 +4906,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 356.87) (xy 220.98 356.87)
+			(xy 190.5 358.14) (xy 220.98 358.14)
 		)
 		(stroke
 			(width 0)
@@ -4966,7 +4966,7 @@
 	)
 	(wire
 		(pts
-			(xy 237.49 369.57) (xy 237.49 389.89)
+			(xy 237.49 370.84) (xy 237.49 391.16)
 		)
 		(stroke
 			(width 0)
@@ -5166,7 +5166,7 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 389.89) (xy 59.69 389.89)
+			(xy 88.9 391.16) (xy 59.69 391.16)
 		)
 		(stroke
 			(width 0)
@@ -5176,7 +5176,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 389.89) (xy 118.11 389.89)
+			(xy 147.32 391.16) (xy 118.11 391.16)
 		)
 		(stroke
 			(width 0)
@@ -5296,7 +5296,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 389.89) (xy 147.32 389.89)
+			(xy 176.53 391.16) (xy 147.32 391.16)
 		)
 		(stroke
 			(width 0)
@@ -5326,7 +5326,7 @@
 	)
 	(wire
 		(pts
-			(xy 261.62 382.27) (xy 261.62 389.89)
+			(xy 261.62 383.54) (xy 261.62 391.16)
 		)
 		(stroke
 			(width 0)
@@ -5356,7 +5356,7 @@
 	)
 	(wire
 		(pts
-			(xy 91.44 369.57) (xy 88.9 369.57)
+			(xy 91.44 370.84) (xy 88.9 370.84)
 		)
 		(stroke
 			(width 0)
@@ -5366,7 +5366,7 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 369.57) (xy 88.9 389.89)
+			(xy 88.9 370.84) (xy 88.9 391.16)
 		)
 		(stroke
 			(width 0)
@@ -5456,7 +5456,7 @@
 	)
 	(wire
 		(pts
-			(xy 237.49 389.89) (xy 207.01 389.89)
+			(xy 237.49 391.16) (xy 207.01 391.16)
 		)
 		(stroke
 			(width 0)
@@ -5526,7 +5526,7 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 389.89) (xy 176.53 389.89)
+			(xy 207.01 391.16) (xy 176.53 391.16)
 		)
 		(stroke
 			(width 0)
@@ -5696,7 +5696,7 @@
 	)
 	(wire
 		(pts
-			(xy 207.01 369.57) (xy 207.01 389.89)
+			(xy 207.01 370.84) (xy 207.01 391.16)
 		)
 		(stroke
 			(width 0)
@@ -5846,7 +5846,7 @@
 	)
 	(wire
 		(pts
-			(xy 111.76 345.44) (xy 140.97 345.44)
+			(xy 111.76 346.71) (xy 140.97 346.71)
 		)
 		(stroke
 			(width 0)
@@ -5916,7 +5916,7 @@
 	)
 	(wire
 		(pts
-			(xy 170.18 345.44) (xy 170.18 369.57)
+			(xy 170.18 346.71) (xy 170.18 370.84)
 		)
 		(stroke
 			(width 0)
@@ -5966,7 +5966,7 @@
 	)
 	(wire
 		(pts
-			(xy 261.62 369.57) (xy 261.62 382.27)
+			(xy 261.62 370.84) (xy 261.62 383.54)
 		)
 		(stroke
 			(width 0)
@@ -6066,7 +6066,7 @@
 	)
 	(wire
 		(pts
-			(xy 190.5 382.27) (xy 200.66 382.27)
+			(xy 190.5 383.54) (xy 200.66 383.54)
 		)
 		(stroke
 			(width 0)
@@ -6186,7 +6186,7 @@
 	)
 	(wire
 		(pts
-			(xy 200.66 382.27) (xy 261.62 382.27)
+			(xy 200.66 383.54) (xy 261.62 383.54)
 		)
 		(stroke
 			(width 0)
@@ -6206,7 +6206,7 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 345.44) (xy 170.18 345.44)
+			(xy 140.97 346.71) (xy 170.18 346.71)
 		)
 		(stroke
 			(width 0)
@@ -6670,7 +6670,7 @@
 	)
 	(global_label "U119_PIN4"
 		(shape input)
-		(at 59.69 389.89 180)
+		(at 59.69 391.16 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6680,7 +6680,7 @@
 		)
 		(uuid "2212e341-1de4-4306-ab13-4a70fbd3048d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 46.3634 389.89 0)
+			(at 46.3634 391.16 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8971,7 +8971,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 261.62 389.89 0)
+		(at 261.62 391.16 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8982,7 +8982,7 @@
 		(fields_autoplaced yes)
 		(uuid "39312f9e-4839-47b3-987a-317c504c212b")
 		(property "Reference" "#PWR0115"
-			(at 261.62 396.24 0)
+			(at 261.62 397.51 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8993,7 +8993,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 261.62 394.97 0)
+			(at 261.62 396.24 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9003,7 +9003,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 261.62 389.89 0)
+			(at 261.62 391.16 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9014,7 +9014,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 261.62 389.89 0)
+			(at 261.62 391.16 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9025,7 +9025,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 261.62 389.89 0)
+			(at 261.62 391.16 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10014,7 +10014,7 @@
 	)
 	(symbol
 		(lib_id "S8000:AM26LS32")
-		(at 251.46 369.57 0)
+		(at 251.46 370.84 0)
 		(unit 5)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10024,7 +10024,7 @@
 		(dnp no)
 		(uuid "6ae5a630-3029-4597-aa93-cf045db30e8f")
 		(property "Reference" "U123"
-			(at 251.46 369.062 0)
+			(at 251.46 370.332 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10034,7 +10034,7 @@
 			)
 		)
 		(property "Value" "26LS32"
-			(at 251.46 371.602 0)
+			(at 251.46 372.872 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10044,7 +10044,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
-			(at 251.46 369.57 0)
+			(at 251.46 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10055,7 +10055,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 251.46 369.57 0)
+			(at 251.46 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10066,7 +10066,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 251.46 369.57 0)
+			(at 251.46 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10330,7 +10330,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 176.53 339.09 0)
+		(at 176.53 340.36 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10341,7 +10341,7 @@
 		(fields_autoplaced yes)
 		(uuid "7ef69aea-a748-43a5-bff7-8350743e3217")
 		(property "Reference" "#PWR0114"
-			(at 176.53 342.9 0)
+			(at 176.53 344.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10352,7 +10352,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 176.53 334.01 0)
+			(at 176.53 335.28 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10362,7 +10362,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 176.53 339.09 0)
+			(at 176.53 340.36 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10373,7 +10373,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 176.53 339.09 0)
+			(at 176.53 340.36 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10384,7 +10384,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 176.53 339.09 0)
+			(at 176.53 340.36 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10408,7 +10408,7 @@
 	)
 	(symbol
 		(lib_id "S8000:AM26LS30")
-		(at 101.6 369.57 0)
+		(at 101.6 370.84 0)
 		(unit 5)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10418,7 +10418,7 @@
 		(dnp no)
 		(uuid "8b36b5db-8f96-4b32-b76e-d0eecd70eb09")
 		(property "Reference" "U100"
-			(at 112.014 372.618 0)
+			(at 112.014 373.888 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10428,7 +10428,7 @@
 			)
 		)
 		(property "Value" "26LS30"
-			(at 112.014 375.158 0)
+			(at 112.014 376.428 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10438,7 +10438,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
-			(at 101.6 369.57 0)
+			(at 101.6 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10449,7 +10449,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 101.6 369.57 0)
+			(at 101.6 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10460,7 +10460,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 101.6 369.57 0)
+			(at 101.6 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11445,7 +11445,7 @@
 	)
 	(symbol
 		(lib_id "S8000:AM26LS30")
-		(at 160.02 369.57 0)
+		(at 160.02 370.84 0)
 		(unit 5)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11455,7 +11455,7 @@
 		(dnp no)
 		(uuid "a1005472-6afa-4785-b065-400deff10486")
 		(property "Reference" "U124"
-			(at 170.434 372.618 0)
+			(at 170.434 373.888 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11465,7 +11465,7 @@
 			)
 		)
 		(property "Value" "26LS30"
-			(at 170.434 375.158 0)
+			(at 170.434 376.428 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11475,7 +11475,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
-			(at 160.02 369.57 0)
+			(at 160.02 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11486,7 +11486,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 160.02 369.57 0)
+			(at 160.02 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11497,7 +11497,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 160.02 369.57 0)
+			(at 160.02 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12301,7 +12301,7 @@
 	)
 	(symbol
 		(lib_id "S8000:AM26LS32")
-		(at 190.5 369.57 0)
+		(at 190.5 370.84 0)
 		(unit 5)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12311,7 +12311,7 @@
 		(dnp no)
 		(uuid "b87c7560-479f-4179-ae00-3c598e59346b")
 		(property "Reference" "U120"
-			(at 190.246 369.062 0)
+			(at 190.246 370.332 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12321,7 +12321,7 @@
 			)
 		)
 		(property "Value" "26LS32"
-			(at 190.246 371.602 0)
+			(at 190.246 372.872 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12331,7 +12331,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
-			(at 190.5 369.57 0)
+			(at 190.5 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12342,7 +12342,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 190.5 369.57 0)
+			(at 190.5 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12353,7 +12353,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 190.5 369.57 0)
+			(at 190.5 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12422,7 +12422,7 @@
 	)
 	(symbol
 		(lib_id "S8000:AM26LS32")
-		(at 220.98 369.57 0)
+		(at 220.98 370.84 0)
 		(unit 5)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12432,7 +12432,7 @@
 		(dnp no)
 		(uuid "b8efd50b-93e3-4401-81fc-c37add22c16b")
 		(property "Reference" "U121"
-			(at 220.726 369.062 0)
+			(at 220.726 370.332 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12442,7 +12442,7 @@
 			)
 		)
 		(property "Value" "26LS32"
-			(at 220.726 371.602 0)
+			(at 220.726 372.872 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12452,7 +12452,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
-			(at 220.98 369.57 0)
+			(at 220.98 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12463,7 +12463,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 220.98 369.57 0)
+			(at 220.98 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12474,7 +12474,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 220.98 369.57 0)
+			(at 220.98 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12660,7 +12660,7 @@
 	)
 	(symbol
 		(lib_id "S8000:AM26LS30")
-		(at 130.81 369.57 0)
+		(at 130.81 370.84 0)
 		(unit 5)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12670,7 +12670,7 @@
 		(dnp no)
 		(uuid "c316cdfb-b6c2-4b26-bac5-a4414c20dfc7")
 		(property "Reference" "U102"
-			(at 141.224 372.618 0)
+			(at 141.224 373.888 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12680,7 +12680,7 @@
 			)
 		)
 		(property "Value" "26LS30"
-			(at 141.224 375.158 0)
+			(at 141.224 376.428 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12690,7 +12690,7 @@
 			)
 		)
 		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
-			(at 130.81 369.57 0)
+			(at 130.81 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12701,7 +12701,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 130.81 369.57 0)
+			(at 130.81 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12712,7 +12712,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 130.81 369.57 0)
+			(at 130.81 370.84 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14236,7 +14236,7 @@
 	)
 	(symbol
 		(lib_id "power:-5V")
-		(at 170.18 339.09 0)
+		(at 170.18 340.36 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -14247,7 +14247,7 @@
 		(fields_autoplaced yes)
 		(uuid "f13a4be3-1126-4b53-a1ce-4ff0bb3dbdd4")
 		(property "Reference" "#PWR04"
-			(at 170.18 342.9 0)
+			(at 170.18 344.17 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14258,7 +14258,7 @@
 			)
 		)
 		(property "Value" "-5V"
-			(at 170.18 334.01 0)
+			(at 170.18 335.28 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -14268,7 +14268,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 170.18 339.09 0)
+			(at 170.18 340.36 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14279,7 +14279,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 170.18 339.09 0)
+			(at 170.18 340.36 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14290,7 +14290,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"-5V\""
-			(at 170.18 339.09 0)
+			(at 170.18 340.36 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

@@ -3156,7 +3156,7 @@
 	)
 	(text "(Sh. 14)"
 		(exclude_from_sim no)
-		(at 553.72 339.09 0)
+		(at 553.72 345.44 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4491,7 +4491,7 @@
 	)
 	(wire
 		(pts
-			(xy 236.22 289.56) (xy 223.52 289.56)
+			(xy 236.22 289.56) (xy 214.63 289.56)
 		)
 		(stroke
 			(width 0)
@@ -5281,7 +5281,7 @@
 	)
 	(wire
 		(pts
-			(xy 223.52 289.56) (xy 223.52 339.09)
+			(xy 214.63 289.56) (xy 214.63 345.44)
 		)
 		(stroke
 			(width 0)
@@ -5441,7 +5441,7 @@
 	)
 	(wire
 		(pts
-			(xy 223.52 339.09) (xy 533.4 339.09)
+			(xy 214.63 345.44) (xy 533.4 345.44)
 		)
 		(stroke
 			(width 0)
@@ -6947,7 +6947,7 @@
 	)
 	(global_label "SIO 1 IEO"
 		(shape output)
-		(at 533.4 339.09 0)
+		(at 533.4 345.44 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6957,7 +6957,7 @@
 		)
 		(uuid "7206602d-04ab-472b-b534-8e7f6ee86486")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 545.759 339.09 0)
+			(at 545.759 345.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14360,7 +14360,6 @@
 		)
 		(property "Comment" "SIO 1"
 			(at 256.54 264.16 0)
-			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
