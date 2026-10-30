@@ -8672,7 +8672,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
 			(at 411.48 203.2 0)
 			(hide yes)
 			(show_name no)
@@ -9043,7 +9043,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
 			(at 411.48 175.26 0)
 			(hide yes)
 			(show_name no)
@@ -9178,7 +9178,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Horizontal"
 			(at 328.93 278.13 0)
 			(hide yes)
 			(show_name no)
@@ -9255,7 +9255,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Horizontal"
 			(at 322.58 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -9488,7 +9488,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Horizontal"
 			(at 322.58 201.93 0)
 			(hide yes)
 			(show_name no)
@@ -9646,7 +9646,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-40_W15.24mm"
 			(at 256.54 241.3 0)
 			(hide yes)
 			(show_name no)
@@ -10235,7 +10235,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 114.3 250.19 0)
 			(hide yes)
 			(show_name no)
@@ -10841,7 +10841,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
 			(at 358.14 213.36 0)
 			(hide yes)
 			(show_name no)
@@ -11056,7 +11056,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
 			(at 358.14 279.4 0)
 			(hide yes)
 			(show_name no)
@@ -11190,7 +11190,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Horizontal"
 			(at 321.31 278.13 0)
 			(hide yes)
 			(show_name no)
@@ -11268,7 +11268,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
 			(at 384.81 284.48 0)
 			(hide yes)
 			(show_name no)
@@ -11403,7 +11403,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Horizontal"
 			(at 330.2 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -11641,7 +11641,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Horizontal"
 			(at 328.93 283.21 0)
 			(hide yes)
 			(show_name no)
@@ -11789,7 +11789,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "74LS244"
+		(property "Value" "74244"
 			(at 413.6233 234.95 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11800,7 +11800,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
 			(at 411.48 252.73 0)
 			(hide yes)
 			(show_name no)

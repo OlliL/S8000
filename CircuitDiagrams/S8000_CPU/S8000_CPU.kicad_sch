@@ -12203,7 +12203,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 156.21 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -12319,7 +12319,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 143.51 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -12435,7 +12435,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
 			(at 207.01 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -12686,7 +12686,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
 			(at 194.31 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -12934,7 +12934,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 72.39 139.7 0)
 			(hide yes)
 			(show_name no)
@@ -13279,7 +13279,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 265.43 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -13472,7 +13472,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 118.11 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -13706,7 +13706,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 99.06 139.7 0)
 			(hide yes)
 			(show_name no)
@@ -14517,7 +14517,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 252.73 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -15093,7 +15093,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 241.3 99.06 0)
 			(hide yes)
 			(show_name no)
@@ -15325,7 +15325,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
 			(at 223.52 139.7 0)
 			(hide yes)
 			(show_name no)
