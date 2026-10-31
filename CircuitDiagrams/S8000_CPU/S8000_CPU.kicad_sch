@@ -18670,7 +18670,7 @@
 			)
 		)
 		(pin "13"
-			(uuid "1a228eee-2faa-4d56-90c3-2685089ae0d4")
+			(uuid "1a228eee-2faa-4d56-90c3-2685089ae0d5")
 		)
 		(pin "9"
 			(uuid "1ee51bc0-6f85-4ec2-8fc3-1f4bb9599be5")
@@ -18682,7 +18682,7 @@
 			(uuid "899d98eb-3b41-4412-ba18-8c9aa2a30ec2")
 		)
 		(pin "12"
-			(uuid "b05a7f68-6d42-46c1-92cd-5009f8cfb3a8")
+			(uuid "b05a7f68-6d42-46c1-92cd-5009f8cfb3a9")
 		)
 		(pin "10"
 			(uuid "f3d2fcf7-836c-4179-802a-b4808a601089")
@@ -18691,25 +18691,25 @@
 			(uuid "082ff49b-88b6-40f0-853a-b97a3bf76538")
 		)
 		(pin "2"
-			(uuid "9dd91744-1b0c-4cd3-b535-971c0ee231d0")
+			(uuid "9dd91744-1b0c-4cd3-b535-971c0ee231d1")
 		)
 		(pin "3"
-			(uuid "e7eca7bd-5922-46f5-be3b-1fab7b1ecbff")
+			(uuid "e7eca7bd-5922-46f5-be3b-1fab7b1ecc00")
 		)
 		(pin "11"
 			(uuid "3a3de72d-33e2-4558-9ebc-5c869ef16c06")
 		)
 		(pin "7"
-			(uuid "2c940bd9-5053-48ef-8af2-722a7006d64a")
+			(uuid "2c940bd9-5053-48ef-8af2-722a7006d64b")
 		)
 		(pin "14"
-			(uuid "8a8038ff-9695-4878-b745-03c2a8d9c322")
+			(uuid "8a8038ff-9695-4878-b745-03c2a8d9c323")
 		)
 		(pin "1"
-			(uuid "752e8b6b-8cb9-4914-b471-3027ce8ac27e")
+			(uuid "752e8b6b-8cb9-4914-b471-3027ce8ac27f")
 		)
 		(pin "5"
-			(uuid "ceb5082c-5239-4ef5-98fd-8107dfb54cb1")
+			(uuid "ceb5082c-5239-4ef5-98fd-8107dfb54cb2")
 		)
 		(instances
 			(project "S8000_CPU"
@@ -19143,6 +19143,53 @@
 		)
 	)
 	(sheet
+		(at 92.71 63.5)
+		(size 12.7 13.97)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "64f6f1dd-72e9-4657-86e6-ad8a431c1cf1")
+		(property "Sheetname" "S8000 CPU 01"
+			(at 92.71 62.7884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "S8000_CPU_01.kicad_sch"
+			(at 92.71 78.0546 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "S8000_CPU"
+				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa"
+					(page "1")
+				)
+			)
+		)
+	)
+	(sheet
 		(at 36.83 16.51)
 		(size 15.24 29.21)
 		(exclude_from_sim no)
@@ -19379,7 +19426,7 @@
 	)
 	(sheet_instances
 		(path "/"
-			(page "1")
+			(page "0")
 		)
 	)
 	(embedded_fonts no)
