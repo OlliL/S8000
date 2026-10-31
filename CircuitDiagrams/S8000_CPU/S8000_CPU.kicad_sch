@@ -18955,7 +18955,7 @@
 		)
 	)
 	(sheet
-		(at 107.95 16.51)
+		(at 124.46 19.05)
 		(size 15.24 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -18971,7 +18971,7 @@
 		)
 		(uuid "0a5ad938-76de-4f46-b906-87758cba1508")
 		(property "Sheetname" "S8000 CPU 07"
-			(at 107.95 15.7984 0)
+			(at 124.46 18.3384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -18982,7 +18982,7 @@
 			)
 		)
 		(property "Sheetfile" "S8000_CPU_07.kicad_sch"
-			(at 107.95 46.3046 0)
+			(at 124.46 48.8446 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19002,7 +19002,7 @@
 		)
 	)
 	(sheet
-		(at 72.39 16.51)
+		(at 88.9 19.05)
 		(size 15.24 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19018,7 +19018,7 @@
 		)
 		(uuid "16771716-da83-411f-9e9b-d3dfec4636a4")
 		(property "Sheetname" "S8000 CPU 05"
-			(at 72.39 15.7984 0)
+			(at 88.9 18.3384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19029,7 +19029,7 @@
 			)
 		)
 		(property "Sheetfile" "S8000_CPU_05.kicad_sch"
-			(at 72.39 46.3046 0)
+			(at 88.9 48.8446 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19049,7 +19049,7 @@
 		)
 	)
 	(sheet
-		(at 125.73 16.51)
+		(at 142.24 19.05)
 		(size 15.24 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19065,7 +19065,7 @@
 		)
 		(uuid "200ddfb8-e065-44f3-b509-f21dbfc08653")
 		(property "Sheetname" "S8000 CPU 08"
-			(at 125.73 15.7984 0)
+			(at 142.24 18.3384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19076,7 +19076,7 @@
 			)
 		)
 		(property "Sheetfile" "S8000_CPU_08.kicad_sch"
-			(at 125.73 46.3046 0)
+			(at 142.24 48.8446 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19096,7 +19096,7 @@
 		)
 	)
 	(sheet
-		(at 161.29 16.51)
+		(at 177.8 19.05)
 		(size 15.24 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19112,7 +19112,7 @@
 		)
 		(uuid "4e879ea0-dc92-483b-ab60-ba7ce561d4ea")
 		(property "Sheetname" "S8000 CPU 10"
-			(at 161.29 15.7984 0)
+			(at 177.8 18.3384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19123,7 +19123,7 @@
 			)
 		)
 		(property "Sheetfile" "S8000_CPU_10.kicad_sch"
-			(at 161.29 46.3046 0)
+			(at 177.8 48.8446 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19143,8 +19143,8 @@
 		)
 	)
 	(sheet
-		(at 92.71 63.5)
-		(size 12.7 13.97)
+		(at 17.78 19.05)
+		(size 15.24 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -19159,7 +19159,7 @@
 		)
 		(uuid "64f6f1dd-72e9-4657-86e6-ad8a431c1cf1")
 		(property "Sheetname" "S8000 CPU 01"
-			(at 92.71 62.7884 0)
+			(at 17.78 18.3384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19170,7 +19170,7 @@
 			)
 		)
 		(property "Sheetfile" "S8000_CPU_01.kicad_sch"
-			(at 92.71 78.0546 0)
+			(at 17.78 48.8446 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19190,7 +19190,7 @@
 		)
 	)
 	(sheet
-		(at 36.83 16.51)
+		(at 53.34 19.05)
 		(size 15.24 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19206,7 +19206,7 @@
 		)
 		(uuid "6aea3ece-e0fb-43cc-a96f-a4a1ab81d40b")
 		(property "Sheetname" "S8000 CPU 03"
-			(at 36.83 15.7984 0)
+			(at 53.34 18.3384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19217,7 +19217,7 @@
 			)
 		)
 		(property "Sheetfile" "S8000_CPU_03.kicad_sch"
-			(at 36.83 46.3046 0)
+			(at 53.34 48.8446 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19237,7 +19237,7 @@
 		)
 	)
 	(sheet
-		(at 143.51 16.51)
+		(at 160.02 19.05)
 		(size 15.24 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19253,7 +19253,7 @@
 		)
 		(uuid "830e0359-3e23-46f2-aa22-30d2a57550c3")
 		(property "Sheetname" "S8000 CPU 09"
-			(at 143.51 15.7984 0)
+			(at 160.02 18.3384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19264,7 +19264,7 @@
 			)
 		)
 		(property "Sheetfile" "S8000_CPU_09.kicad_sch"
-			(at 143.51 46.3046 0)
+			(at 160.02 48.8446 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19284,7 +19284,54 @@
 		)
 	)
 	(sheet
-		(at 19.05 16.51)
+		(at 231.14 19.05)
+		(size 15.24 29.21)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "90d224af-1009-4076-beb9-5e317ec72309")
+		(property "Sheetname" "S8000 CPU 13"
+			(at 231.14 18.3384 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "S8000_CPU_13.kicad_sch"
+			(at 231.14 48.8446 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "S8000_CPU"
+				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa"
+					(page "13")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 35.56 19.05)
 		(size 15.24 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19300,7 +19347,7 @@
 		)
 		(uuid "ab8f6896-63aa-4318-b4ac-54bd1f3ca919")
 		(property "Sheetname" "S8000 CPU 02"
-			(at 19.05 15.7984 0)
+			(at 35.56 18.3384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19311,7 +19358,7 @@
 			)
 		)
 		(property "Sheetfile" "S8000_CPU_02.kicad_sch"
-			(at 19.05 45.7966 0)
+			(at 35.56 48.3366 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19331,7 +19378,7 @@
 		)
 	)
 	(sheet
-		(at 90.17 16.51)
+		(at 106.68 19.05)
 		(size 15.24 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19347,7 +19394,7 @@
 		)
 		(uuid "bd1235ea-6364-4a81-bf16-ac4556eba415")
 		(property "Sheetname" "S8000 CPU 06"
-			(at 90.17 15.7984 0)
+			(at 106.68 18.3384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19358,7 +19405,7 @@
 			)
 		)
 		(property "Sheetfile" "S8000_CPU_06.kicad_sch"
-			(at 90.17 46.3046 0)
+			(at 106.68 48.8446 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19378,7 +19425,54 @@
 		)
 	)
 	(sheet
-		(at 54.61 16.51)
+		(at 195.58 19.05)
+		(size 15.24 29.21)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "c72fd97b-1833-485b-a0c5-7980853ff372")
+		(property "Sheetname" "S8000 CPU 11"
+			(at 195.58 18.3384 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "S8000_CPU_11.kicad_sch"
+			(at 195.58 48.8446 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "S8000_CPU"
+				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa"
+					(page "11")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 71.12 19.05)
 		(size 15.24 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19394,7 +19488,7 @@
 		)
 		(uuid "c84d5b69-34c9-4634-824a-223e6b3f03d4")
 		(property "Sheetname" "S8000 CPU 04"
-			(at 54.61 15.7984 0)
+			(at 71.12 18.3384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19405,7 +19499,7 @@
 			)
 		)
 		(property "Sheetfile" "S8000_CPU_04.kicad_sch"
-			(at 54.61 45.7966 0)
+			(at 71.12 48.3366 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -19420,6 +19514,100 @@
 			(project "S8000_CPU"
 				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa"
 					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 213.36 19.05)
+		(size 15.24 29.21)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "e594cb1d-63ab-43de-b436-9ee1ac0957aa")
+		(property "Sheetname" "S8000 CPU 12"
+			(at 213.36 18.3384 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "S8000_CPU_12.kicad_sch"
+			(at 213.36 48.8446 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "S8000_CPU"
+				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa"
+					(page "12")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 248.92 19.05)
+		(size 15.24 29.21)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "f7254e88-4d5e-4da2-859c-8a4276a40a44")
+		(property "Sheetname" "S8000 CPU 14"
+			(at 248.92 18.3384 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "S8000_CPU_14.kicad_sch"
+			(at 248.92 48.8446 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "S8000_CPU"
+				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa"
+					(page "14")
 				)
 			)
 		)
