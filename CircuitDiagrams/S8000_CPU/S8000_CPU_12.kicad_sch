@@ -8539,7 +8539,7 @@
 	)
 	(text "(Sh. 2)"
 		(exclude_from_sim no)
-		(at 39.37 25.4 0)
+		(at 39.37 21.59 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9002,7 +9002,7 @@
 		(uuid "4b7b88fa-f41c-472f-b47d-4586a0c27ba8")
 	)
 	(junction
-		(at 179.07 78.74)
+		(at 142.24 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "59089dd2-406d-4da3-b8c3-38bed0beddfa")
@@ -9056,7 +9056,7 @@
 		(uuid "aa1acae0-8c75-4768-9427-99c807340525")
 	)
 	(junction
-		(at 88.9 25.4)
+		(at 88.9 21.59)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ca4c170a-4f27-466f-8fc5-5d5a16272275")
@@ -9350,7 +9350,7 @@
 	)
 	(bus
 		(pts
-			(xy 165.1 25.4) (xy 88.9 25.4)
+			(xy 165.1 21.59) (xy 88.9 21.59)
 		)
 		(stroke
 			(width 0)
@@ -9430,7 +9430,7 @@
 	)
 	(bus
 		(pts
-			(xy 88.9 25.4) (xy 88.9 120.65)
+			(xy 88.9 21.59) (xy 88.9 120.65)
 		)
 		(stroke
 			(width 0)
@@ -9750,16 +9750,6 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 78.74) (xy 142.24 78.74)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "55f0f29e-2ce0-47e9-bf79-f68b0d2e3037")
-	)
-	(wire
-		(pts
 			(xy 125.73 226.06) (xy 125.73 223.52)
 		)
 		(stroke
@@ -9890,7 +9880,7 @@
 	)
 	(bus
 		(pts
-			(xy 165.1 68.58) (xy 165.1 25.4)
+			(xy 165.1 68.58) (xy 165.1 21.59)
 		)
 		(stroke
 			(width 0)
@@ -10320,17 +10310,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 78.74) (xy 184.15 78.74)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d00078c1-727a-46cd-83ec-68372b9b7dc7")
-	)
-	(wire
-		(pts
-			(xy 179.07 25.4) (xy 184.15 25.4)
+			(xy 142.24 25.4) (xy 184.15 25.4)
 		)
 		(stroke
 			(width 0)
@@ -10358,9 +10338,19 @@
 		)
 		(uuid "d105d282-d993-4a7c-b3e4-678a40bd193c")
 	)
+	(wire
+		(pts
+			(xy 142.24 78.74) (xy 184.15 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d21a6486-cf70-4c7f-bd32-d7f71add4281")
+	)
 	(bus
 		(pts
-			(xy 88.9 25.4) (xy 59.69 25.4)
+			(xy 88.9 21.59) (xy 59.69 21.59)
 		)
 		(stroke
 			(width 0)
@@ -10420,7 +10410,7 @@
 	)
 	(wire
 		(pts
-			(xy 179.07 78.74) (xy 179.07 25.4)
+			(xy 142.24 78.74) (xy 142.24 25.4)
 		)
 		(stroke
 			(width 0)
@@ -11338,7 +11328,7 @@
 	)
 	(global_label "LAD[0..15]"
 		(shape input)
-		(at 59.69 25.4 180)
+		(at 59.69 21.59 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -11348,7 +11338,7 @@
 		)
 		(uuid "ac71378c-7766-4772-ad69-37ca8c742d52")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 46.7866 25.4 0)
+			(at 46.7866 21.59 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
