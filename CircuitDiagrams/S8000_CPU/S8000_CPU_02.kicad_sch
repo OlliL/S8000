@@ -16819,7 +16819,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2994287d-d0e2-4a5d-b376-99462cebf351")
-		(property "Reference" "R13"
+		(property "Reference" "R12"
 			(at 80.01 246.126 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16881,7 +16881,7 @@
 		(instances
 			(project "S8000_CPU"
 				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa/ab8f6896-63aa-4318-b4ac-54bd1f3ca919"
-					(reference "R13")
+					(reference "R12")
 					(unit 1)
 				)
 			)

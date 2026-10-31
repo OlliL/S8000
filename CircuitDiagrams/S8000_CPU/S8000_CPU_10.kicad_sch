@@ -21698,7 +21698,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "da29a2d7-298b-4261-80bc-8d6629cacd34")
-		(property "Reference" "U7"
+		(property "Reference" "U5"
 			(at 169.418 221.488 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -21798,7 +21798,7 @@
 		(instances
 			(project "S8000_CPU"
 				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa/4e879ea0-dc92-483b-ab60-ba7ce561d4ea"
-					(reference "U7")
+					(reference "U5")
 					(unit 2)
 				)
 			)

@@ -9061,7 +9061,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "74LS240"
+		(property "Value" "74240"
 			(at 423.7833 328.93 0)
 			(show_name no)
 			(do_not_autoplace no)

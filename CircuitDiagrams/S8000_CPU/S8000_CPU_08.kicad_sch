@@ -14472,7 +14472,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7fd74b0b-6bb1-4b8f-8b1e-48da92599c03")
-		(property "Reference" "U5"
+		(property "Reference" "U3"
 			(at 209.55 303.784 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14570,7 +14570,7 @@
 		(instances
 			(project "S8000_CPU"
 				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa/200ddfb8-e065-44f3-b509-f21dbfc08653"
-					(reference "U5")
+					(reference "U3")
 					(unit 4)
 				)
 			)
@@ -15194,7 +15194,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "a49f467c-9a2a-4d16-98f7-31efc304f0ee")
-		(property "Reference" "U6"
+		(property "Reference" "U18"
 			(at 344.17 298.196 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15292,7 +15292,7 @@
 		(instances
 			(project "S8000_CPU"
 				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa/200ddfb8-e065-44f3-b509-f21dbfc08653"
-					(reference "U6")
+					(reference "U18")
 					(unit 4)
 				)
 			)
