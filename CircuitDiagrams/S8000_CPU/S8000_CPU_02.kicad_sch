@@ -6689,7 +6689,7 @@
 	)
 	(text "(Sh. 4,5,6,7,8,11,14)"
 		(exclude_from_sim no)
-		(at 39.37 330.2 0)
+		(at 39.37 323.088 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6997,7 +6997,7 @@
 	)
 	(text "P1-1A"
 		(exclude_from_sim no)
-		(at 70.104 322.58 0)
+		(at 70.104 330.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -13150,7 +13150,7 @@
 			)
 		)
 	)
-	(global_label "~{RESET}"
+	(global_label "~{MRESET}"
 		(shape input)
 		(at 207.01 322.58 180)
 		(fields_autoplaced yes)
@@ -13162,7 +13162,7 @@
 		)
 		(uuid "15abf025-2798-4bfa-88fd-5502b441eda0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 198.2797 322.58 0)
+			(at 196.8283 322.58 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13703,7 +13703,7 @@
 		)
 	)
 	(global_label "BUS_~{WAIT}"
-		(shape output)
+		(shape input)
 		(at 59.69 289.56 180)
 		(fields_autoplaced yes)
 		(effects
@@ -15310,7 +15310,7 @@
 			)
 		)
 	)
-	(global_label "~{RESET}"
+	(global_label "~{MRESET}"
 		(shape input)
 		(at 59.69 322.58 180)
 		(fields_autoplaced yes)
@@ -15322,7 +15322,7 @@
 		)
 		(uuid "b3c46568-5637-4362-a0c5-e14e8a184109")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 50.9597 322.58 0)
+			(at 49.5083 322.58 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -15479,7 +15479,7 @@
 		)
 	)
 	(global_label "BUS_~{WAIT}"
-		(shape input)
+		(shape output)
 		(at 59.69 294.64 180)
 		(fields_autoplaced yes)
 		(effects
@@ -15862,8 +15862,8 @@
 			)
 		)
 	)
-	(global_label "~{MRESET}"
-		(shape input)
+	(global_label "~{BUS_RESET}"
+		(shape output)
 		(at 59.69 330.2 180)
 		(fields_autoplaced yes)
 		(effects
@@ -15874,7 +15874,7 @@
 		)
 		(uuid "dec2c691-d799-42be-93f1-f9e94b4c0997")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 49.5083 330.2 0)
+			(at 46.1821 330.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
