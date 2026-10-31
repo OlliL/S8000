@@ -3,6 +3,51 @@
 	(generator "eeschema")
 	(generator_version "10.0")
 	(uuid "400f6a0e-230d-4aad-8415-fa6d6a13e0a8")
-	(paper "A4")
+	(paper "A2")
 	(lib_symbols)
+	(text "1.1"
+		(exclude_from_sim no)
+		(at 572.516 404.368 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left bottom)
+		)
+		(uuid "06c868da-6ffd-4348-ab2e-0e1c127de999")
+	)
+	(text "Interrupt Priority Connection\nSystem Configuration Register\nT2 Wait State Generator Logic (U28)"
+		(exclude_from_sim no)
+		(at 474.98 390.652 0)
+		(effects
+			(font
+				(size 1.778 1.778)
+			)
+			(justify left bottom)
+		)
+		(uuid "2abfe3cb-6236-4e04-b59f-ca94cf52a948")
+	)
+	(text "Oliver Lehmann <lehmann@ans-netz.de>"
+		(exclude_from_sim no)
+		(at 500.634 407.67 0)
+		(effects
+			(font
+				(size 1.778 1.778)
+			)
+			(justify left bottom)
+		)
+		(uuid "a1cdf1fd-e978-4ce1-8a3b-dc21f6198536")
+	)
+	(text "Zilog S8000 CPU"
+		(exclude_from_sim no)
+		(at 497.84 399.796 0)
+		(effects
+			(font
+				(size 2.032 2.032)
+				(thickness 0.4064)
+				(bold yes)
+			)
+		)
+		(uuid "f5b910b3-7ce9-4a68-a38e-10c117eb1dd8")
+	)
 )
