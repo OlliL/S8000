@@ -14356,7 +14356,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6fb4b686-1388-4dbd-be23-135358c2bc50")
-		(property "Reference" "U15"
+		(property "Reference" "U20"
 			(at 250.19 292.1 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14454,7 +14454,7 @@
 		(instances
 			(project "S8000_CPU"
 				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa/200ddfb8-e065-44f3-b509-f21dbfc08653"
-					(reference "U15")
+					(reference "U20")
 					(unit 2)
 				)
 			)
