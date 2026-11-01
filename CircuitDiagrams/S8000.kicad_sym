@@ -3403,7 +3403,7 @@
 					(type background)
 				)
 			)
-			(pin passive line
+			(pin open_collector line
 				(at -5.08 38.1 0)
 				(length 3.81)
 				(name "RESET-"
@@ -3421,7 +3421,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin output line
 				(at -5.08 35.56 0)
 				(length 3.81)
 				(name "CAI-"
@@ -3439,7 +3439,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin output line
 				(at -5.08 33.02 0)
 				(length 3.81)
 				(name "BAI-"
@@ -3457,7 +3457,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin output line
 				(at -5.08 30.48 0)
 				(length 3.81)
 				(name "MMAI-"
@@ -3475,7 +3475,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin output line
 				(at -5.08 27.94 0)
 				(length 3.81)
 				(name "IEI3"
@@ -3511,7 +3511,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin output line
 				(at -5.08 22.86 0)
 				(length 3.81)
 				(name "IEI1"
@@ -3529,7 +3529,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 20.32 0)
 				(length 3.81)
 				(name "INT1-"
@@ -3547,7 +3547,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 17.78 0)
 				(length 3.81)
 				(name "R/W-"
@@ -3565,7 +3565,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 15.24 0)
 				(length 3.81)
 				(name "S2"
@@ -3583,7 +3583,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 12.7 0)
 				(length 3.81)
 				(name "S0"
@@ -3601,7 +3601,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin output line
 				(at -5.08 10.16 0)
 				(length 3.81)
 				(name "ME-"
@@ -3619,7 +3619,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin no_connect line
 				(at -5.08 7.62 0)
 				(length 3.81)
 				(name "-"
@@ -3637,7 +3637,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin no_connect line
 				(at -5.08 5.08 0)
 				(length 3.81)
 				(name "-"
@@ -3655,7 +3655,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 2.54 0)
 				(length 3.81)
 				(name "AD31"
@@ -3673,7 +3673,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 0 0)
 				(length 3.81)
 				(name "AD28"
@@ -3691,7 +3691,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -2.54 0)
 				(length 3.81)
 				(name "AD25"
@@ -3709,7 +3709,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -5.08 0)
 				(length 3.81)
 				(name "AD22"
@@ -3727,7 +3727,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -7.62 0)
 				(length 3.81)
 				(name "AD20"
@@ -3745,7 +3745,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -10.16 0)
 				(length 3.81)
 				(name "AD17"
@@ -3763,7 +3763,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -12.7 0)
 				(length 3.81)
 				(name "AD14"
@@ -3781,7 +3781,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -15.24 0)
 				(length 3.81)
 				(name "AD11"
@@ -3799,7 +3799,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -17.78 0)
 				(length 3.81)
 				(name "AD9"
@@ -3817,7 +3817,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -20.32 0)
 				(length 3.81)
 				(name "AD6"
@@ -3835,7 +3835,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -22.86 0)
 				(length 3.81)
 				(name "AD3"
@@ -3853,7 +3853,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -25.4 0)
 				(length 3.81)
 				(name "AD0"
@@ -3871,7 +3871,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin output line
 				(at -5.08 -27.94 0)
 				(length 3.81)
 				(name "PWRBAD-"
@@ -3889,7 +3889,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin power_in line
 				(at -5.08 -30.48 0)
 				(length 3.81)
 				(name "+5V"
@@ -3907,7 +3907,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin power_in line
 				(at -5.08 -33.02 0)
 				(length 3.81)
 				(name "-5V"
@@ -3925,7 +3925,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin power_in line
 				(at -5.08 -35.56 0)
 				(length 3.81)
 				(name "+12V"
@@ -3943,7 +3943,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin no_connect line
 				(at -5.08 -38.1 0)
 				(length 3.81)
 				(name "-12V"
@@ -3961,7 +3961,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin power_in line
 				(at -5.08 -40.64 0)
 				(length 3.81)
 				(name "GND"
@@ -3992,7 +3992,7 @@
 					(type background)
 				)
 			)
-			(pin passive line
+			(pin output line
 				(at -5.08 38.1 0)
 				(length 3.81)
 				(name "WAIT-"
@@ -4010,7 +4010,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 35.56 0)
 				(length 3.81)
 				(name "CAO-"
@@ -4028,7 +4028,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 33.02 0)
 				(length 3.81)
 				(name "BAO-"
@@ -4046,7 +4046,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 30.48 0)
 				(length 3.81)
 				(name "MMAO-"
@@ -4064,7 +4064,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 27.94 0)
 				(length 3.81)
 				(name "IEO3"
@@ -4082,7 +4082,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 25.4 0)
 				(length 3.81)
 				(name "IEO2"
@@ -4100,7 +4100,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 22.86 0)
 				(length 3.81)
 				(name "IEO1"
@@ -4118,7 +4118,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 20.32 0)
 				(length 3.81)
 				(name "INT2-"
@@ -4136,7 +4136,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 17.78 0)
 				(length 3.81)
 				(name "B/W-"
@@ -4154,7 +4154,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 15.24 0)
 				(length 3.81)
 				(name "S3"
@@ -4172,7 +4172,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 12.7 0)
 				(length 3.81)
 				(name "S1"
@@ -4190,7 +4190,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 10.16 0)
 				(length 3.81)
 				(name "AS-"
@@ -4208,7 +4208,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin output line
 				(at -5.08 7.62 0)
 				(length 3.81)
 				(name "STOP-"
@@ -4226,7 +4226,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin no_connect line
 				(at -5.08 5.08 0)
 				(length 3.81)
 				(name "-"
@@ -4244,7 +4244,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin no_connect line
 				(at -5.08 2.54 0)
 				(length 3.81)
 				(name "-"
@@ -4262,7 +4262,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 0 0)
 				(length 3.81)
 				(name "AD29"
@@ -4280,7 +4280,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -2.54 0)
 				(length 3.81)
 				(name "AD26"
@@ -4298,7 +4298,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -5.08 0)
 				(length 3.81)
 				(name "AD23"
@@ -4316,7 +4316,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -7.62 0)
 				(length 3.81)
 				(name "AD21"
@@ -4334,7 +4334,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -10.16 0)
 				(length 3.81)
 				(name "AD18"
@@ -4352,7 +4352,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -12.7 0)
 				(length 3.81)
 				(name "AD15"
@@ -4370,7 +4370,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -15.24 0)
 				(length 3.81)
 				(name "AD12"
@@ -4388,7 +4388,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -17.78 0)
 				(length 3.81)
 				(name "AD10"
@@ -4406,7 +4406,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -20.32 0)
 				(length 3.81)
 				(name "AD7"
@@ -4424,7 +4424,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -22.86 0)
 				(length 3.81)
 				(name "AD4"
@@ -4442,7 +4442,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin bidirectional line
 				(at -5.08 -25.4 0)
 				(length 3.81)
 				(name "AD1"
@@ -4460,7 +4460,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 -27.94 0)
 				(length 3.81)
 				(name "MCLK"
@@ -4478,7 +4478,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin power_in line
 				(at -5.08 -30.48 0)
 				(length 3.81)
 				(name "+5V"
@@ -4496,7 +4496,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin power_in line
 				(at -5.08 -33.02 0)
 				(length 3.81)
 				(name "-5V"
@@ -4514,7 +4514,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin power_in line
 				(at -5.08 -35.56 0)
 				(length 3.81)
 				(name "+12V"
@@ -4532,7 +4532,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin no_connect line
 				(at -5.08 -38.1 0)
 				(length 3.81)
 				(name "-12V"
@@ -4550,7 +4550,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin power_in line
 				(at -5.08 -40.64 0)
 				(length 3.81)
 				(name "GND"
@@ -4707,7 +4707,7 @@
 					)
 				)
 			)
-			(pin output line
+			(pin bidirectional line
 				(at -5.08 20.32 0)
 				(length 3.81)
 				(name "INT3-"
@@ -4779,7 +4779,7 @@
 					)
 				)
 			)
-			(pin bidirectional line
+			(pin input line
 				(at -5.08 10.16 0)
 				(length 3.81)
 				(name "DS-"
@@ -5049,7 +5049,7 @@
 					)
 				)
 			)
-			(pin passive line
+			(pin input line
 				(at -5.08 -27.94 0)
 				(length 3.81)
 				(name "BCLK"

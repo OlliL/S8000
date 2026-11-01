@@ -6874,7 +6874,7 @@
 		)
 		(uuid "c439b981-c420-4e48-ad2d-5e65cace9589")
 	)
-	(text "P1-1B"
+	(text "P1-8B"
 		(exclude_from_sim no)
 		(at 69.85 279.4 0)
 		(effects
@@ -14711,7 +14711,7 @@
 		)
 	)
 	(global_label "BUS_~{BUSACK}"
-		(shape input)
+		(shape output)
 		(at 59.69 320.04 180)
 		(fields_autoplaced yes)
 		(effects
