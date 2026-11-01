@@ -7203,7 +7203,7 @@
 	)
 	(wire
 		(pts
-			(xy 266.7 107.95) (xy 535.94 107.95)
+			(xy 266.7 107.95) (xy 533.4 107.95)
 		)
 		(stroke
 			(width 0)
@@ -8579,7 +8579,7 @@
 	)
 	(global_label "INT PHI"
 		(shape output)
-		(at 535.94 107.95 0)
+		(at 533.4 107.95 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8589,7 +8589,7 @@
 		)
 		(uuid "c274328f-b54f-4723-898a-f20d53ec7ce6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 546.001 107.95 0)
+			(at 543.461 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9104,7 +9104,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
 			(at 421.64 346.71 0)
 			(hide yes)
 			(show_name no)
@@ -9397,7 +9397,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 265.43 314.96 0)
 			(hide yes)
 			(show_name no)
@@ -9678,7 +9678,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 313.69 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -9794,7 +9794,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 193.04 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -9910,7 +9910,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 313.69 257.81 0)
 			(hide yes)
 			(show_name no)
@@ -10025,7 +10025,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 299.72 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -10140,7 +10140,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 299.72 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -10258,7 +10258,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
 			(at 144.78 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -10459,7 +10459,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
 			(at 127 325.12 0)
 			(hide yes)
 			(show_name no)
@@ -10539,7 +10539,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 289.56 298.45 0)
 			(hide yes)
 			(show_name no)
@@ -10655,7 +10655,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 187.96 312.42 0)
 			(hide yes)
 			(show_name no)
@@ -10771,7 +10771,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 289.56 281.94 0)
 			(hide yes)
 			(show_name no)
@@ -10965,7 +10965,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 193.04 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -11160,7 +11160,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_THT:LED_D3.0mm"
 			(at 471.17 317.5 0)
 			(hide yes)
 			(show_name no)
@@ -11490,7 +11490,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 299.72 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -11606,7 +11606,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 193.04 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -12117,7 +12117,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_THT:LED_D3.0mm"
 			(at 461.01 317.5 0)
 			(hide yes)
 			(show_name no)
@@ -12207,7 +12207,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Array_SIP6"
 			(at 228.6 169.418 0)
 			(hide yes)
 			(show_name no)
@@ -12377,7 +12377,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 156.21 312.42 0)
 			(hide yes)
 			(show_name no)
@@ -12648,7 +12648,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Array_SIP6"
 			(at 242.57 191.008 0)
 			(hide yes)
 			(show_name no)
@@ -12829,7 +12829,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 351.79 241.3 0)
 			(hide yes)
 			(show_name no)
@@ -13128,7 +13128,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_THT:LED_D3.0mm"
 			(at 481.33 317.5 0)
 			(hide yes)
 			(show_name no)
@@ -13375,7 +13375,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 241.3 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -13490,7 +13490,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 241.3 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -13605,7 +13605,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 241.3 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -13723,7 +13723,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 351.79 213.36 0)
 			(hide yes)
 			(show_name no)
@@ -13918,7 +13918,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "LED_THT:LED_D3.0mm"
 			(at 449.58 317.5 0)
 			(hide yes)
 			(show_name no)
@@ -14009,7 +14009,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 193.04 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -14360,7 +14360,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 142.24 133.35 0)
 			(hide yes)
 			(show_name no)

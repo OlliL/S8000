@@ -13114,7 +13114,7 @@
 			)
 		)
 	)
-	(global_label "INSTFETCH1STWD"
+	(global_label "~{INSTFETCH1STWD}"
 		(shape input)
 		(at 59.69 339.09 180)
 		(fields_autoplaced yes)
@@ -13138,7 +13138,7 @@
 			)
 		)
 	)
-	(global_label "~{ZBUSACK}"
+	(global_label "~{BUSACK}"
 		(shape input)
 		(at 59.69 250.19 180)
 		(fields_autoplaced yes)
@@ -13150,7 +13150,7 @@
 		)
 		(uuid "47b6aed7-6c4e-4baf-a072-8ba8341167c6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 48.0567 250.19 0)
+			(at 49.2662 250.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13402,7 +13402,7 @@
 			)
 		)
 	)
-	(global_label "INT2 PHI"
+	(global_label "INT 2 PHI"
 		(shape input)
 		(at 59.69 303.53 180)
 		(fields_autoplaced yes)
@@ -13414,7 +13414,7 @@
 		)
 		(uuid "8fa4387f-67bb-4775-9eb2-1ecf5b3e8396")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 48.4195 303.53 0)
+			(at 47.4519 303.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13546,7 +13546,7 @@
 			)
 		)
 	)
-	(global_label "SEGTACK"
+	(global_label "SEGSTACK"
 		(shape input)
 		(at 59.69 317.5 180)
 		(fields_autoplaced yes)
@@ -13558,7 +13558,7 @@
 		)
 		(uuid "c9d1a2b5-c6e9-403f-b752-ba76e17c4995")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 48.4801 317.5 0)
+			(at 47.2706 317.5 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
