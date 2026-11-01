@@ -6129,7 +6129,7 @@
 		)
 		(uuid "2b9a653e-68ef-49f1-a2f6-6fb9ecd36ecc")
 	)
-	(text "P1 - 27C"
+	(text "P1 - 27B"
 		(exclude_from_sim no)
 		(at 523.24 336.55 0)
 		(effects
