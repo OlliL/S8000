@@ -1342,7 +1342,7 @@
 						)
 					)
 				)
-				(pin output line
+				(pin input line
 					(at 0 6.35 270)
 					(length 3.81)
 					(name ""
@@ -3525,6 +3525,10 @@
 	(no_connect
 		(at 276.86 101.6)
 		(uuid "a6ed672d-4a26-488c-8358-a05795c9371c")
+	)
+	(no_connect
+		(at 276.86 210.82)
+		(uuid "cf41525d-ef0c-4987-bd36-d3b48b7546e6")
 	)
 	(no_connect
 		(at 276.86 109.22)
@@ -7589,7 +7593,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 417.83 228.9048 0)
 			(hide yes)
 			(show_name no)
@@ -7670,7 +7674,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 417.83 51.1048 0)
 			(hide yes)
 			(show_name no)
@@ -7946,7 +7950,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 417.83 66.3448 0)
 			(hide yes)
 			(show_name no)
@@ -8350,7 +8354,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 417.83 127.3048 0)
 			(hide yes)
 			(show_name no)
@@ -8431,7 +8435,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 458.47 119.6848 0)
 			(hide yes)
 			(show_name no)
@@ -8634,7 +8638,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 440.69 139.7 0)
 			(hide yes)
 			(show_name no)
@@ -8879,7 +8883,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 440.69 78.74 0)
 			(hide yes)
 			(show_name no)
@@ -9202,7 +9206,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 440.69 241.3 0)
 			(hide yes)
 			(show_name no)
@@ -9325,7 +9329,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 458.47 221.2848 0)
 			(hide yes)
 			(show_name no)
@@ -9607,7 +9611,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 417.83 213.6648 0)
 			(hide yes)
 			(show_name no)
@@ -10043,7 +10047,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 251.46 370.84 0)
 			(hide yes)
 			(show_name no)
@@ -10682,7 +10686,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 400.05 147.32 0)
 			(hide yes)
 			(show_name no)
@@ -10921,7 +10925,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 440.69 93.98 0)
 			(hide yes)
 			(show_name no)
@@ -11044,7 +11048,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 458.47 282.2448 0)
 			(hide yes)
 			(show_name no)
@@ -11596,7 +11600,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 400.05 86.36 0)
 			(hide yes)
 			(show_name no)
@@ -11719,7 +11723,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 458.47 58.7248 0)
 			(hide yes)
 			(show_name no)
@@ -12129,7 +12133,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 417.83 112.0648 0)
 			(hide yes)
 			(show_name no)
@@ -12209,7 +12213,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 440.69 256.54 0)
 			(hide yes)
 			(show_name no)
@@ -12330,7 +12334,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 190.5 370.84 0)
 			(hide yes)
 			(show_name no)
@@ -12451,7 +12455,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 220.98 370.84 0)
 			(hide yes)
 			(show_name no)
@@ -12812,7 +12816,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 417.83 274.6248 0)
 			(hide yes)
 			(show_name no)
@@ -12893,7 +12897,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+		(property "Footprint" "Capacitor_THT:C_Disc_D7.5mm_W5.0mm_P7.50mm"
 			(at 417.83 289.8648 0)
 			(hide yes)
 			(show_name no)
@@ -13291,7 +13295,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 400.05 309.88 0)
 			(hide yes)
 			(show_name no)
@@ -13899,7 +13903,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 400.05 248.92 0)
 			(hide yes)
 			(show_name no)
@@ -14021,7 +14025,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 440.69 154.94 0)
 			(hide yes)
 			(show_name no)
@@ -14344,7 +14348,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 440.69 302.26 0)
 			(hide yes)
 			(show_name no)
@@ -14466,7 +14470,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-16_W7.62mm"
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 440.69 317.5 0)
 			(hide yes)
 			(show_name no)

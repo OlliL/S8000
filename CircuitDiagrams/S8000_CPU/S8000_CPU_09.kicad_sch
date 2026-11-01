@@ -2541,7 +2541,7 @@
 					)
 				)
 			)
-			(property "ki_fp_filters" "DIP*18.0mmx34.29mm*W15.24mm*"
+			(property "ki_fp_filters" "DIP*18*W7.62mm*"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)

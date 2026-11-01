@@ -9014,6 +9014,12 @@
 		(uuid "5b10def2-b70a-448d-a2ae-58be5f7080d0")
 	)
 	(junction
+		(at 139.7 76.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6a730cba-e674-45ab-bc08-f800dc033edf")
+	)
+	(junction
 		(at 142.24 102.87)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -9109,7 +9115,7 @@
 		(uuid "09567519-5f1a-4dc0-a88f-a5cb472f5641")
 	)
 	(bus_entry
-		(at 88.9 76.2)
+		(at 88.9 78.74)
 		(size 2.54 -2.54)
 		(stroke
 			(width 0)
@@ -9420,23 +9426,13 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 73.66) (xy 91.44 73.66)
+			(xy 107.95 76.2) (xy 91.44 76.2)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "1c089f94-c369-47b2-99dd-f3f6283e7a9c")
-	)
-	(bus
-		(pts
-			(xy 88.9 21.59) (xy 88.9 120.65)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1c7ce846-4098-4769-914d-f4ca4d04edfa")
 	)
 	(wire
 		(pts
@@ -9588,6 +9584,16 @@
 		)
 		(uuid "328af902-7642-46e3-a2d3-4a0d4c66c385")
 	)
+	(bus
+		(pts
+			(xy 88.9 21.59) (xy 88.9 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "328d7209-3237-4740-a20f-cac55408ee6a")
+	)
 	(wire
 		(pts
 			(xy 107.95 110.49) (xy 104.14 110.49)
@@ -9730,7 +9736,7 @@
 	)
 	(wire
 		(pts
-			(xy 139.7 73.66) (xy 123.19 73.66)
+			(xy 139.7 76.2) (xy 123.19 76.2)
 		)
 		(stroke
 			(width 0)
@@ -10776,7 +10782,7 @@
 	)
 	(global_label "LAD6"
 		(shape output)
-		(at 92.71 73.66 0)
+		(at 92.71 76.2 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10786,7 +10792,7 @@
 		)
 		(uuid "38f38390-e4f5-4e08-b5e4-f6674cd16434")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 100.2914 73.66 0)
+			(at 100.2914 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12662,7 +12668,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 220.98 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -13255,7 +13261,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 210.82 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -13349,10 +13355,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "aa2942de-2e3e-4db8-9f00-63af50919b34")
 		(property "Reference" "U45"
-			(at 115.5617 82.55 0)
+			(at 116.586 93.98 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13362,7 +13367,7 @@
 			)
 		)
 		(property "Value" "74133"
-			(at 115.5617 85.09 0)
+			(at 116.586 96.52 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13579,7 +13584,7 @@
 	)
 	(symbol
 		(lib_id "74xx:74LS240_Split")
-		(at 115.57 73.66 0)
+		(at 115.57 76.2 0)
 		(unit 8)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -13589,16 +13594,6 @@
 		(dnp no)
 		(uuid "aff84984-aacf-4815-8327-ae39cb3cf33f")
 		(property "Reference" "U11"
-			(at 115.57 64.77 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "74240"
 			(at 115.57 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13608,8 +13603,18 @@
 				)
 			)
 		)
+		(property "Value" "74240"
+			(at 115.57 69.85 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "Footprint" "Package_DIP:DIP-20_W7.62mm"
-			(at 115.57 73.66 0)
+			(at 115.57 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13620,7 +13625,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/sn74ls240.pdf"
-			(at 115.57 73.66 0)
+			(at 115.57 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13631,7 +13636,7 @@
 			)
 		)
 		(property "Description" "Octal Buffer and Line Driver With 3-State Output, active-low enables, inverting outputs, split symbol"
-			(at 115.57 73.66 0)
+			(at 115.57 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14296,7 +14301,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 86.36 135.89 0)
 			(hide yes)
 			(show_name no)

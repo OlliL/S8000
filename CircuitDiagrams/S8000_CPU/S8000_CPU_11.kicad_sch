@@ -5614,7 +5614,7 @@
 					)
 				)
 			)
-			(property "ki_fp_filters" "DIP?8?W7.62mm*"
+			(property "ki_fp_filters" "*array*6*"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -6250,7 +6250,7 @@
 		)
 		(uuid "a844f406-f120-4765-8360-cbd3d4514b5a")
 	)
-	(text "P2-27A"
+	(text "P2-27C"
 		(exclude_from_sim no)
 		(at 70.104 312.42 0)
 		(effects
@@ -6486,6 +6486,12 @@
 		(uuid "641e7c6c-4b68-429b-a047-0000e6f38773")
 	)
 	(junction
+		(at 104.14 312.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6bd1dd7c-716a-4c5c-bb70-78d510686c08")
+	)
+	(junction
 		(at 129.54 135.89)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6586,6 +6592,10 @@
 		(uuid "3c4a6182-c16c-4dda-9ed3-10674f08625e")
 	)
 	(no_connect
+		(at 149.86 135.89)
+		(uuid "67fa4af8-6e77-4620-af53-f3b2f16acf7b")
+	)
+	(no_connect
 		(at 359.41 243.84)
 		(uuid "a29696e3-f60d-408b-818d-1e68fbb278ca")
 	)
@@ -6670,16 +6680,6 @@
 			(type default)
 		)
 		(uuid "206c435a-01b5-42a8-8b6c-7baee35d150b")
-	)
-	(wire
-		(pts
-			(xy 115.57 312.42) (xy 127 312.42)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "22e4e333-6714-41e2-a4bb-d6c72b616e33")
 	)
 	(wire
 		(pts
@@ -7103,7 +7103,7 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 312.42) (xy 115.57 312.42)
+			(xy 59.69 312.42) (xy 104.14 312.42)
 		)
 		(stroke
 			(width 0)
@@ -7163,7 +7163,7 @@
 	)
 	(wire
 		(pts
-			(xy 127 312.42) (xy 127 322.58)
+			(xy 104.14 312.42) (xy 104.14 322.58)
 		)
 		(stroke
 			(width 0)
@@ -7950,6 +7950,16 @@
 			(type default)
 		)
 		(uuid "da79eaec-2505-4720-a917-2891cf890b55")
+	)
+	(wire
+		(pts
+			(xy 104.14 312.42) (xy 127 312.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dbc4e819-31e7-4661-a751-ae62a8da5d04")
 	)
 	(wire
 		(pts
@@ -10428,7 +10438,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Polarized_Small_US")
-		(at 127 325.12 0)
+		(at 104.14 325.12 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10438,7 +10448,7 @@
 		(dnp no)
 		(uuid "2a4653fd-2c48-48f0-909d-78556f3d20f8")
 		(property "Reference" "C42"
-			(at 129.794 324.104 0)
+			(at 106.934 324.104 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10449,7 +10459,7 @@
 			)
 		)
 		(property "Value" "22uF/25V"
-			(at 129.794 326.136 0)
+			(at 106.934 326.136 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10460,7 +10470,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
-			(at 127 325.12 0)
+			(at 104.14 325.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10471,7 +10481,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 127 325.12 0)
+			(at 104.14 325.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10482,7 +10492,7 @@
 			)
 		)
 		(property "Description" "Polarized capacitor, small US symbol"
-			(at 127 325.12 0)
+			(at 104.14 325.12 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13268,7 +13278,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 127 327.66 0)
+		(at 104.14 327.66 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -13279,7 +13289,7 @@
 		(fields_autoplaced yes)
 		(uuid "d1834061-d112-4874-b8f1-01a7d3751938")
 		(property "Reference" "#PWR0144"
-			(at 127 334.01 0)
+			(at 104.14 334.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13290,7 +13300,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 127 332.74 0)
+			(at 104.14 332.74 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -13300,7 +13310,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 127 327.66 0)
+			(at 104.14 327.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13311,7 +13321,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 127 327.66 0)
+			(at 104.14 327.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13322,7 +13332,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 127 327.66 0)
+			(at 104.14 327.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

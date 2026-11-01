@@ -12942,7 +12942,7 @@
 			)
 		)
 	)
-	(global_label "ISNA[0..6]"
+	(global_label "ISNAD[0..7]"
 		(shape input)
 		(at 59.69 209.55 180)
 		(fields_autoplaced yes)
@@ -12954,7 +12954,7 @@
 		)
 		(uuid "20c65d7f-a6d7-4792-8e99-2e00338bf30e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 47.1494 209.55 0)
+			(at 45.8794 209.55 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16209,7 +16209,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_DIP:DIP-14_W7.62mm"
 			(at 283.21 137.16 0)
 			(hide yes)
 			(show_name no)

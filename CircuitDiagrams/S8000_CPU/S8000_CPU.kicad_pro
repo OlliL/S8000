@@ -216,10 +216,10 @@
       "field_name_whitespace": "warning",
       "footprint_filter": "ignore",
       "footprint_link_issues": "warning",
-      "four_way_junction": "ignore",
+      "four_way_junction": "warning",
       "ground_pin_not_ground": "warning",
       "hier_label_mismatch": "error",
-      "isolated_pin_label": "ignore",
+      "isolated_pin_label": "warning",
       "label_dangling": "error",
       "label_multiple_wires": "warning",
       "lib_symbol_issues": "warning",
@@ -232,7 +232,7 @@
       "net_not_bus_member": "warning",
       "no_connect_connected": "warning",
       "no_connect_dangling": "warning",
-      "pin_not_connected": "ignore",
+      "pin_not_connected": "warning",
       "pin_not_driven": "error",
       "pin_to_pin": "warning",
       "power_pin_not_driven": "error",
@@ -241,8 +241,8 @@
       "similar_label_and_power": "warning",
       "similar_labels": "warning",
       "similar_power": "warning",
-      "simulation_model_issue": "ignore",
-      "single_global_label": "ignore",
+      "simulation_model_issue": "warning",
+      "single_global_label": "warning",
       "stacked_pin_name": "warning",
       "unannotated": "error",
       "unconnected_wire_endpoint": "warning",
@@ -460,7 +460,7 @@
         "uuid": "cee545ba-d57c-4b2c-bcb3-989a68b0ecfa"
       }
     ],
-    "used_designators": "#FLG1-4,#PWR1-224,1\\-57,C1,C3-48,C52,C61,C63-81,C86-87,C89,C92-93,C95,C98-103,D1,DS2-4,E1,E7-9,E15-27,J1,P1-2,R1-4,R6-7,R9,R11,R13-15,R17,R21-22,RN1,SW1,TP4,TP6-8,U1-10,U12-13,U15-16,U18-19,U22-28,U31-37,U39-40,U42,U45-51,U54-55,U61-72,U80-82,U94-95,U97-99,U105,U108-112,U115-119,U128-132,Y1",
+    "used_designators": "#FLG1-8,#PWR1-234,1\\-57,C1,C3-48,C52,C61,C63-81,C86-87,C89,C92-93,C95,C98-103,D1,DS2-4,E1,E7-9,E15-27,J1,P1-2,R1-4,R6-7,R9,R11,R13-15,R17,R21-22,RN1,SW1,TP4,TP6-8,U1-10,U12-13,U15-16,U18-19,U22-28,U31-37,U39-40,U42,U45-51,U54-55,U61-72,U80-82,U94-95,U97-99,U105,U108-112,U115-119,U128-132,Y1",
     "variants": []
   },
   "sheets": [
