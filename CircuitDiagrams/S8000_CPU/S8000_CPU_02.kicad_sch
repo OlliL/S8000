@@ -6489,16 +6489,6 @@
 		)
 		(uuid "370f6906-3a81-43e7-a5c0-dc1f163c3e69")
 	)
-	(text "PIN 19\nFIXME check\nreal board"
-		(exclude_from_sim no)
-		(at 188.976 195.072 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "38d68c91-3ea0-41b3-85f9-8509db395b53")
-	)
 	(text ""
 		(exclude_from_sim no)
 		(at 549.656 50.8 0)
@@ -6620,6 +6610,17 @@
 			(justify left)
 		)
 		(uuid "7b49ee6e-2d88-42df-af98-831722f18721")
+	)
+	(text "(Sh. 5,6)"
+		(exclude_from_sim no)
+		(at 39.37 205.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "7c4a6943-7a4a-405a-b014-13618e33aac3")
 	)
 	(text "P1-8C"
 		(exclude_from_sim no)
@@ -7129,6 +7130,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "7941118f-8411-4328-a676-f56fba6afd60")
+	)
+	(junction
+		(at 226.06 190.5)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9072280e-fc7e-4d38-9fe4-50e0559bfd74")
 	)
 	(junction
 		(at 440.69 359.41)
@@ -11468,6 +11475,16 @@
 	)
 	(wire
 		(pts
+			(xy 226.06 205.74) (xy 226.06 190.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "da4592d6-95bb-4691-9318-8b8bf67bae97")
+	)
+	(wire
+		(pts
 			(xy 267.97 127) (xy 254 127)
 		)
 		(stroke
@@ -11705,6 +11722,16 @@
 			(type default)
 		)
 		(uuid "ed6fda4e-5387-4f63-aab1-e66f8e4e46ac")
+	)
+	(wire
+		(pts
+			(xy 59.69 205.74) (xy 226.06 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "edb240f5-9ff6-49f7-b033-8f62f0a4f692")
 	)
 	(wire
 		(pts
@@ -14614,30 +14641,6 @@
 			)
 		)
 	)
-	(global_label "U119_PIN4"
-		(shape input)
-		(at 226.06 110.49 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "754bff5f-b891-4450-918b-609103469ee9")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 239.3866 110.49 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-	)
 	(global_label "B{slash}~{W}"
 		(shape output)
 		(at 264.16 142.24 180)
@@ -15059,6 +15062,30 @@
 		(uuid "93e5e75f-85b4-45d5-b67e-d4e1c98540d4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 199.9729 170.18 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "RS423_MODE"
+		(shape output)
+		(at 59.69 205.74 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "951dd01d-7ea6-4799-afa4-a49c8b0445e8")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 44.4283 205.74 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

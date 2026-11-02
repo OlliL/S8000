@@ -4702,6 +4702,12 @@
 		(uuid "530944be-85bc-43ef-8d1b-9efa0a52237f")
 	)
 	(junction
+		(at 326.39 111.76)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6dc45213-e087-43b1-be6e-aae52ff3f4f2")
+	)
+	(junction
 		(at 212.09 215.9)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5147,6 +5153,16 @@
 	)
 	(wire
 		(pts
+			(xy 326.39 111.76) (xy 533.4 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3e53c1da-56ef-4619-94d1-46eb2e047b24")
+	)
+	(wire
+		(pts
 			(xy 209.55 213.36) (xy 236.22 213.36)
 		)
 		(stroke
@@ -5384,6 +5400,16 @@
 			(type default)
 		)
 		(uuid "76344272-2e36-4d0e-a5a5-344cbdfad308")
+	)
+	(wire
+		(pts
+			(xy 326.39 105.41) (xy 326.39 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "767bdb74-48a2-4802-afc6-53d097c5d9b2")
 	)
 	(wire
 		(pts
@@ -5687,7 +5713,7 @@
 	)
 	(wire
 		(pts
-			(xy 276.86 111.76) (xy 533.4 111.76)
+			(xy 276.86 111.76) (xy 326.39 111.76)
 		)
 		(stroke
 			(width 0)
@@ -7259,6 +7285,86 @@
 			(project "S8000_CPU"
 				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa/c84d5b69-34c9-4634-824a-223e6b3f03d4"
 					(reference "#PWR0101")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 326.39 105.41 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "14afc015-cb61-4696-88aa-b73e015d8ec1")
+		(property "Reference" "TP8"
+			(at 328.93 102.1079 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" ""
+			(at 328.93 103.3779 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_1.5x1.5mm"
+			(at 331.47 105.41 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 331.47 105.41 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 326.39 105.41 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "39369942-a714-46b4-8aeb-40448ad6f78e")
+		)
+		(instances
+			(project "S8000_CPU"
+				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa/c84d5b69-34c9-4634-824a-223e6b3f03d4"
+					(reference "TP8")
 					(unit 1)
 				)
 			)

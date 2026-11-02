@@ -2482,6 +2482,129 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "S8000:2114"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -3865,6 +3988,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "48956df1-9ed9-46a2-9b34-89c154025802")
+	)
+	(junction
+		(at 123.19 193.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4a864a52-0690-48c7-89b8-650f1d3cac58")
 	)
 	(junction
 		(at 186.69 228.6)
@@ -6562,16 +6691,6 @@
 		)
 		(uuid "a18438e4-dc17-4847-9d2d-81fb8bfdd2db")
 	)
-	(wire
-		(pts
-			(xy 204.47 193.04) (xy 59.69 193.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a1c3f0d7-4f97-45d5-9eaa-67c99c2b7061")
-	)
 	(bus
 		(pts
 			(xy 59.69 44.45) (xy 106.68 44.45)
@@ -7181,6 +7300,16 @@
 			(type default)
 		)
 		(uuid "ed21ebad-0803-45c9-bbb5-1c1b9b8e2882")
+	)
+	(wire
+		(pts
+			(xy 59.69 193.04) (xy 204.47 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee6b5e9a-24ae-49f8-bef9-c3bbba85383a")
 	)
 	(wire
 		(pts
@@ -11179,6 +11308,86 @@
 			(project "S8000_CPU"
 				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa/830e0359-3e23-46f2-aa22-30d2a57550c3"
 					(reference "#PWR044")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 123.19 193.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "58441dbf-a771-4be9-b179-bddce8d5e5de")
+		(property "Reference" "TP9"
+			(at 125.73 189.7379 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" ""
+			(at 125.73 191.0079 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_1.5x1.5mm"
+			(at 128.27 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 128.27 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 123.19 193.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c55df582-814f-4002-b37b-dea0aec077c0")
+		)
+		(instances
+			(project "S8000_CPU"
+				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa/830e0359-3e23-46f2-aa22-30d2a57550c3"
+					(reference "TP9")
 					(unit 1)
 				)
 			)

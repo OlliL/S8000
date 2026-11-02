@@ -20739,7 +20739,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "b397d482-a6e4-40d6-89af-b68f3fccfe3e")
-		(property "Reference" "R21"
+		(property "Reference" "R11"
 			(at 403.86 251.714 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20801,7 +20801,7 @@
 		(instances
 			(project "S8000_CPU"
 				(path "/cee545ba-d57c-4b2c-bcb3-989a68b0ecfa/4e879ea0-dc92-483b-ab60-ba7ce561d4ea"
-					(reference "R21")
+					(reference "R11")
 					(unit 1)
 				)
 			)
