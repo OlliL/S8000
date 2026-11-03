@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/home/olivleh1/git/S8000/CircuitDiagrams/S8000_CPU/S8000_CPU.kicad_sch")
-		(date "2026-11-03T17:08:47")
+		(date "2026-11-03T17:23:19")
 		(tool "Eeschema 10.0.7")
 		(sheet
 			(number "1")
@@ -3089,7 +3089,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "1697c3c2-b17d-4748-aabc-07d9617e4faf" "3651eae0-ed4a-48f9-81b4-15a91713c785"
+			(tstamps "3651eae0-ed4a-48f9-81b4-15a91713c785" "1697c3c2-b17d-4748-aabc-07d9617e4faf"
 				"07e9ea28-72d1-421d-abe0-02c07d0cbf09"
 			)
 			(units
@@ -13793,8 +13793,8 @@
 				(names "/S8000 CPU 05/")
 				(tstamps "/16771716-da83-411f-9e9b-d3dfec4636a4/")
 			)
-			(tstamps "bc2ed021-3541-42ff-b422-228cc3a7f84d" "ee4423d2-236c-4837-81a2-4f04c124a623"
-				"f9a91703-955c-40d2-a379-24ae7fcf3da3" "98fa0daa-d77a-4184-b6ac-1a9b305bb170"
+			(tstamps "bc2ed021-3541-42ff-b422-228cc3a7f84d" "f9a91703-955c-40d2-a379-24ae7fcf3da3"
+				"ee4423d2-236c-4837-81a2-4f04c124a623" "98fa0daa-d77a-4184-b6ac-1a9b305bb170"
 				"810e6bfd-b316-4922-bcfa-d1e734861b2e"
 			)
 			(units
@@ -14126,8 +14126,8 @@
 				(names "/S8000 CPU 05/")
 				(tstamps "/16771716-da83-411f-9e9b-d3dfec4636a4/")
 			)
-			(tstamps "ba2ae14e-709f-4581-bf32-657725f58ca0" "4190966f-f933-418f-9c1b-9286b8376d11"
-				"b7ead548-45ea-40be-a903-2ff633327c45" "aac4b218-13bf-4c76-ab18-f0918b12689e"
+			(tstamps "ba2ae14e-709f-4581-bf32-657725f58ca0" "aac4b218-13bf-4c76-ab18-f0918b12689e"
+				"4190966f-f933-418f-9c1b-9286b8376d11" "b7ead548-45ea-40be-a903-2ff633327c45"
 				"17806b95-3f38-4ad5-ae93-cb64f3145607"
 			)
 			(units

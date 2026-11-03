@@ -6464,17 +6464,6 @@
 		)
 		(uuid "1d233c83-914a-4fc6-85df-8e1925092b40")
 	)
-	(text "(Sh. ??)"
-		(exclude_from_sim no)
-		(at 39.37 91.44 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "2ee187b6-db58-4d64-9f25-2e5e791c4f3e")
-	)
 	(text "(Sh. 4,5,6,7)"
 		(exclude_from_sim no)
 		(at 39.37 254.254 0)
@@ -6826,17 +6815,6 @@
 			(justify left bottom)
 		)
 		(uuid "bbec3196-b072-4ba3-9548-d9042d7d95cb")
-	)
-	(text "(Sh. ??)"
-		(exclude_from_sim no)
-		(at 39.37 83.82 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "bf5e1ecd-a473-49cd-a52f-801c2ce53970")
 	)
 	(text "P1-10A"
 		(exclude_from_sim no)
@@ -8117,15 +8095,6 @@
 		(uuid "89810c1e-f7b5-42ab-80d8-d48f54674f61")
 	)
 	(bus_entry
-		(at 209.55 91.44)
-		(size 2.54 2.54)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8d30f1ca-ce7a-4a15-96e9-3c94ef4f1d44")
-	)
-	(bus_entry
 		(at 370.84 91.44)
 		(size 2.54 -2.54)
 		(stroke
@@ -8729,15 +8698,6 @@
 		(uuid "ebb3d77f-bfdf-4628-bc8e-220fd3cc13be")
 	)
 	(bus_entry
-		(at 209.55 83.82)
-		(size 2.54 2.54)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ec390618-9683-400a-92ad-2bf6c8491e39")
-	)
-	(bus_entry
 		(at 336.55 167.64)
 		(size 2.54 2.54)
 		(stroke
@@ -9078,16 +9038,6 @@
 	)
 	(wire
 		(pts
-			(xy 209.55 83.82) (xy 59.69 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "164990f8-9700-4ee1-bb74-57868d21db59")
-	)
-	(wire
-		(pts
 			(xy 267.97 137.16) (xy 254 137.16)
 		)
 		(stroke
@@ -9095,16 +9045,6 @@
 			(type default)
 		)
 		(uuid "16c94217-ea30-46de-8989-a451b839f0d4")
-	)
-	(wire
-		(pts
-			(xy 209.55 91.44) (xy 59.69 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "16e5e7da-7426-4e22-b3fb-f7e4943fa073")
 	)
 	(bus
 		(pts
@@ -13620,30 +13560,6 @@
 			)
 		)
 	)
-	(global_label "B{slash}~{W}"
-		(shape output)
-		(at 59.69 91.44 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "362efdef-1c71-4547-bb43-178b7a2ef494")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 52.6529 91.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
 	(global_label "R{slash}~{W}"
 		(shape output)
 		(at 59.69 88.9 180)
@@ -14892,30 +14808,6 @@
 			)
 		)
 	)
-	(global_label "~{AS}"
-		(shape output)
-		(at 207.01 83.82 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "8be8304a-c841-45d7-94f0-fd2d447d5ca4")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 201.7267 83.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
 	(global_label "~{DS}"
 		(shape output)
 		(at 207.01 172.72 180)
@@ -15225,30 +15117,6 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
-			)
-		)
-	)
-	(global_label "~{AS}"
-		(shape output)
-		(at 59.69 83.82 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "a407552c-2dc8-4451-9484-1ce4845acb6b")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 54.4067 83.82 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
 			)
 		)
 	)
@@ -15625,30 +15493,6 @@
 		(uuid "d02fb572-1551-46b9-8fcd-af165bdf9458")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 259.6024 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-	)
-	(global_label "B{slash}~{W}"
-		(shape output)
-		(at 207.01 91.44 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "d2cf6809-53a4-46f3-bbd6-ba3bd0a7ce70")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 199.9729 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

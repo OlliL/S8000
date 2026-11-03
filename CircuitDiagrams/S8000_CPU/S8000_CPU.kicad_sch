@@ -13929,28 +13929,6 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 274.066 194.31 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "241056f9-2c41-4172-bc52-682bae43464b")
-	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 202.184 197.612 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "3cd90e30-23e0-4594-bf23-ee108e9cc5a4")
-	)
 	(junction
 		(at 160.02 151.13)
 		(diameter 0)
