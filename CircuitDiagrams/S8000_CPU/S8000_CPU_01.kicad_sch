@@ -4,6 +4,12 @@
 	(generator_version "10.0")
 	(uuid "e94785d0-6b8b-418c-a762-866d8c32baab")
 	(paper "A3")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+	)
 	(lib_symbols
 		(symbol "Device:C_Polarized_Small_US"
 			(pin_numbers
@@ -723,18 +729,6 @@
 		)
 		(uuid "95088e48-50b3-48dc-9bbe-2964bf99a3ca")
 	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 323.596 276.86 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "5e61d7b0-1801-4167-ab80-ea8a4a10843c")
-	)
 	(text "C47 and C48 missing?!"
 		(exclude_from_sim no)
 		(at 144.78 186.944 0)
@@ -776,28 +770,6 @@
 			(justify left bottom)
 		)
 		(uuid "eb79d482-212d-4573-92b3-fdd1db5d9da2")
-	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 398.272 281.432 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "f3c1bb2e-661b-48d7-a1ad-f766a60e6653")
-	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 326.39 284.734 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "f6ce4bc8-da63-4235-80e8-94c08bd79522")
 	)
 	(text "2) U25 and U26 are both S on my board"
 		(exclude_from_sim no)

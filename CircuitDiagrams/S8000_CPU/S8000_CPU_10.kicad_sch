@@ -4,6 +4,14 @@
 	(generator_version "10.0")
 	(uuid "5a721b2d-f8ca-48cb-9929-8ff134b8bdf0")
 	(paper "A2")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "Parity Error Checking: error buffer (U12)")
+		(comment 2 "Memory Management Control Logic")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS00"
 			(body_styles demorgan)
@@ -9866,17 +9874,6 @@
 		)
 		(uuid "2b0e28d8-db12-4991-b087-45ba86ab768c")
 	)
-	(text "Memory Management Control Logic\nParity Error Checking: error buffer (U12)"
-		(exclude_from_sim no)
-		(at 474.726 390.652 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "2b7327e6-3db0-416e-86af-bbcf1898019f")
-	)
 	(text "(Sh. 12)"
 		(exclude_from_sim no)
 		(at 39.37 194.564 0)
@@ -10141,29 +10138,6 @@
 		)
 		(uuid "c59cc915-a583-4136-b8e3-8d436c32f809")
 	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 572.262 404.368 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "ca7dd142-6f7b-418e-b7cc-a5ca97586dc6")
-	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 497.586 399.796 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "d051b6c0-44a5-4f0f-86cc-184c01b35912")
-	)
 	(text "(Sh. 2)"
 		(exclude_from_sim no)
 		(at 39.37 263.144 0)
@@ -10207,17 +10181,6 @@
 			(justify bottom)
 		)
 		(uuid "df55801f-ed3e-40f7-88db-4678ff146845")
-	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 500.38 407.67 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "dfb0e6b1-9b9d-44ea-8689-18f97858a461")
 	)
 	(text "(Sh. 8)"
 		(exclude_from_sim no)

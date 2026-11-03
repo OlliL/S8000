@@ -4,6 +4,12 @@
 	(generator_version "10.0")
 	(uuid "cee545ba-d57c-4b2c-bcb3-989a68b0ecfa")
 	(paper "A4")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS00"
 			(body_styles demorgan)
@@ -13944,18 +13950,6 @@
 			(justify left bottom)
 		)
 		(uuid "3cd90e30-23e0-4594-bf23-ee108e9cc5a4")
-	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 199.39 189.738 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "d34b5dce-e08a-4ffd-b809-880911bef97a")
 	)
 	(junction
 		(at 160.02 151.13)

@@ -4,6 +4,13 @@
 	(generator_version "10.0")
 	(uuid "9e6badb0-860c-4bef-ac49-9c6947eb0270")
 	(paper "A2")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "Serial Input/Output: SIO channels 4 through 7")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS04"
 			(exclude_from_sim no)
@@ -2724,17 +2731,6 @@
 		)
 		(uuid "322fcdb9-4601-456d-a250-c8287d640e80")
 	)
-	(text "Serial Input/Output: SIO channels 4 through 7"
-		(exclude_from_sim no)
-		(at 474.726 390.652 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "39f54700-aafa-4416-bdc1-bb5ba936489e")
-	)
 	(text "P2 - 20B"
 		(exclude_from_sim no)
 		(at 523.24 226.06 0)
@@ -2756,17 +2752,6 @@
 			(justify right bottom)
 		)
 		(uuid "3f92dba8-6dc0-40f8-b31d-5cd7d3156bbb")
-	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 500.38 407.67 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "4489a400-8201-4ff5-9ace-6ec3807a5079")
 	)
 	(text "(Sh. 12)"
 		(exclude_from_sim no)
@@ -2922,17 +2907,6 @@
 		)
 		(uuid "923158ea-4e13-4398-8fd1-cb83abab22be")
 	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 572.262 404.368 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "9e988f86-0acc-4310-8b5c-082bb9483e15")
-	)
 	(text "P2 - 17A"
 		(exclude_from_sim no)
 		(at 523.24 154.94 0)
@@ -3086,18 +3060,6 @@
 			(justify right bottom)
 		)
 		(uuid "d08b0a48-7f7a-4ef9-b025-b44130070c82")
-	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 497.586 399.796 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "d9b20315-fd2f-4abb-9a02-14016d90e6de")
 	)
 	(text "P2 - 13B"
 		(exclude_from_sim no)

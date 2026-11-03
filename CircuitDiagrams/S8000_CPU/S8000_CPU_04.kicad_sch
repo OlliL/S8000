@@ -4,6 +4,15 @@
 	(generator_version "10.0")
 	(uuid "63cf4ba8-ae0c-4e50-b004-b4663ac83df1")
 	(paper "A2")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "Parity Error Checking: parity error flip−flop")
+		(comment 2 "Byte Swap Buffer: create the input buffer enable signal")
+		(comment 3 "Serial Input/Output: Baud Rate Generators")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS04"
 			(exclude_from_sim no)
@@ -4444,17 +4453,6 @@
 		)
 		(uuid "6488261d-f039-4d94-b1f1-687bd6d3e0e5")
 	)
-	(text "Serial Input/Output: Baud Rate Generators\nByte Swap Buffer: create the input buffer enable signal\nParity Error Checking: parity error flip−flop"
-		(exclude_from_sim no)
-		(at 474.726 390.398 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "65637258-0f6f-4b9b-a193-6ed7a7a901cf")
-	)
 	(text "(Sh. 2)"
 		(exclude_from_sim no)
 		(at 39.37 193.04 0)
@@ -4509,17 +4507,6 @@
 			(justify right)
 		)
 		(uuid "73446614-f8de-465b-a1db-9213bb832b4a")
-	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 572.262 404.114 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "7b96dff8-7646-4f45-bd26-10c377761388")
 	)
 	(text "(Sh. 11)"
 		(exclude_from_sim no)
@@ -4598,18 +4585,6 @@
 		)
 		(uuid "b941400f-d382-4306-adc9-c6849fadc9d5")
 	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 497.586 399.542 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "ba2a84d5-0c70-48a5-bf74-f5a3d7af919b")
-	)
 	(text "(Sh. 11)"
 		(exclude_from_sim no)
 		(at 39.37 215.9 0)
@@ -4653,17 +4628,6 @@
 			(justify left)
 		)
 		(uuid "dc153330-1ab6-4271-b601-d59db9545080")
-	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 500.38 407.416 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "f0e8c784-1731-4e81-b6e6-384d11e711d7")
 	)
 	(junction
 		(at 194.31 195.58)

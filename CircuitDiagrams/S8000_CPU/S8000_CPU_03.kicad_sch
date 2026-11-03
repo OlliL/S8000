@@ -4,6 +4,14 @@
 	(generator_version "10.0")
 	(uuid "9bdec4af-ae2d-4e1f-bacc-fc8057505a78")
 	(paper "A2")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "VIACK- generation")
+		(comment 2 "External Violation Registers (U48,49,50)")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS00"
 			(body_styles demorgan)
@@ -5450,17 +5458,6 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 500.38 407.67 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "02a2f712-e576-4b8c-82e9-f6a48507924f")
-	)
 	(text "(Sh. 8)"
 		(exclude_from_sim no)
 		(at 553.72 250.444 0)
@@ -5516,17 +5513,6 @@
 		)
 		(uuid "368cee0c-d1c3-49f4-8db0-e6f7c276c6e5")
 	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 572.262 404.368 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "4dad560b-6c86-471f-afe8-15c037ab320e")
-	)
 	(text "P2-26C"
 		(exclude_from_sim no)
 		(at 69.85 237.49 0)
@@ -5560,18 +5546,6 @@
 		)
 		(uuid "56dff704-7366-49f5-bbee-fdb578f7dd86")
 	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 497.586 399.796 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "58212409-0437-48c0-a1c7-bbc62412c4c2")
-	)
 	(text "(Sh. 2)"
 		(exclude_from_sim no)
 		(at 39.37 186.944 0)
@@ -5582,17 +5556,6 @@
 			(justify right)
 		)
 		(uuid "5b8cf903-64f6-4f68-97f1-ef4b06e30b12")
-	)
-	(text "External Violation Registers (U48,49,50)\nVIACK- generation"
-		(exclude_from_sim no)
-		(at 474.726 390.652 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "6bb9ed6b-8540-4d83-9f19-23eeec0c71a2")
 	)
 	(text "(Sh. 8)"
 		(exclude_from_sim no)

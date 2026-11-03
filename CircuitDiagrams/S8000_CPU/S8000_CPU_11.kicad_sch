@@ -4,6 +4,16 @@
 	(generator_version "10.0")
 	(uuid "f35fc8c9-7ba4-439b-85fe-431fa08f52d6")
 	(paper "A2")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "T3 Wait State Generator Logic (U97)")
+		(comment 2 "System Reset Logic (U89)")
+		(comment 3 "Baud Clock Generator (U83)")
+		(comment 4 "Clock Generation Circuit (U98)")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS04"
 			(exclude_from_sim no)
@@ -6106,18 +6116,6 @@
 		)
 		(uuid "23805ddb-f335-4581-a63a-6b8a2017363a")
 	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 497.84 399.796 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "2842b012-508b-42d8-84c9-22e3c7ffaffb")
-	)
 	(text "(Sh. 2)"
 		(exclude_from_sim no)
 		(at 39.37 243.84 0)
@@ -6195,17 +6193,6 @@
 		)
 		(uuid "780bc0fd-7b6d-4355-9792-be59ab1583aa")
 	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 500.634 407.67 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "8e13fb5d-8516-4f59-a76c-d5be960923e6")
-	)
 	(text "(Sh. 4)"
 		(exclude_from_sim no)
 		(at 39.37 349.25 0)
@@ -6227,17 +6214,6 @@
 			(justify right bottom)
 		)
 		(uuid "9e23eba0-2dd1-4198-a42c-127d68b3aa10")
-	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 572.516 404.368 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "a020d4ae-e9cf-4bcd-a24f-39ac444204d9")
 	)
 	(text "(Sh. 4,7)"
 		(exclude_from_sim no)
@@ -6315,17 +6291,6 @@
 			(justify left)
 		)
 		(uuid "cccbd852-8105-4b66-ab48-01a19895a0ff")
-	)
-	(text "Clock Generation Circuit (U98)\nBaud Clock Generator (U83)\nSystem Reset Logic (U89)\nT3 Wait State Generator Logic (U97)"
-		(exclude_from_sim no)
-		(at 474.98 390.652 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "d07c790a-76be-4506-a1b3-da6e0cf38f9e")
 	)
 	(text "(Sh. 3)"
 		(exclude_from_sim no)

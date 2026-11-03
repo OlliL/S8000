@@ -4,6 +4,14 @@
 	(generator_version "10.0")
 	(uuid "72177557-9368-4a27-ac5f-43f67dbeabe4")
 	(paper "A2")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "Parallel I/O Ports")
+		(comment 2 "Serial Input/Output: Baud Rate Generators")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS08"
 			(body_styles demorgan)
@@ -4732,17 +4740,6 @@
 		)
 		(uuid "8e14739b-a931-4ef1-b383-ec4c238faf49")
 	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 500.38 407.67 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "04656387-1739-4cc0-a437-890573a8391c")
-	)
 	(text "P2 - 20C"
 		(exclude_from_sim no)
 		(at 523.24 199.39 0)
@@ -4974,17 +4971,6 @@
 		)
 		(uuid "7b22a0fc-473e-45a7-8678-e55eb04966bf")
 	)
-	(text "Serial Input/Output: Baud Rate Generators\nParallel I/O Ports"
-		(exclude_from_sim no)
-		(at 474.726 390.652 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "8cdd1834-96f2-471e-a887-0e61554d896c")
-	)
 	(text "P2 - 16C"
 		(exclude_from_sim no)
 		(at 523.24 284.48 0)
@@ -5017,17 +5003,6 @@
 			(justify right bottom)
 		)
 		(uuid "98ec3be2-65f9-4e38-82b5-515555263abe")
-	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 572.262 404.368 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "9dfa3363-1d01-4a99-a2bc-a042c2fb7f82")
 	)
 	(text "Centronics\nInterface"
 		(exclude_from_sim no)
@@ -5160,18 +5135,6 @@
 			(justify bottom)
 		)
 		(uuid "f4e137ef-0d34-4979-9cc7-f8fc77a753db")
-	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 497.586 399.796 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "f94e21fc-ff66-4a83-904d-c43f2631d9f1")
 	)
 	(junction
 		(at 370.84 284.48)

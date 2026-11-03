@@ -4,6 +4,13 @@
 	(generator_version "10.0")
 	(uuid "d093037c-f163-4548-bc8f-4490f92d4087")
 	(paper "A2")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "Memory Management Units")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS00"
 			(body_styles demorgan)
@@ -7495,18 +7502,6 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 497.586 399.796 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "16f6029e-0547-4e40-bc88-8f91bbbc3f13")
-	)
 	(text "(Sh. 10)"
 		(exclude_from_sim no)
 		(at 39.37 260.35 0)
@@ -7617,17 +7612,6 @@
 		)
 		(uuid "5594a281-93fe-4661-9d71-1d2d39dabc67")
 	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 572.262 404.368 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "5dd269ac-c6cc-43c4-8b81-274013c1f983")
-	)
 	(text "(Sh. 13)"
 		(exclude_from_sim no)
 		(at 553.72 234.95 0)
@@ -7705,17 +7689,6 @@
 		)
 		(uuid "90639841-766b-4c62-91a3-ca88c8f167b6")
 	)
-	(text "Memory Management Units"
-		(exclude_from_sim no)
-		(at 474.726 390.652 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "90f2c826-7b88-49d0-b53e-5360ea622601")
-	)
 	(text "(Sh. 11)"
 		(exclude_from_sim no)
 		(at 39.37 303.53 0)
@@ -7781,17 +7754,6 @@
 			(justify right)
 		)
 		(uuid "b31534d9-d594-49a7-9557-fdd6c39f3da6")
-	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 500.38 407.67 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "b41bc55b-949f-4174-9fcd-6cea7ea34c24")
 	)
 	(text "(Sh. 2)"
 		(exclude_from_sim no)

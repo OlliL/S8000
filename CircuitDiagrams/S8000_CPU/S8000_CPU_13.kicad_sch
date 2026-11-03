@@ -4,6 +4,14 @@
 	(generator_version "10.0")
 	(uuid "394d79d7-e9e1-45d1-8868-25af8d41403d")
 	(paper "A2")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "Byte Swap Buffer (U112)")
+		(comment 2 "Address/Data Buffers and Steering Logic")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS00"
 			(body_styles demorgan)
@@ -7724,51 +7732,6 @@
 			(justify right)
 		)
 		(uuid "069bc490-c4bc-4b3f-a7ea-d18c53aa2988")
-	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 497.586 399.796 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "0f5343cc-9764-402d-9fff-ab15cddd205d")
-	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 572.262 404.368 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "11de180e-e3ff-4605-b84c-1ab5b2207147")
-	)
-	(text "Address/Data Buffers and Steering Logic\nByte Swap Buffer (U112)"
-		(exclude_from_sim no)
-		(at 474.726 390.652 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "1601b511-deda-46b8-8885-45fb5f485581")
-	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 500.38 407.67 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "17ccde74-db70-4f5a-80c7-ecb9d68e7673")
 	)
 	(text "(Sh. 2)"
 		(exclude_from_sim no)

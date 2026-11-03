@@ -4,6 +4,14 @@
 	(generator_version "10.0")
 	(uuid "d5bc9ee7-9e00-4e61-89ea-4f340829df12")
 	(paper "A3")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "Read/Write Memory")
+		(comment 2 "Read−Only Memory")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS14"
 			(pin_names
@@ -3830,18 +3838,6 @@
 		)
 		(uuid "5c8ec1d1-611e-49eb-b20a-b25fd3df00c9")
 	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 323.596 276.606 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "5cc02330-04dd-4b25-bad7-9cf90445cd1f")
-	)
 	(text "(Sh. 10)"
 		(exclude_from_sim no)
 		(at 39.37 157.48 0)
@@ -3874,39 +3870,6 @@
 			(justify right)
 		)
 		(uuid "731d797e-0b89-4511-af98-e2fa7b79fddf")
-	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 326.39 284.48 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "7cf45bce-e605-4c74-b591-9bc833baf133")
-	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 398.272 281.178 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "7fb4e342-80d4-49f3-ad2a-2dbb18f45fae")
-	)
-	(text "Read−Only Memory\nRead/Write Memory"
-		(exclude_from_sim no)
-		(at 300.736 267.462 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "9b5de463-6049-4289-9bbf-86da0404620a")
 	)
 	(text "(Sh. 2)"
 		(exclude_from_sim no)

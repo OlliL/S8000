@@ -4,6 +4,13 @@
 	(generator_version "10.0")
 	(uuid "de1f1533-184a-4bbb-9a1f-29db0661ca59")
 	(paper "A2")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "Serial Input/Output: SIO channels 0 through 3")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS04"
 			(exclude_from_sim no)
@@ -2768,17 +2775,6 @@
 		)
 		(uuid "3bef37de-1ad9-482d-8d89-fe117008983d")
 	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 572.262 404.368 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "3cf3fc10-74dd-4580-a627-41badb578494")
-	)
 	(text "P2 - 2A"
 		(exclude_from_sim no)
 		(at 523.24 93.98 0)
@@ -2867,17 +2863,6 @@
 		)
 		(uuid "598ff14e-0c63-4807-ad02-324641360012")
 	)
-	(text "Serial Input/Output: SIO channels 0 through 3"
-		(exclude_from_sim no)
-		(at 474.726 390.652 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "64eb1f3f-dcdc-4b66-aa2a-7230f2113e1f")
-	)
 	(text "P2 - 3B"
 		(exclude_from_sim no)
 		(at 523.24 78.74 0)
@@ -2932,18 +2917,6 @@
 			(justify right)
 		)
 		(uuid "7e4f8f93-e459-4879-9c86-5ce298f365ae")
-	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 497.586 399.796 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "86f3b163-bc56-4412-9b5f-8b81e9ad61be")
 	)
 	(text "(Sh. 7,14)"
 		(exclude_from_sim no)
@@ -3076,17 +3049,6 @@
 			(justify right bottom)
 		)
 		(uuid "c1e4d5fb-89e4-4f4f-84b5-ba6bd5cf5c2c")
-	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 500.38 407.67 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "c4f1b960-1a9b-47b4-8cb0-0a03d197caee")
 	)
 	(text "P2 - 6B"
 		(exclude_from_sim no)

@@ -4,6 +4,15 @@
 	(generator_version "10.0")
 	(uuid "400f6a0e-230d-4aad-8415-fa6d6a13e0a8")
 	(paper "A3")
+	(title_block
+		(title "Zilog S8000 CPU")
+		(date "2026-11-03")
+		(rev "1.1")
+		(company "Author: Oliver Lehmann <lehmann@ans-netz.de>")
+		(comment 1 "T2 Wait State Generator Logic (U28)")
+		(comment 2 "System Configuration Register")
+		(comment 3 "Interrupt Priority Connection")
+	)
 	(lib_symbols
 		(symbol "74xx:74LS00"
 			(body_styles demorgan)
@@ -6348,17 +6357,6 @@
 		)
 		(uuid "0462a268-53a7-4822-b060-accfa35860dd")
 	)
-	(text "1.1"
-		(exclude_from_sim no)
-		(at 398.272 281.432 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "06c868da-6ffd-4348-ab2e-0e1c127de999")
-	)
 	(text "(Sh. 11)"
 		(exclude_from_sim no)
 		(at 39.37 218.694 0)
@@ -6446,17 +6444,6 @@
 			(justify right)
 		)
 		(uuid "29e10720-8849-420d-bd5a-d6c99261d174")
-	)
-	(text "Interrupt Priority Connection\nSystem Configuration Register\nT2 Wait State Generator Logic (U28)"
-		(exclude_from_sim no)
-		(at 300.736 267.716 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "2abfe3cb-6236-4e04-b59f-ca94cf52a948")
 	)
 	(text "(Sh. 11)"
 		(exclude_from_sim no)
@@ -6634,17 +6621,6 @@
 		)
 		(uuid "991c4c29-e709-4824-98ca-94151d9126b9")
 	)
-	(text "Oliver Lehmann <lehmann@ans-netz.de>"
-		(exclude_from_sim no)
-		(at 326.39 284.734 0)
-		(effects
-			(font
-				(size 1.778 1.778)
-			)
-			(justify left bottom)
-		)
-		(uuid "a1cdf1fd-e978-4ce1-8a3b-dc21f6198536")
-	)
 	(text "(Sh. 5)"
 		(exclude_from_sim no)
 		(at 39.37 40.894 0)
@@ -6776,18 +6752,6 @@
 			(justify left)
 		)
 		(uuid "f0c6a3b6-006d-4add-ac8f-844f726b69b4")
-	)
-	(text "Zilog S8000 CPU"
-		(exclude_from_sim no)
-		(at 323.596 276.86 0)
-		(effects
-			(font
-				(size 2.032 2.032)
-				(thickness 0.4064)
-				(bold yes)
-			)
-		)
-		(uuid "f5b910b3-7ce9-4a68-a38e-10c117eb1dd8")
 	)
 	(junction
 		(at 64.77 215.9)
